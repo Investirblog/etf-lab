@@ -22,11 +22,12 @@ import pandas as pd
 
 import engine
 from metrics import drawdown, stats
+from strategies_keller import KELLER
 from strategies_momentum import MOMENTUM
 from strategies_static import STATIC
 
 ROOT = Path(__file__).resolve().parent
-ALL = STATIC + MOMENTUM  # les autres familles viendront s'ajouter ici
+ALL = STATIC + MOMENTUM + KELLER  # les autres familles viendront s'ajouter ici
 
 
 def clean(obj):
