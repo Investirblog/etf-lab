@@ -1,0 +1,5 @@
+yfinance>=0.2.54
+pandas>=2.0
+lxml>=4.9
+# optionnel, seulement si un classeur iShares est un vrai .xls binaire :
+# xlrd>=2.0

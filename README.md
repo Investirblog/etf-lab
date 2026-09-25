@@ -1,0 +1,74 @@
+# ETF Strategy Lab : pipeline de données
+
+Construit une table de **rendements totaux mensuels** (dividendes réinvestis) pour les ~40 ETF US nécessaires aux stratégies du site. C'est sur cette table que tournent les backtests.
+
+- **Source principale : yfinance.** Cours ajustés des dividendes et des splits, soit l'équivalent d'un rendement total.
+- **Contrôle : classeurs iShares** (NAV officielle), téléchargés à la main une fois par an, puis comparés automatiquement.
+
+## Lancement
+
+```bash
+pip install -r requirements.txt
+python3 fetch_data.py                   # tout l'univers (~2 min)
+python3 fetch_data.py --only SPY TLT    # sous-ensemble (les autres colonnes sont conservées)
+python3 fetch_data.py --audit manuel    # + audit avec les classeurs iShares du dossier manuel/
+python3 fetch_data.py --offline         # reconstruit depuis le cache, sans réseau
+```
+
+Ensuite, ouvre `data/quality_report.md`.
+
+## Fichiers produits (`data/`)
+
+| Fichier | Contenu |
+|---|---|
+| `monthly_returns.csv` | 1 ligne par mois (`2024-05`), 1 colonne par ETF, rendements en décimal |
+| `monthly_tr_index.csv` | même chose en indice base 100 (pour les graphiques) |
+| `daily/<TICKER>.csv` | cours ajustés quotidiens, sert aussi de cache si Yahoo ne répond pas |
+| `meta.json` | couverture de chaque ETF, fenêtre commune |
+| `quality_report.md` | audit iShares + alertes par ETF |
+
+## Contrôles qualité
+
+- **Données** : mois manquants, rendement mensuel au-delà de ±25 %, variation quotidienne au-delà de ±20 % (mauvaise cotation), trous de cotation, mois incomplet ou en retard.
+- **Révisions** : Yahoo corrige parfois l'historique (un dividende rectifié, par exemple). Chaque mois déjà publié qui change de plus de 0,25 point est signalé.
+- **Audit iShares** : écart mensuel moyen et écart de CAGR entre yfinance et la NAV officielle. Le résultat est ✅ si l'écart mensuel moyen reste sous 0,30 % et l'écart de CAGR sous 0,20 %/an.
+
+## Audit iShares (1 fois par an)
+
+1. Sur la page iShares d'un fonds, clique sur « Data Download ».
+2. Mets le fichier dans `manuel/`. Le nom d'origine (`iShares-Core-SP-500-ETF_fund.xls`) est reconnu ; sinon, renomme-le en `TICKER_fund.xls`.
+3. Lance `python3 fetch_data.py --audit manuel`.
+
+Il suffit de 4 ou 5 fonds représentatifs : IVV, TLT, EFA, HYG, TIP.
+
+## Automatisation
+
+`.github/workflows/update-data.yml` tourne les 2, 3 et 4 de chaque mois et committe `data/` si quelque chose a changé. En cas d'erreur, le workflow échoue (GitHub t'envoie un e-mail), mais les ETF réussis sont sauvegardés et ceux en échec gardent leurs données en cache.
+
+## Backtests
+
+```bash
+python3 run_backtests.py              # frais de 0,10 % par transaction
+python3 run_backtests.py --cost 0     # sans frais
+```
+
+- `engine.py` : le moteur commun. À la fin de chaque mois, la stratégie reçoit l'historique et renvoie les poids du mois suivant ; le moteur gère la dérive des poids, le rebalancement et les frais.
+- `metrics.py` : CAGR, volatilité, Sharpe, Sortino, max drawdown (dates et récupération), Ulcer, meilleure et pire année, pire CAGR sur 5 et 10 ans glissants.
+- `strategies_static.py` : les portefeuilles fixes. Chaque nouvelle famille aura son fichier.
+- `results/` : `summary_common.csv` (fenêtre commune), `summary_full.csv` (historique complet) et `strategies.json` (tout ce qu'il faut au site).
+
+Le cash (`CASH`) correspond à BIL, avec SHV puis SHY comme relais avant son lancement.
+
+## Site (prototype)
+
+`site/index.html` + `site/strategies.json`, copié automatiquement par `run_backtests.py`. Pour le voir en local :
+
+```bash
+cd site && python3 -m http.server 8000   # puis http://localhost:8000
+```
+
+Pour Netlify : répertoire de publication `site/`, aucune commande de build. Le workflow mensuel committe `site/strategies.json`, et Netlify redéploie tout seul.
+
+## Ajouter un ETF
+
+Ajoute une ligne dans `universe.json`, puis lance `python3 fetch_data.py --only TICKER`.

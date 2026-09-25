@@ -1,0 +1,48 @@
+{
+  "_comment": "Univers des ETF US nécessaires aux ~25 stratégies. 'ishares' = nom du fonds chez iShares (sert à reconnaître les fichiers d'audit).",
+
+  "SPY":  {"class": "Actions US",            "name": "SPDR S&P 500"},
+  "IVV":  {"class": "Actions US",            "name": "iShares Core S&P 500",               "ishares": "iShares Core S&P 500 ETF"},
+  "VTI":  {"class": "Actions US",            "name": "Vanguard Total Stock Market"},
+  "QQQ":  {"class": "Actions US",            "name": "Invesco QQQ (Nasdaq-100)"},
+  "IWM":  {"class": "Actions US",            "name": "iShares Russell 2000",               "ishares": "iShares Russell 2000 ETF"},
+  "IWN":  {"class": "Actions US",            "name": "iShares Russell 2000 Value",         "ishares": "iShares Russell 2000 Value ETF"},
+
+  "EFA":  {"class": "Actions internationales","name": "iShares MSCI EAFE",                 "ishares": "iShares MSCI EAFE ETF"},
+  "VEA":  {"class": "Actions internationales","name": "Vanguard FTSE Developed Markets"},
+  "VGK":  {"class": "Actions internationales","name": "Vanguard FTSE Europe"},
+  "EWJ":  {"class": "Actions internationales","name": "iShares MSCI Japan",                "ishares": "iShares MSCI Japan ETF"},
+  "SCZ":  {"class": "Actions internationales","name": "iShares MSCI EAFE Small-Cap",       "ishares": "iShares MSCI EAFE Small-Cap ETF"},
+  "ACWX": {"class": "Actions internationales","name": "iShares MSCI ACWI ex U.S.",         "ishares": "iShares MSCI ACWI ex U.S. ETF"},
+  "EEM":  {"class": "Actions émergentes",    "name": "iShares MSCI Emerging Markets",      "ishares": "iShares MSCI Emerging Markets ETF"},
+  "VWO":  {"class": "Actions émergentes",    "name": "Vanguard FTSE Emerging Markets"},
+
+  "VNQ":  {"class": "Immobilier",            "name": "Vanguard Real Estate"},
+  "RWX":  {"class": "Immobilier",            "name": "SPDR Dow Jones International Real Estate"},
+
+  "GLD":  {"class": "Or / matières premières","name": "SPDR Gold Shares"},
+  "DBC":  {"class": "Or / matières premières","name": "Invesco DB Commodity Index"},
+  "GSG":  {"class": "Or / matières premières","name": "iShares S&P GSCI Commodity-Indexed", "ishares": "iShares S&P GSCI Commodity-Indexed Trust"},
+
+  "TLT":  {"class": "Obligations d'État US", "name": "iShares 20+ Year Treasury Bond",     "ishares": "iShares 20+ Year Treasury Bond ETF"},
+  "IEF":  {"class": "Obligations d'État US", "name": "iShares 7-10 Year Treasury Bond",    "ishares": "iShares 7-10 Year Treasury Bond ETF"},
+  "SHY":  {"class": "Obligations d'État US", "name": "iShares 1-3 Year Treasury Bond",     "ishares": "iShares 1-3 Year Treasury Bond ETF"},
+  "SHV":  {"class": "Cash",                  "name": "iShares Short Treasury Bond",        "ishares": "iShares Short Treasury Bond ETF"},
+  "BIL":  {"class": "Cash",                  "name": "SPDR Bloomberg 1-3 Month T-Bill"},
+  "TIP":  {"class": "Obligations indexées",  "name": "iShares TIPS Bond",                  "ishares": "iShares TIPS Bond ETF"},
+  "AGG":  {"class": "Obligations agrégées",  "name": "iShares Core U.S. Aggregate Bond",   "ishares": "iShares Core U.S. Aggregate Bond ETF"},
+  "BND":  {"class": "Obligations agrégées",  "name": "Vanguard Total Bond Market"},
+  "LQD":  {"class": "Obligations d'entreprise","name": "iShares iBoxx $ Investment Grade Corporate Bond", "ishares": "iShares iBoxx $ Investment Grade Corporate Bond ETF"},
+  "HYG":  {"class": "Obligations d'entreprise","name": "iShares iBoxx $ High Yield Corporate Bond",       "ishares": "iShares iBoxx $ High Yield Corporate Bond ETF"},
+  "BWX":  {"class": "Obligations internationales","name": "SPDR Bloomberg International Treasury Bond"},
+
+  "XLB":  {"class": "Secteurs US",           "name": "Materials Select Sector SPDR"},
+  "XLE":  {"class": "Secteurs US",           "name": "Energy Select Sector SPDR"},
+  "XLF":  {"class": "Secteurs US",           "name": "Financial Select Sector SPDR"},
+  "XLI":  {"class": "Secteurs US",           "name": "Industrial Select Sector SPDR"},
+  "XLK":  {"class": "Secteurs US",           "name": "Technology Select Sector SPDR"},
+  "XLP":  {"class": "Secteurs US",           "name": "Consumer Staples Select Sector SPDR"},
+  "XLU":  {"class": "Secteurs US",           "name": "Utilities Select Sector SPDR"},
+  "XLV":  {"class": "Secteurs US",           "name": "Health Care Select Sector SPDR"},
+  "XLY":  {"class": "Secteurs US",           "name": "Consumer Discretionary Select Sector SPDR"}
+}
