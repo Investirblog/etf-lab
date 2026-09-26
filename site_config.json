@@ -1,6 +1,7 @@
 {
   "_comment": "Réglages du site. site_url : adresse publique (à changer si tu prends un nom de domaine). editeur : identité affichée dans les mentions légales (contact = e-mail ou lien). goatcounter : adresse de comptage (laisser vide pour désactiver).",
-  "site_url": "https://etf-strategy-lab.netlify.app",
+  "site_name": "Labo ETF",
+  "site_url": "https://laboetf.netlify.app",
 "editeur": {
   "nom": "Nathanaël Dumortier",
   "lien": "https://x.com/TransactionB",
