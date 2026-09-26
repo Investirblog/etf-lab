@@ -1,4 +1,5 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ETF Strategy Lab</title>
 <meta name="description" content="Les stratégies d'investissement en ETF les plus connues, backtestées avec les mêmes données et les mêmes règles.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -169,6 +170,22 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
 @media (max-width: 860px) {
   .grid-2 { grid-template-columns: 1fr; }
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  /* tableau compact : stratégie, CAGR, Sharpe, Max DD */
+  table.board { min-width: 0; }
+  .board th:first-child, .board td:first-child { min-width: 0; padding-left: 12px; }
+  .board th:nth-child(2), .board td:nth-child(2),
+  .board th:nth-child(4), .board td:nth-child(4),
+  .board th:nth-child(7), .board td:nth-child(7),
+  .board th:nth-child(8), .board td:nth-child(8),
+  .board th:nth-child(9), .board td:nth-child(9) { display: none; }
+  .board th, .board td { padding-inline: 5px; }
+  .board th { letter-spacing: .02em; font-size: 11px; }
+  .board td.num { font-size: 12px; white-space: nowrap; }
+  .s-name { font-size: 13.5px; hyphens: auto; overflow-wrap: anywhere; }
+  .s-meta .fam { font-size: 9.5px; }
+  .intro { padding-block: 28px 20px; }
 }
 @media (max-width: 480px) {
   body { padding-inline: 16px; }
