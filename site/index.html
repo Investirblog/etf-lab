@@ -207,6 +207,47 @@ table.metrics { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .essentials h3 { font-family: var(--f-display); font-weight: 600; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); margin: 4px 0 0; }
 .essentials ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
 
+/* Navigation */
+.nav { display: flex; gap: 18px; align-items: baseline; flex-wrap: wrap; }
+.nav a { font-size: 13.5px; color: var(--ink-2); text-decoration: none; }
+.nav a:hover, .nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.masthead-right { display: flex; gap: 6px 20px; align-items: baseline; flex-wrap: wrap; justify-content: flex-end; }
+
+/* Pages de texte */
+.doc { max-width: 760px; display: grid; gap: 14px; padding-block: 28px 8px; }
+.doc h1 { font-family: var(--f-display); font-weight: 600; font-size: clamp(28px, 4vw, 40px); line-height: 1.08; margin: 0; text-wrap: balance; }
+.doc h2 { font-family: var(--f-display); font-weight: 600; font-size: 20px; margin: 18px 0 0; }
+.doc p, .doc li { font-size: 15px; color: var(--ink); }
+.doc p { margin: 0; }
+.doc ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.doc .lede { color: var(--ink-2); font-size: 16px; }
+.doc dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; font-size: 14.5px; }
+.doc dt { font-weight: 600; }
+.doc dd { margin: 0; color: var(--ink-2); }
+
+/* Équivalents UCITS */
+.match { font-family: var(--f-display); font-weight: 600; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+.match.meme { background: color-mix(in srgb, var(--pos) 14%, transparent); color: var(--pos); }
+.match.proche { background: var(--pub-soft); color: var(--pub); outline: 1px solid color-mix(in srgb, var(--pub) 30%, transparent); }
+.match.aucun { background: color-mix(in srgb, var(--neg) 12%, transparent); color: var(--neg); }
+table.ucits { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.ucits th { font-family: var(--f-display); font-weight: 600; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3);
+  text-align: left; padding: 10px 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+.ucits td { padding: 10px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+.ucits tr:last-child td { border-bottom: 0; }
+.ucits .us { font-family: var(--f-mono); font-weight: 500; white-space: nowrap; }
+.ucits .fund + .fund { margin-top: 8px; }
+.ucits .fname { font-weight: 500; }
+.ucits .fmeta { font-size: 12px; color: var(--ink-3); }
+.ucits .fmeta .num { font-size: 12px; }
+.ucits .unote { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; }
+.isin { font-family: var(--f-mono); font-size: 12px; user-select: all; }
+.ucits-list { display: grid; gap: 12px; }
+.ucits-item { display: grid; gap: 4px; font-size: 13.5px; padding-bottom: 10px; border-bottom: 1px solid var(--rule-soft); }
+.ucits-item:last-child { border-bottom: 0; padding-bottom: 0; }
+.ucits-item .top { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
 footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--ink-3); display: grid; gap: 6px; max-width: 90ch; }
 .err { padding: 40px 0; color: var(--neg); }
 
@@ -215,6 +256,12 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
+  .ucits thead { display: none; }
+  .ucits tr { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; padding: 10px 0; border-bottom: 1px solid var(--rule-soft); }
+  .ucits td { padding: 0; border: 0; }
+  .ucits td:nth-child(3) { grid-column: 1 / -1; }
+  .doc dl { grid-template-columns: 1fr; gap: 2px; }
+  .doc dd { margin-bottom: 8px; }
   .rb-row, .rb-axis { grid-template-columns: minmax(0, 1fr) 46px; gap: 2px 8px; padding-inline: 2px; }
   .rb-row { padding-block: 5px; }
   .rb-name { grid-column: 1 / -1; font-size: 12.5px; white-space: normal; }
@@ -252,12 +299,19 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       </svg>
       ETF Strategy Lab
     </a>
-    <span class="stamp" id="stamp">Chargement…</span>
+    <div class="masthead-right">
+      <nav class="nav" aria-label="Pages">
+        <a href="#" data-nav="">Stratégies</a>
+        <a href="#ucits" data-nav="ucits">Équivalents UCITS</a>
+        <a href="#methode" data-nav="methode">Méthode</a>
+      </nav>
+      <span class="stamp" id="stamp">Chargement…</span>
+    </div>
   </header>
   <main id="app" aria-live="polite"></main>
   <footer>
     <div>Prototype. Backtests en dollars US sur des ETF américains, dividendes réinvestis, frais de transaction inclus, avant impôts. Les performances passées ne préjugent pas des performances futures. Ceci n'est pas un conseil en investissement.</div>
-    <div>Données : cours ajustés yfinance, contrôlés contre les NAV officielles iShares.</div>
+    <div>Données : cours ajustés yfinance, contrôlés contre les NAV officielles iShares. <a href="#methode">Méthode et limites</a> · <a href="#ucits">Équivalents UCITS</a></div>
   </footer>
 </div>
 
@@ -269,7 +323,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   const MOIS_LONG = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
   const FAMILIES = ["Toutes", "Statique", "Momentum", "Tendance", "Keller", "Secteurs"];
   const state = { window: "common", family: "Toutes", sort: { key: "sharpe", dir: -1 }, roll: 5 };
-  let FICHES = {};
+  let FICHES = {}, UCITS = null;
   try { const w = localStorage.getItem("esl-window"); if (w === "common" || w === "full") state.window = w; } catch (e) {}
   let DATA = null, BY_ID = {}, SPY = null;
 
@@ -280,7 +334,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   const mLabelLong = s => { const [y, m] = s.split("-").map(Number); return `${MOIS_LONG[m - 1]} ${y}`; };
   const nf = (d) => new Intl.NumberFormat("fr-BE", { minimumFractionDigits: d, maximumFractionDigits: d });
   const pct = (v, d = 1, sign = false) => v == null || isNaN(v) ? "—" :
-    (sign && v > 0 ? "+" : "") + nf(d).format(v * 100) + " %";
+    (sign && v > 0 ? "+" : "") + nf(d).format(v * 100) + "\u00a0%";
   const dec = (v, d = 2) => v == null || isNaN(v) ? "—" : nf(d).format(v);
   const cls = v => v == null ? "" : v < 0 ? "neg" : "";
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -456,7 +510,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     const step = [1, 2, 2.5, 5, 10].map(k => k * mag).find(s => s >= raw);
     for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) {
       svg.append(svgEl("line", { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), class: Math.abs(v) < 1e-9 ? "zero" : "grid" }));
-      const t = svgEl("text", { x: m.l - 8, y: y(v) + 3.5, "text-anchor": "end", class: "ax" }); t.textContent = nf(0).format(v * 100) + " %"; svg.append(t);
+      const t = svgEl("text", { x: m.l - 8, y: y(v) + 3.5, "text-anchor": "end", class: "ax" }); t.textContent = nf(0).format(v * 100) + "\u00a0%"; svg.append(t);
     }
     const stepL = years.length > 24 ? 5 : years.length > 12 ? 2 : 1;
     const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true;
@@ -586,7 +640,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     const ticks = []; for (let v = lo; v <= hi + 1e-9; v += step) ticks.push(+v.toFixed(4));
     const narrow = window.matchMedia("(max-width: 640px)").matches;
     const shown = narrow && ticks.length > 4 ? ticks.filter(v => Math.abs(Math.round(v / step)) % 2 === 0) : ticks;
-    host.innerHTML = `<div class="rb-axis" aria-hidden="true"><span></span><div class="ticks">${shown.map(v => `<span style="left:${X(v)}">${nf(0).format(v * 100)} %</span>`).join("")}</div><span class="lbl">médiane</span></div>` +
+    host.innerHTML = `<div class="rb-axis" aria-hidden="true"><span></span><div class="ticks">${shown.map(v => `<span style="left:${X(v)}">${nf(0).format(v * 100)}&nbsp;%</span>`).join("")}</div><span class="lbl">médiane</span></div>` +
       rows.map(({ s, r }) => `<div class="rb-row${s.id === "spy" ? " is-bench" : ""}" tabindex="0" data-id="${s.id}"
           title="${esc(s.name)} : pire ${pct(r.min, 1)}, médiane ${pct(r.med, 1)}, meilleure ${pct(r.max, 1)} par an sur ${state.roll} ans · ${nf(0).format(r.pos * 100)} % des périodes positives">
         <span class="rb-name">${esc(s.name)}</span>
@@ -599,6 +653,98 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       const go = () => { location.hash = el.dataset.id; };
       el.onclick = go; el.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
     });
+  }
+
+  const MATCH = { meme: "même indice", proche: "proche", aucun: "aucun" };
+  function ucitsItem(t) {
+    const m = UCITS.map[t]; if (!m) return "";
+    const f = m.funds.map(k => UCITS._funds[k]);
+    return `<div class="ucits-item"><div class="top"><span class="us num">${t === "CASH" ? "Cash" : esc(t)}</span><span aria-hidden="true">→</span>
+      ${f.length ? f.map(x => `<b>${esc(x.tickers.split(" (")[0])}</b>`).join(" + ") : "<span>—</span>"}<span class="match ${m.match}">${MATCH[m.match]}</span></div>
+      ${f.map(x => `<div class="fmeta">${esc(x.name)} · <span class="isin">${x.isin}</span> · frais ${nf(2).format(x.ter)} %</div>`).join("")}
+      ${m.note ? `<div class="unote">${esc(m.note)}</div>` : ""}</div>`;
+  }
+
+  function renderUcits() {
+    const order = ["SPY", "IVV", "VTI", "QQQ", "IWM", "IWN", "EFA", "VEA", "ACWX", "VGK", "EWJ", "SCZ", "EEM", "VWO", "VNQ", "RWX", "REM",
+      "GLD", "DBC", "GSG", "TLT", "IEF", "SHY", "SHV", "BIL", "TIP", "AGG", "BND", "LQD", "HYG", "BWX",
+      "XLB", "XLE", "XLF", "XLI", "XLK", "XLP", "XLU", "XLV", "XLY"];
+    const names = DATA.etf_names;
+    app.innerHTML = `
+      <section class="doc">
+        <h1>Équivalents UCITS des ETF américains</h1>
+        <p class="lede">Depuis 2018, la réglementation européenne (PRIIPs) empêche les particuliers d'acheter la plupart des ETF américains. Les stratégies de ce site restent applicables avec des ETF domiciliés en Europe, dits UCITS. Cette table donne, pour chaque ETF utilisé, l'équivalent le plus proche.</p>
+        <p><span class="match meme">même indice</span> même indice ou quasi identique · <span class="match proche">proche</span> même classe d'actifs, indice différent · <span class="match aucun">aucun</span> pas d'équivalent satisfaisant</p>
+      </section>
+      <div class="table-scroll" style="margin-top:18px"><table class="ucits">
+        <thead><tr><th scope="col">ETF US</th><th scope="col">Correspondance</th><th scope="col">Équivalent UCITS</th></tr></thead>
+        <tbody>${order.filter(t => UCITS.map[t]).map(t => { const m = UCITS.map[t];
+          return `<tr><td><span class="us">${t}</span><div class="fmeta">${esc(names[t] || "")}</div></td>
+            <td><span class="match ${m.match}">${MATCH[m.match]}</span></td>
+            <td>${m.funds.map(k => { const x = UCITS._funds[k]; return `<div class="fund"><div class="fname">${esc(x.name)}</div>
+              <div class="fmeta"><span class="isin">${x.isin}</span> · ${esc(x.tickers)} · frais <span class="num">${nf(2).format(x.ter)}&nbsp;%</span></div></div>`; }).join("") || "—"}
+              ${m.note ? `<div class="unote">${esc(m.note)}</div>` : ""}</td></tr>`; }).join("")}
+        </tbody></table></div>
+      <p class="note-under">ISIN, tickers et frais vérifiés sur justETF en septembre 2026. Plusieurs cotations existent pour chaque fonds (devise, bourse) : vérifiez celle proposée par votre courtier. Cette table n'est pas une recommandation d'achat.</p>`;
+  }
+
+  function renderMethod() {
+    const [c0, c1] = DATA.common_window;
+    app.innerHTML = `
+      <article class="doc">
+        <h1>Méthode et limites</h1>
+        <p class="lede">Toutes les stratégies sont calculées avec les mêmes données, les mêmes conventions et le même moteur. Cette page explique ces choix et ce qu'ils ne capturent pas.</p>
+
+        <h2>Les données</h2>
+        <ul>
+          <li>Cours de clôture quotidiens ajustés des dividendes et des divisions d'actions (source : yfinance), convertis en rendements totaux mensuels.</li>
+          <li>Contrôle : les séries sont comparées une fois par an aux valeurs liquidatives officielles d'iShares. Écart constaté sur le S&amp;P 500 : 0,03&nbsp;% par an sur 26 ans.</li>
+          <li>Uniquement des ETF réels : aucune série n'est prolongée avec des indices avant la création des fonds. C'est ce qui fixe le début de la période commune.</li>
+          <li>Mise à jour automatique au début de chaque mois.</li>
+        </ul>
+
+        <h2>Les conventions de calcul</h2>
+        <dl>
+          <dt>Signal</dt><dd>Calculé sur la clôture du dernier jour de bourse du mois.</dd>
+          <dt>Exécution</dt><dd>Au même cours de clôture, position conservée tout le mois suivant. En pratique, on exécute plutôt le lendemain : l'écart est en général faible, mais il existe.</dd>
+          <dt>Frais</dt><dd>${nf(2).format(DATA.cost_per_trade * 100)} % du montant acheté ou vendu à chaque rééquilibrage (courtage et écart achat-vente). Les frais de gestion des ETF sont déjà inclus dans leurs cours.</dd>
+          <dt>Cash</dt><dd>Les T-bills américains à 1-3 mois (BIL), relayés par SHV puis SHY avant 2007.</dd>
+          <dt>Devise</dt><dd>Tout est calculé en dollars américains. Pour un investisseur en euros, les variations EUR/USD s'ajoutent aux résultats.</dd>
+          <dt>Impôts</dt><dd>Aucun. Tous les rendements sont bruts, avant impôts, car la fiscalité diffère d'un pays à l'autre.</dd>
+        </dl>
+
+        <h2>La période commune</h2>
+        <p>Le tableau principal compare toutes les stratégies de ${mLabel(c0)} à ${mLabel(c1)}. Cette date est la première où toutes les stratégies peuvent fonctionner avec des ETF réels, en comptant l'historique dont certaines ont besoin pour calculer leur premier signal (jusqu'à 13 mois). Elle inclut la crise financière de 2008, décisive pour juger une stratégie défensive.</p>
+        <p>L'historique complet de chaque stratégie est aussi disponible, mais les chiffres ne se comparent alors plus directement : chaque stratégie a sa propre date de départ.</p>
+
+        <h2>Les mesures</h2>
+        <dl>
+          <dt>CAGR</dt><dd>Rendement annualisé composé.</dd>
+          <dt>Volatilité</dt><dd>Écart-type annualisé des rendements mensuels.</dd>
+          <dt>Sharpe</dt><dd>Rendement au-delà des T-bills, divisé par la volatilité. Certains sites ne retirent pas le rendement du cash, d'où des valeurs parfois plus élevées ailleurs.</dd>
+          <dt>Max drawdown</dt><dd>Pire baisse depuis un sommet, mesurée en fin de mois. Les baisses en cours de mois peuvent être plus fortes.</dd>
+          <dt>Fenêtres glissantes</dt><dd>Rendement annualisé de chaque période de 3, 5 ou 10 ans possible. Elles montrent ce qu'aurait vécu un investisseur selon son moment d'entrée.</dd>
+          <dt>Rotation</dt><dd>Part du portefeuille achetée ou vendue par an. Plus elle est élevée, plus les frais et taxes sur transactions pèsent, quel que soit le pays.</dd>
+        </dl>
+
+        <h2>Fidélité aux règles publiées</h2>
+        <ul>
+          <li>Les règles suivent les publications des auteurs. Quand elles sont ambiguës, la fiche le précise.</li>
+          <li>Quand un ETF utilisé par l'auteur n'existait pas assez tôt, il est remplacé par l'équivalent le plus ancien (par exemple EFA pour VEA, DBC pour PDBC). Chaque remplacement est indiqué sur la fiche.</li>
+          <li>Chaque stratégie a été comparée à des résultats publiés indépendamment : Lazy Portfolio ETF, Allocate Smartly, BestFolio, Quant for Free.</li>
+        </ul>
+
+        <h2>Ce que les backtests ne disent pas</h2>
+        <ul>
+          <li><b>La sur-optimisation.</b> Une stratégie conçue en regardant le passé réussit forcément ce passé. La zone ombrée des graphiques montre la période postérieure à la publication : c'est la seule vraie épreuve.</li>
+          <li><b>Le biais de période.</b> Depuis 2008, les actions américaines ont battu presque tout le reste. Les stratégies diversifiées en pâtissent dans cette comparaison ; ce ne sera pas forcément vrai sur les quinze prochaines années.</li>
+          <li><b>Le jour du rééquilibrage.</b> Le site rééquilibre en fin de mois. Pour certaines stratégies très concentrées, un autre jour du mois donnerait des résultats sensiblement différents.</li>
+          <li><b>Le comportement.</b> Suivre une stratégie pendant dix ans, y compris pendant ses pires périodes, est beaucoup plus difficile que de la lire dans un tableau.</li>
+        </ul>
+
+        <h2>Avertissement</h2>
+        <p>Ce site est pédagogique et gratuit. Il ne vend rien et ne constitue pas un conseil en investissement. Les performances passées ne préjugent pas des performances futures.</p>
+      </article>`;
   }
 
   // ---------- vue fiche ----------
@@ -682,7 +828,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
             <h2>Signal pour ${mLabelLong(nextM)}</h2>
             <p class="sub">Calculé sur la clôture du ${mLabelLong(DATA.data_end)}.</p>
             <div class="alloc">${weights.map(([k, v]) => `
-              <div class="alloc-row"><span class="tk">${k === "CASH" ? "Cash" : esc(k)}</span><span class="bar"><i style="width:${(v * 100).toFixed(1)}%"></i></span><span class="pc num">${nf(v * 100 % 1 ? 1 : 0).format(v * 100)} %</span>
+              <div class="alloc-row"><span class="tk">${k === "CASH" ? "Cash" : esc(k)}</span><span class="bar"><i style="width:${(v * 100).toFixed(1)}%"></i></span><span class="pc num">${nf(v * 100 % 1 ? 1 : 0).format(v * 100)}&nbsp;%</span>
               <span class="nm">${k === "CASH" ? "T-bills (BIL)" : esc(names[k] || "")}</span></div>`).join("")}
             </div>
           </section>
@@ -693,6 +839,13 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
             ${s.variant_note ? `<div class="callout">${esc(s.variant_note)}</div>` : ""}
             ${published ? `<div class="callout"><b>Publiée en ${mLabelLong(published)}.</b> ${pubI > base[base.length - 1].i ? "" : pubI <= base[0].i ? "Tout le backtest affiché est postérieur à la publication : c'est de la performance hors échantillon." : "La zone ombrée du graphique est postérieure à la publication : l'auteur ne la connaissait pas en concevant la stratégie."}</div>` : ""}
           </section>
+          ${UCITS ? `<section class="panel">
+            <h2>Avec des ETF européens</h2>
+            <p class="sub">Les ETF américains ne sont pas accessibles aux particuliers européens. Voici leurs équivalents UCITS.</p>
+            <div class="ucits-list">${[...s.assets, ...(s.uses_cash || Object.keys(s.next_signal.weights).includes("CASH") ? ["CASH"] : [])]
+              .filter((a, k, arr) => arr.indexOf(a) === k).map(a => ucitsItem(a)).join("")}</div>
+            <p class="sub" style="margin:0">Les résultats du site sont calculés avec les ETF américains. Un portefeuille UCITS donnera des résultats proches mais pas identiques. <a href="#ucits">Table complète</a></p>
+          </section>` : ""}
           <section class="panel">
             <h2>Toutes les mesures</h2>
             <table class="metrics">
@@ -731,7 +884,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     if (spyPts) ddSeries.push({ name: "S&P 500", color: "var(--bench)", pts: dd(spyPts), width: 1.2 });
     timeChart(document.getElementById("c-dd"), {
       series: ddSeries, area: true, height: 200,
-      yfmt: v => nf(0).format(v * 100) + " %", tipFmt: v => pct(v, 1),
+      yfmt: v => nf(0).format(v * 100) + "\u00a0%", tipFmt: v => pct(v, 1),
     });
     annualBars(document.getElementById("c-yr"), annual(base), spyPts ? annual(spyPts) : [], s.name, "S&P 500");
     drawRolling(s, base, spyPts);
@@ -755,23 +908,30 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       ${cell("Pire période", a.min, b ? `S&amp;P 500 : ${pct(b.min, 1, true)}` : "")}
       ${cell("Médiane", a.med, b ? `S&amp;P 500 : ${pct(b.med, 1, true)}` : "")}
       ${cell("Meilleure période", a.max, b ? `S&amp;P 500 : ${pct(b.max, 1, true)}` : "")}
-      <div><span class="k">Périodes positives</span><span class="v">${nf(0).format(a.pos * 100)} %</span>${beat != null ? `<span class="c">bat le S&amp;P 500 : ${nf(0).format(beat * 100)} %</span>` : `<span class="c">${a.n} périodes</span>`}</div>
+      <div><span class="k">Périodes positives</span><span class="v">${nf(0).format(a.pos * 100)}&nbsp;%</span>${beat != null ? `<span class="c">bat le S&amp;P 500 : ${nf(0).format(beat * 100)}&nbsp;%</span>` : `<span class="c">${a.n} périodes</span>`}</div>
     </div>`;
     const series = [{ name: s.name, color: "var(--accent)", pts: r, width: 2 }];
     if (rs.length) series.push({ name: "S&P 500", color: "var(--bench)", pts: rs, width: 1.4 });
     timeChart(host, { series, height: 220, zeroLine: true,
-      yfmt: v => nf(0).format(v * 100) + " %", tipFmt: v => pct(v, 1, true) + " /an" });
+      yfmt: v => nf(0).format(v * 100) + "\u00a0%", tipFmt: v => pct(v, 1, true) + " /an" });
   }
 
   function route() {
     const id = location.hash.replace(/^#/, "");
-    if (id && BY_ID[id]) { renderSheet(BY_ID[id]); document.title = `${BY_ID[id].name} · ETF Strategy Lab`; window.scrollTo(0, 0); }
+    if (id === "methode") { renderMethod(); document.title = "Méthode · ETF Strategy Lab"; window.scrollTo(0, 0); }
+    else if (id === "ucits" && UCITS) { renderUcits(); document.title = "Équivalents UCITS · ETF Strategy Lab"; window.scrollTo(0, 0); }
+    else if (id && BY_ID[id]) { renderSheet(BY_ID[id]); document.title = `${BY_ID[id].name} · ETF Strategy Lab`; window.scrollTo(0, 0); }
     else { renderBoard(); document.title = "ETF Strategy Lab"; }
+    document.querySelectorAll("[data-nav]").forEach(a => a.toggleAttribute("aria-current", a.dataset.nav === (["methode", "ucits"].includes(id) ? id : "")));
+    document.querySelectorAll("[data-nav]").forEach(a => { if (a.hasAttribute("aria-current")) a.setAttribute("aria-current", "page"); });
   }
 
   fetch("strategies.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
     DATA = d; d.strategies.forEach(s => BY_ID[s.id] = s); SPY = BY_ID.spy;
-    return fetch("fiches.json").then(r => r.ok ? r.json() : {}).catch(() => ({})).then(f => { FICHES = f; return d; });
+    return Promise.all([
+      fetch("fiches.json").then(r => r.ok ? r.json() : {}).catch(() => ({})),
+      fetch("ucits.json").then(r => r.ok ? r.json() : null).catch(() => null),
+    ]).then(([f, u]) => { FICHES = f; UCITS = u; return d; });
   }).then(d => {
     document.getElementById("stamp").textContent = `Données au ${mLabelLong(d.data_end)} · ${d.strategies.length} stratégies`;
     window.addEventListener("hashchange", route); route();

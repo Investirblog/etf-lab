@@ -84,7 +84,7 @@ def main(argv=None) -> int:
         eq = r.equity
         site.append({
             "id": s.id, "name": s.name, "family": s.family, "assets": s.assets,
-            "rebalance": s.rebalance, "lookback": s.lookback, **s.meta,
+            "rebalance": s.rebalance, "lookback": s.lookback, "uses_cash": s.uses_cash, **s.meta,
             "stats_full": st_full, "stats_common": st_common,
             "equity": {str(k): round(float(v), 5) for k, v in eq.items()},
             "drawdown": {str(k): round(float(v), 5) for k, v in drawdown(r.returns).items()},
