@@ -322,5 +322,17 @@
       "Beaucoup de paramètres (12 actifs, 4 horizons de momentum, 12 mois de corrélation)."
     ],
     "a_savoir": "Keller et Keuning ont publié ensuite [DAA](strategie:daa), où la décision défensive repose sur quelques « canaris » plutôt que sur l'ensemble des actifs."
+  },
+  "adm_cash": {
+    "idee": "La même stratégie qu'[ADM](strategie:adm) pour la partie actions, mais quand les actions faiblissent, le portefeuille passe en cash au lieu d'acheter des obligations longues. C'est une variante testée par ce site, pour les investisseurs qui ne veulent pas de fonds obligataires.",
+    "forces": [
+      "Des baisses nettement moins profondes que les versions avec obligations, notamment en 2022, quand actions et obligations ont chuté ensemble.",
+      "Aucun risque de taux sur la partie défensive ; pour un investisseur belge, pas de fonds obligataire soumis à la taxe Reynders."
+    ],
+    "faiblesses": [
+      "Moins de rendement que les versions avec obligations : le cash ne profite pas des krachs, alors que les obligations longues ont fortement monté en 2008.",
+      "Le même risque de concentration qu'ADM : 100 % sur un seul ETF quand les actions sont retenues."
+    ],
+    "a_savoir": "L'écart avec la [variante TLT/TIP](strategie:adm_tip) vient presque entièrement de la période 2008-2014, quand les taux baissaient. Depuis 2021, la version cash fait mieux. Comparez les deux dans la page dédiée."
   }
 }

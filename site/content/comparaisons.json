@@ -17,6 +17,21 @@
       ]
     },
     {
+      "slug": "adm-obligations-ou-cash",
+      "a": "adm_tip",
+      "b": "adm_cash",
+      "titre": "Accelerating Dual Momentum : obligations ou cash ?",
+      "intro": [
+        "Les deux versions choisissent chaque mois entre actions américaines et petites capitalisations internationales, avec exactement les mêmes règles. Elles ne diffèrent que pendant les mois défensifs, environ un sur cinq.",
+        "La [variante TLT/TIP](strategie:adm_tip) se réfugie dans les obligations longues ou indexées sur l'inflation. La [variante cash](strategie:adm_cash) se contente du cash : T-bills en dollars, compte épargne au taux de la BCE dans la vue en euros."
+      ],
+      "points": [
+        "Les obligations longues ont été un refuge exceptionnel quand les taux baissaient, comme en 2008 : c'est là que la version obligataire prend son avance.",
+        "Quand les taux montent, comme en 2022, elles baissent avec les actions : la version cash limite alors la casse.",
+        "La version cash rapporte moins sur l'ensemble de la période, mais avec des baisses nettement plus faibles : regardez aussi la vue en euros."
+      ]
+    },
+    {
       "slug": "permanent-portfolio-ou-all-weather",
       "a": "permanent",
       "b": "all_weather",

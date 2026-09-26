@@ -502,7 +502,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
         <a href="/equivalents-ucits/" data-nav="ucits">Équivalents UCITS</a>
         <a href="/methode/" data-nav="methode" aria-current="page">Méthode</a>
       </nav>
-      <span class="stamp" id="stamp">Données à fin août 2026 · 27 stratégies</span>
+      <span class="stamp" id="stamp">Données à fin août 2026 · 28 stratégies</span>
     </div>
   </header>
   <main id="app" aria-live="polite"><article class="doc">
@@ -524,7 +524,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           <dt>Frais</dt><dd>0,10 % du montant acheté ou vendu à chaque rééquilibrage (courtage et écart achat-vente). Les frais de gestion des ETF sont déjà inclus dans leurs cours.</dd>
           <dt>Cash</dt><dd>Les T-bills américains à 1-3 mois (ETF BIL) depuis 2007 ; avant, le taux des T-bills à 3 mois publié par la Réserve fédérale (série FRED TB3MS). Ce taux permet de prolonger avant 2007 les stratégies qui passent en cash.</dd>
           <dt>Références</dt><dd>Les actions mondiales (ETF MSCI ACWI, pays développés et émergents) servent de référence principale : c'est ce que détient l'investisseur passif typique en Europe. Le S&amp;P 500 est la seconde référence, plus exigeante sur cette période et plus adaptée aux stratégies purement américaines.</dd>
-          <dt>Devise</dt><dd>Les stratégies sont calculées en dollars américains. Le bouton « En euros » montre les mêmes résultats vus par un investisseur de la zone euro qui achète ces ETF sans couvrir le change : chaque rendement mensuel est converti avec le cours EUR/USD de fin de mois (Réserve fédérale, puis Yahoo Finance pour les mois récents), et le Sharpe utilise le taux interbancaire à 3 mois de la zone euro (OCDE, via la Réserve fédérale ; publié avec quelques mois de retard, le dernier taux connu est prolongé). Cette vue commence en février 1999, avec l'euro.</dd>
+          <dt>Devise</dt><dd>Les stratégies sont calculées en dollars américains. Le bouton « En euros » montre les mêmes résultats vus par un investisseur de la zone euro qui achète ces ETF sans couvrir le change : chaque rendement mensuel est converti avec le cours EUR/USD de fin de mois (Réserve fédérale, puis Yahoo Finance pour les mois récents), et la part de cash d'une stratégie est placée en euros, comme sur un compte épargne, au taux de dépôt de la Banque centrale européenne (moyenne du mois, jamais sous 0 % car un compte épargne ne rémunère pas en négatif ; un compte réel paie souvent un peu moins). Ce même taux sert au calcul du Sharpe. Cette vue commence en février 1999, avec l'euro.</dd>
           <dt>Impôts</dt><dd>Aucun. Tous les rendements sont bruts, avant impôts, car la fiscalité diffère d'un pays à l'autre.</dd>
         </dl>
 
@@ -702,7 +702,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     return `<div class="seg" role="group" aria-label="Devise"><button type="button" data-ccy="usd" aria-pressed="${!EUR()}">En dollars</button><button type="button" data-ccy="eur" aria-pressed="${EUR()}">En euros</button></div>`;
   }
   function ccyNote() {
-    return EUR() ? `<p class="ccy-note">Vue d'un investisseur de la zone euro qui achète ces ETF en dollars, sans couvrir le change : chaque résultat inclut la variation de l'euro face au dollar.${DATA.eur.cash ? " Le Sharpe est calculé avec le taux à 3 mois en euros." : ""}</p>` : "";
+    return EUR() ? `<p class="ccy-note">Vue d'un investisseur de la zone euro qui achète ces ETF en dollars, sans couvrir le change : chaque résultat inclut la variation de l'euro face au dollar.${DATA.eur.cash ? " Quand une stratégie passe en cash, ce cash est placé en euros, au taux de dépôt de la BCE (jamais sous 0 %), comme sur un compte épargne ; ce taux sert aussi au calcul du Sharpe." : ""}</p>` : "";
   }
   function bindCcy(rerender) {
     app.querySelectorAll("[data-ccy]").forEach(b => b.onclick = () => {

@@ -89,11 +89,22 @@ def main(argv=None) -> int:
 
     # Vue d'un investisseur en euros : ETF achetés en dollars, sans couverture de change.
     fx = returns["EURUSD"].dropna() if "EURUSD" in returns else None      # variation de l'euro en dollars
-    rf_eur = returns["EUR3M"] if "EUR3M" in returns else pd.Series(0.0, index=returns.index)
+    # cash en euros : taux de dépôt BCE (compte épargne), à défaut l'ancien taux 3 mois
+    eur_cash_col = next((c for c in ("ECBDEP", "EUR3M") if c in returns), None)
+    rf_eur = returns[eur_cash_col] if eur_cash_col else pd.Series(0.0, index=returns.index)
 
-    def to_eur(r: pd.Series) -> pd.Series:
-        f = fx.reindex(r.index)
-        return ((1 + r) / (1 + f) - 1).dropna()
+    def to_eur(res) -> pd.Series:
+        """Rendement en euros : les ETF (en dollars) subissent le change, la part cash est
+        placée sur un compte en euros au taux rf_eur."""
+        w = res.weights
+        idx = w.index.intersection(fx.index)
+        w = w.loc[idx]
+        f = fx.loc[idx]
+        assets = [c for c in w.columns if c != engine.CASH]
+        r_usd = returns.loc[idx, assets].fillna(0.0)
+        risky = (w[assets] * ((1 + r_usd).div(1 + f, axis=0) - 1)).sum(axis=1)
+        cash = w[engine.CASH] * rf_eur.reindex(idx).fillna(0.0) if engine.CASH in w else 0.0
+        return (risky + cash - res.costs.loc[idx]).dropna()
 
     rows_full, rows_common, site = [], [], []
     for s in strategies:
@@ -120,7 +131,7 @@ def main(argv=None) -> int:
             "signal_history": signal_history(s, returns, rf),
         })
         if fx is not None:
-            re_ = to_eur(r.returns)
+            re_ = to_eur(r)
             if len(re_) >= 12:
                 site[-1]["eur"] = {
                     "stats_full": stats(re_, rf_eur),
@@ -138,7 +149,7 @@ def main(argv=None) -> int:
         "data_end": str(returns.index[-1]),
         "cash_cagr_common": float((1 + rf.loc[common_start:common_end].fillna(0)).prod()
                                   ** (12 / len(rf.loc[common_start:common_end])) - 1),
-        "eur": ({"from": str(fx.index[0]), "cash": "EUR3M" in returns,
+        "eur": ({"from": str(fx.index[0]), "cash": eur_cash_col,
                  "cash_cagr_common": float((1 + rf_eur.loc[common_start:common_end].fillna(0)).prod()
                                            ** (12 / len(rf_eur.loc[common_start:common_end])) - 1)}
                 if fx is not None else None),

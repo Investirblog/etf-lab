@@ -503,7 +503,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
         <a href="/equivalents-ucits/" data-nav="ucits">Équivalents UCITS</a>
         <a href="/methode/" data-nav="methode">Méthode</a>
       </nav>
-      <span class="stamp" id="stamp">Données à fin août 2026 · 27 stratégies</span>
+      <span class="stamp" id="stamp">Données à fin août 2026 · 28 stratégies</span>
     </div>
   </header>
   <main id="app" aria-live="polite"><section class="doc"><h1>Page introuvable</h1><p class="lede">Cette adresse n'existe pas (ou plus). <a href="/">Voir toutes les stratégies</a>.</p></section></main>
@@ -648,7 +648,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     return `<div class="seg" role="group" aria-label="Devise"><button type="button" data-ccy="usd" aria-pressed="${!EUR()}">En dollars</button><button type="button" data-ccy="eur" aria-pressed="${EUR()}">En euros</button></div>`;
   }
   function ccyNote() {
-    return EUR() ? `<p class="ccy-note">Vue d'un investisseur de la zone euro qui achète ces ETF en dollars, sans couvrir le change : chaque résultat inclut la variation de l'euro face au dollar.${DATA.eur.cash ? " Le Sharpe est calculé avec le taux à 3 mois en euros." : ""}</p>` : "";
+    return EUR() ? `<p class="ccy-note">Vue d'un investisseur de la zone euro qui achète ces ETF en dollars, sans couvrir le change : chaque résultat inclut la variation de l'euro face au dollar.${DATA.eur.cash ? " Quand une stratégie passe en cash, ce cash est placé en euros, au taux de dépôt de la BCE (jamais sous 0 %), comme sur un compte épargne ; ce taux sert aussi au calcul du Sharpe." : ""}</p>` : "";
   }
   function bindCcy(rerender) {
     app.querySelectorAll("[data-ccy]").forEach(b => b.onclick = () => {

@@ -117,9 +117,9 @@ def fetch_tbill(today: dt.date, retries: int = 3) -> pd.Series:
 #   fx   : cours quotidien -> variation de fin de mois à fin de mois
 FRED_EXTRA = {
     "EURUSD": ("DEXUSEU", "fx", "Euro en dollars (FRED DEXUSEU) : variation mensuelle de l'euro face au dollar"),
-    "EUR3M": ("IR3TIB01EZM156N", "rate", "Taux interbancaire 3 mois zone euro (FRED) : cash en euros"),
+    "ECBDEP": ("ECBDFR", "rate_daily", "Taux de dépôt de la BCE (FRED ECBDFR), plancher 0 % : compte épargne en euros"),
 }
-FRED_ONLY = {"TBILL", *FRED_EXTRA}
+FRED_ONLY = {"TBILL", "EUR3M", *FRED_EXTRA}   # EUR3M : ancienne série, plus téléchargée
 
 
 def fetch_fred(col: str, today: dt.date, retries: int = 3) -> pd.Series:
@@ -150,6 +150,11 @@ def fetch_fred(col: str, today: dt.date, retries: int = 3) -> pd.Series:
                     ret = yret.combine_first(ret)
                 except Exception:  # noqa: BLE001 — FRED seul
                     pass
+            elif kind == "rate_daily":
+                # taux quotidien : moyenne du mois, plancher à 0 (un compte épargne ne rémunère pas en négatif)
+                s = pd.Series(val.values, index=dates).dropna()
+                m = s.groupby(s.index.to_period("M")).mean().clip(lower=0)
+                ret = (m / 100 / 12)[m.index < pd.Period(today, "M")]
             else:
                 # publié avec plusieurs mois de retard : le dernier taux connu est prolongé
                 s = pd.Series(val.values, index=pd.PeriodIndex(dates, freq="M")).dropna()

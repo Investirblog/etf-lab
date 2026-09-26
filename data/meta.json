@@ -1,32 +1,15 @@
 {
-  "generated_at": "2026-09-26T16:44:38+00:00",
+  "generated_at": "2026-09-26T18:31:49+00:00",
   "source": "yfinance, cours ajustés (dividendes réinvestis, splits corrigés)",
   "common_window_start": "2008-05",
   "etfs": {
-    "IVE": {
-      "name": "iShares S&P 500 Value",
-      "class": "Actions US",
-      "first_month": "2000-06",
-      "last_month": "2026-08",
-      "months": 315,
-      "last_price_date": "2026-09-25",
-      "source": "yfinance"
-    },
-    "EURUSD": {
-      "name": "Euro en dollars (FRED DEXUSEU) : variation mensuelle de l'euro face au dollar",
+    "ECBDEP": {
+      "name": "Taux de dépôt de la BCE (FRED ECBDFR), plancher 0 % : compte épargne en euros",
       "class": "Euro",
-      "first_month": "1999-02",
+      "first_month": "1999-01",
       "last_month": "2026-08",
-      "months": 331,
-      "source": "FRED DEXUSEU"
-    },
-    "EUR3M": {
-      "name": "Taux interbancaire 3 mois zone euro (FRED) : cash en euros",
-      "class": "Euro",
-      "first_month": "1994-02",
-      "last_month": "2026-08",
-      "months": 391,
-      "source": "FRED IR3TIB01EZM156N"
+      "months": 332,
+      "source": "FRED ECBDFR"
     }
   }
 }

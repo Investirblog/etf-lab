@@ -57,7 +57,7 @@ python3 run_backtests.py --cost 0     # sans frais
 - `strategies_static.py` : les portefeuilles fixes. Chaque nouvelle famille aura son fichier.
 - `results/` : `summary_common.csv` (fenêtre commune), `summary_full.csv` (historique complet) et `strategies.json` (tout ce qu'il faut au site).
 
-La vue en euros utilise le cours EUR/USD (colonne `EURUSD` : FRED DEXUSEU, complété par Yahoo `EURUSD=X` pour les mois récents) et le taux 3 mois de la zone euro (colonne `EUR3M`, FRED), téléchargés par `fetch_data.py`.
+La vue en euros utilise le cours EUR/USD (colonne `EURUSD` : FRED DEXUSEU, complété par Yahoo `EURUSD=X` pour les mois récents) et le taux de dépôt de la BCE (colonne `ECBDEP`, FRED ECBDFR, plancher 0 %), qui rémunère la part cash en euros, téléchargés par `fetch_data.py`.
 
 Le cash (`CASH`) correspond à BIL ; avant son lancement (2007), au taux des T-bills à 3 mois de la Fed (série FRED TB3MS, colonne `TBILL`, téléchargée par `fetch_data.py`). Les références du site sont les actions mondiales (ACWI) et le S&P 500 (SPY).
 
