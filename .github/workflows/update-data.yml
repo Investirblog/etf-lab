@@ -13,6 +13,9 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 30          # s'arrête proprement si une source reste bloquée
+    env:
+      PYTHONUNBUFFERED: "1"      # affiche la progression en direct dans les journaux
     steps:
       - uses: actions/checkout@v4
 

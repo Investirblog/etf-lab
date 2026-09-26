@@ -78,7 +78,7 @@ FRED_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=TB3MS"
 TBILL_START = "1990-01"
 
 
-def fetch_tbill(today: dt.date, retries: int = 3) -> pd.Series:
+def fetch_tbill(today: dt.date, retries: int = 2) -> pd.Series:
     """Rendement mensuel des T-bills à 3 mois (FRED, série TB3MS).
 
     Le taux annuel publié pour le mois m-1 est le rendement acquis pendant le
@@ -89,7 +89,7 @@ def fetch_tbill(today: dt.date, retries: int = 3) -> pd.Series:
     last = None
     for attempt in range(1, retries + 1):
         try:
-            r = requests.get(FRED_URL, timeout=60, headers={"User-Agent": "Mozilla/5.0 etf-lab"})
+            r = requests.get(FRED_URL, timeout=20, headers={"User-Agent": "Mozilla/5.0 etf-lab"})
             r.raise_for_status()
             df = pd.read_csv(io.StringIO(r.text))
             date_col = next(c for c in df.columns if "date" in c.lower())
@@ -122,7 +122,7 @@ FRED_EXTRA = {
 FRED_ONLY = {"TBILL", "EUR3M", *FRED_EXTRA}   # EUR3M : ancienne série, plus téléchargée
 
 
-def fetch_fred(col: str, today: dt.date, retries: int = 3) -> pd.Series:
+def fetch_fred(col: str, today: dt.date, retries: int = 2) -> pd.Series:
     """Série FRED de FRED_EXTRA convertie en rendements mensuels (index : mois)."""
     import io
     import requests
@@ -130,7 +130,7 @@ def fetch_fred(col: str, today: dt.date, retries: int = 3) -> pd.Series:
     last = None
     for attempt in range(1, retries + 1):
         try:
-            r = requests.get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}", timeout=60,
+            r = requests.get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}", timeout=20,
                              headers={"User-Agent": "Mozilla/5.0 etf-lab"})
             r.raise_for_status()
             df = pd.read_csv(io.StringIO(r.text))
@@ -169,6 +169,66 @@ def fetch_fred(col: str, today: dt.date, retries: int = 3) -> pd.Series:
             last = e
             time.sleep(3 * attempt)
     raise RuntimeError(f"FRED {sid} : {last}")
+
+
+# --------------------------------------------------------------------------
+# Sources de secours quand FRED ne répond pas (fréquent depuis les serveurs de GitHub)
+# --------------------------------------------------------------------------
+ECB_KEYS = {"EURUSD": "EXR/D.USD.EUR.SP00.A",          # cours de référence BCE : dollars pour 1 euro
+            "ECBDEP": "FM/D.U2.EUR.4F.KR.DFR.LEV"}     # taux de la facilité de dépôt, en %
+
+
+def fetch_ecb_daily(col: str) -> pd.Series:
+    """Série quotidienne du portail de données de la BCE (index : dates)."""
+    import io
+    import requests
+    url = f"https://data-api.ecb.europa.eu/service/data/{ECB_KEYS[col]}?format=csvdata"
+    r = requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0 etf-lab"})
+    r.raise_for_status()
+    df = pd.read_csv(io.StringIO(r.text))
+    s = pd.Series(pd.to_numeric(df["OBS_VALUE"], errors="coerce").values,
+                  index=pd.to_datetime(df["TIME_PERIOD"])).dropna().sort_index()
+    if len(s) < 100:
+        raise ValueError(f"série BCE trop courte ({len(s)} jours)")
+    return s
+
+
+def monthly_from_daily(col: str, s: pd.Series, today: dt.date) -> pd.Series:
+    """Même conversion que fetch_fred, à partir d'une série quotidienne."""
+    cur = pd.Period(today, "M")
+    if FRED_EXTRA[col][1] == "fx":
+        m = s.groupby(s.index.to_period("M")).last()
+        return m[m.index < cur].pct_change().dropna().rename(col)
+    m = s.groupby(s.index.to_period("M")).mean().clip(lower=0)
+    return (m / 100 / 12)[m.index < cur].rename(col)
+
+
+def fetch_backup(col: str, today: dt.date) -> pd.Series:
+    """TBILL : taux des T-bills 13 semaines (Yahoo ^IRX) ; EURUSD, ECBDEP : BCE."""
+    if col == "TBILL":
+        px = fetch_yf("^IRX")                      # taux annualisé en %, moyenne du mois comme TB3MS
+        m = px.groupby(px.index.to_period("M")).mean()
+        m = m[m.index < pd.Period(today, "M")]
+        ret = (m / 100 / 12).shift(1).dropna()
+        return ret.rename("TBILL")
+    return monthly_from_daily(col, fetch_ecb_daily(col), today)
+
+
+def with_backup(col: str, cache: Path, today: dt.date, err: Exception):
+    """FRED a échoué : historique du cache + mois récents de la source de secours."""
+    old = None
+    if cache.exists():
+        old = pd.read_csv(cache, index_col=0)[col]
+        old.index = pd.PeriodIndex(old.index, freq="M")
+    try:
+        new = fetch_backup(col, today)
+    except Exception as e2:  # noqa: BLE001
+        if old is None:
+            raise RuntimeError(f"{err} ; secours : {e2}")
+        print(f"[{col}] ⚠️ FRED et secours indisponibles ({e2}) → cache utilisé", file=sys.stderr)
+        return old, "cache data/daily (non rafraîchi)", True
+    s = new if old is None else old.combine_first(new)   # historique du cache, mois manquants du secours
+    return s.sort_index().rename(col), "secours (FRED indisponible)", False
 
 
 # --------------------------------------------------------------------------
@@ -373,18 +433,21 @@ def main(argv=None) -> int:
             tb.to_frame().to_csv(cache)
             src = "FRED TB3MS"
         except Exception as e:  # noqa: BLE001
-            if cache.exists():
+            tb = None
+            if a.offline and cache.exists():
                 tb = pd.read_csv(cache, index_col=0)["TBILL"]
                 tb.index = pd.PeriodIndex(tb.index, freq="M")
-                src = "cache data/daily (non rafraîchi)"
-                if not a.offline:
+                src = "cache data/daily"
+            elif not a.offline:
+                try:
+                    tb, src, stale = with_backup("TBILL", cache, today, e)
+                    tb.to_frame().to_csv(cache)
+                    errors += stale
+                    print(f"[TBILL] FRED indisponible → {src}", file=sys.stderr)
+                except Exception as e2:  # noqa: BLE001
                     errors += 1
-                    print(f"[TBILL] ⚠️ {e} → cache utilisé", file=sys.stderr)
-            else:
-                tb = None
-                errors += 1
-                report.append(f"### TBILL — T-bills 3 mois (FRED)\n- ❌ {e}\n")
-                print(f"[TBILL] ❌ {e}", file=sys.stderr)
+                    report.append(f"### TBILL — T-bills 3 mois (FRED)\n- ❌ {e2}\n")
+                    print(f"[TBILL] ❌ {e2}", file=sys.stderr)
         if tb is not None:
             series["TBILL"] = tb
             meta["TBILL"] = {"name": "T-bills 3 mois (FRED TB3MS)", "class": "Cash",
@@ -402,9 +465,13 @@ def main(argv=None) -> int:
         try:
             if a.offline:
                 raise RuntimeError("mode hors-ligne")
-            fx = fetch_fred(col, today)
+            try:   # portail de la BCE d'abord : fiable depuis GitHub
+                fx = monthly_from_daily(col, fetch_ecb_daily(col), today)
+                src = "BCE (data-api.ecb.europa.eu)"
+            except Exception:  # noqa: BLE001
+                fx = fetch_fred(col, today)
+                src = f"FRED {sid}"
             fx.to_frame().to_csv(cache)
-            src = f"FRED {sid}"
         except Exception as e:  # noqa: BLE001
             if cache.exists():
                 fx = pd.read_csv(cache, index_col=0)[col]
