@@ -59,15 +59,24 @@ python3 run_backtests.py --cost 0     # sans frais
 
 Le cash (`CASH`) correspond à BIL ; avant son lancement (2007), au taux des T-bills à 3 mois de la Fed (série FRED TB3MS, colonne `TBILL`, téléchargée par `fetch_data.py`). Les références du site sont les actions mondiales (ACWI) et le S&P 500 (SPY).
 
-## Site (prototype)
+## Site
 
-`site/index.html` + `site/strategies.json` (copié automatiquement par `run_backtests.py`) + `site/fiches.json` (les textes des fiches : idée, points forts, points faibles, à savoir). Tu peux modifier `fiches.json` librement : c'est du texte, aucun calcul. Pour le voir en local :
+Le site interactif est dans `templates/app.html`. À chaque `run_backtests.py`, le générateur `build_site.py` produit dans `site/` une vraie page HTML par adresse :
 
-```bash
-cd site && python3 -m http.server 8000   # puis http://localhost:8000
-```
+- `/` (accueil), `/strategies/<id>/` (une page par stratégie), `/equivalents-ucits/`, `/methode/`, `404.html` ;
+- `sitemap.xml` et `robots.txt`.
 
-Pour Netlify : répertoire de publication `site/`, aucune commande de build. Le workflow mensuel committe `site/strategies.json`, et Netlify redéploie tout seul.
+Chaque page contient son texte en HTML, avec titre, description, lien canonique et balises Open Graph : Google et les aperçus de liens (X, Facebook, WhatsApp) la lisent sans exécuter de JavaScript. Le script prend ensuite le relais pour les graphiques. Les anciens liens (`/#gem`) redirigent vers les nouvelles adresses.
+
+Fichiers à modifier à la main :
+- `site/fiches.json` : les textes des fiches ;
+- `site/ucits.json` : les équivalents UCITS ;
+- `site/content/methode.html` : la page Méthode ;
+- `site_config.json` : l'adresse publique du site (à changer si tu prends un nom de domaine).
+
+Ne modifie pas les pages générées dans `site/` : elles sont réécrites à chaque exécution.
+
+Pour voir le site en local : `cd site && python3 -m http.server 8000`, puis http://localhost:8000.
 
 ## Ajouter un ETF
 

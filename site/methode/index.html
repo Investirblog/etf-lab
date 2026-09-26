@@ -3,17 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ETF Strategy Lab : les stratégies ETF backtestées et comparées</title>
-<meta name="description" content="22 stratégies d&#x27;investissement en ETF (Permanent Portfolio, Dual Momentum, stratégies de Keller…) testées depuis juil. 2008 avec les mêmes données…">
-<link rel="canonical" href="https://etf-strategy-lab.netlify.app/">
+<title>Méthode et limites des backtests | ETF Strategy Lab</title>
+<meta name="description" content="Données, conventions de calcul, période commune, mesures et limites des backtests d&#x27;ETF Strategy Lab.">
+<link rel="canonical" href="https://etf-strategy-lab.netlify.app/methode/">
 <meta property="og:site_name" content="ETF Strategy Lab">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:type" content="website">
-<meta property="og:title" content="ETF Strategy Lab : les stratégies ETF backtestées et comparées">
-<meta property="og:description" content="22 stratégies d&#x27;investissement en ETF (Permanent Portfolio, Dual Momentum, stratégies de Keller…) testées depuis juil. 2008 avec les mêmes données…">
-<meta property="og:url" content="https://etf-strategy-lab.netlify.app/">
+<meta property="og:title" content="Méthode et limites des backtests | ETF Strategy Lab">
+<meta property="og:description" content="Données, conventions de calcul, période commune, mesures et limites des backtests d&#x27;ETF Strategy Lab.">
+<meta property="og:url" content="https://etf-strategy-lab.netlify.app/methode/">
 <meta name="twitter:card" content="summary">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "ETF Strategy Lab", "url": "https://etf-strategy-lab.netlify.app/", "inLanguage": "fr"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
@@ -346,30 +345,69 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     </a>
     <div class="masthead-right">
       <nav class="nav" aria-label="Pages">
-        <a href="/" data-nav="" aria-current="page">Stratégies</a>
+        <a href="/" data-nav="">Stratégies</a>
         <a href="/equivalents-ucits/" data-nav="ucits">Équivalents UCITS</a>
-        <a href="/methode/" data-nav="methode">Méthode</a>
+        <a href="/methode/" data-nav="methode" aria-current="page">Méthode</a>
       </nav>
       <span class="stamp" id="stamp">Données à fin août 2026 · 24 stratégies</span>
     </div>
   </header>
-  <main id="app" aria-live="polite">
-      <section class="intro">
-        <h1>Les stratégies ETF connues, testées sur les mêmes données et avec les mêmes règles</h1>
-        <p class="key">Depuis juil. 2008, <b>6 stratégies sur 22</b> ont rapporté plus que les actions mondiales (8,8 % par an). Mais <b>toutes les 22</b> ont subi une pire baisse moins profonde que ses -46 %, et <b>18</b> ont mieux rémunéré chaque unité de risque. La vraie question n'est pas seulement combien une stratégie rapporte, mais ce qu'elle fait traverser pour y arriver.</p>
-        <p>Portefeuilles permanents, momentum, suivi de tendance : chaque stratégie est recalculée chaque mois à partir des rendements réels des ETF, frais compris, puis comparée sur la même période. Cliquez sur une stratégie pour ouvrir sa fiche.</p>
-        <ul class="method">
-          <li>Période commune <b>juil. 2008 → août 2026</b></li>
-          <li>Frais <b>0,10 %</b> par transaction</li>
-          <li>Rééquilibrage <b>fin de mois</b></li>
-          <li>Devise <b>USD</b></li>
+  <main id="app" aria-live="polite"><article class="doc">
+        <h1>Méthode et limites</h1>
+        <p class="lede">Toutes les stratégies sont calculées avec les mêmes données, les mêmes conventions et le même moteur. Cette page explique ces choix et ce qu'ils ne capturent pas.</p>
+
+        <h2>Les données</h2>
+        <ul>
+          <li>Cours de clôture quotidiens ajustés des dividendes et des divisions d'actions (source : yfinance), convertis en rendements totaux mensuels.</li>
+          <li>Contrôle : les séries sont comparées une fois par an aux valeurs liquidatives officielles d'iShares. Écart constaté sur le S&amp;P 500 : 0,03&nbsp;% par an sur 26 ans.</li>
+          <li>Uniquement des ETF réels : aucune série n'est prolongée avec des indices avant la création des fonds. C'est ce qui fixe le début de la période commune.</li>
+          <li>Mise à jour automatique au début de chaque mois.</li>
         </ul>
-      </section>
-      <div class="table-scroll"><table class="board">
-        <thead><tr><th scope="col">Stratégie</th><th scope="col">CAGR</th><th scope="col">Sharpe</th>
-          <th scope="col">Max DD</th><th scope="col">Récup.</th><th scope="col">Pire année</th></tr></thead>
-        <tbody><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/haa/">Hybrid Asset Allocation (HAA)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">9,9 %</td><td class="num">0,94</td><td class="num neg">-9,2 %</td><td class="num">19 mois</td><td class="num">-4,0 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/adm_tip/">Accelerating Dual Momentum (variante TLT/TIP)</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">13,2 %</td><td class="num">0,84</td><td class="num neg">-25,8 %</td><td class="num">40 mois</td><td class="num">-24,2 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/daa/">Defensive Asset Allocation (DAA-G12)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">7,9 %</td><td class="num">0,80</td><td class="num neg">-19,5 %</td><td class="num">48 mois</td><td class="num">-12,0 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/6040/">60/40 classique</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">8,9 %</td><td class="num">0,79</td><td class="num neg">-24,4 %</td><td class="num">25 mois</td><td class="num">-16,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/adm/">Accelerating Dual Momentum</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">12,5 %</td><td class="num">0,77</td><td class="num neg">-34,9 %</td><td class="num">43 mois</td><td class="num">-31,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/golden_butterfly/">Golden Butterfly</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">7,7 %</td><td class="num">0,76</td><td class="num neg">-17,8 %</td><td class="num">28 mois</td><td class="num">-13,8 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/buffett/">90/10 de Warren Buffett</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">11,5 %</td><td class="num">0,76</td><td class="num neg">-37,5 %</td><td class="num">27 mois</td><td class="num">-16,7 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/permanent/">Permanent Portfolio</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">7,0 %</td><td class="num">0,76</td><td class="num neg">-17,0 %</td><td class="num">28 mois</td><td class="num">-13,5 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/baa/">Bold Asset Allocation (BAA-G12)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">7,2 %</td><td class="num">0,76</td><td class="num neg">-11,1 %</td><td class="num">40 mois</td><td class="num">-2,2 %</td></tr><tr class="is-bench"><td><div class="s-name"><a class="s-link" href="/strategies/spy/">S&amp;P 500 (référence)</a></div><div class="s-meta"><span class="fam">Référence</span></div></td><td class="num">12,4 %</td><td class="num">0,75</td><td class="num neg">-41,8 %</td><td class="num">27 mois</td><td class="num">-18,2 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/paa/">Protective Asset Allocation (PAA2)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">6,9 %</td><td class="num">0,73</td><td class="num neg">-20,6 %</td><td class="num">44 mois</td><td class="num">-16,5 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/spy_sma10/">S&amp;P 500 avec timing (moyenne 10 mois)</a></div><div class="s-meta"><span class="fam">Tendance</span></div></td><td class="num">8,5 %</td><td class="num">0,69</td><td class="num neg">-22,9 %</td><td class="num">32 mois</td><td class="num">-20,8 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/three_fund/">Portefeuille 3 fonds (Bogleheads)</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">7,7 %</td><td class="num">0,66</td><td class="num neg">-25,1 %</td><td class="num">25 mois</td><td class="num">-16,0 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/all_weather/">All Weather (version Robbins)</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">6,6 %</td><td class="num">0,64</td><td class="num neg">-21,1 %</td><td class="num">41 mois</td><td class="num">-18,8 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/sector_rot/">Rotation sectorielle (Faber)</a></div><div class="s-meta"><span class="fam">Secteurs</span></div></td><td class="num">10,4 %</td><td class="num">0,63</td><td class="num neg">-34,1 %</td><td class="num">25 mois</td><td class="num">-5,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/gem/">Global Equities Momentum (GEM)</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">8,3 %</td><td class="num">0,60</td><td class="num neg">-21,6 %</td><td class="num">29 mois</td><td class="num">-17,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/sector_rot_trend/">Rotation sectorielle avec filtre de tendance</a></div><div class="s-meta"><span class="fam">Secteurs</span></div></td><td class="num">7,9 %</td><td class="num">0,60</td><td class="num neg">-21,0 %</td><td class="num">35 mois</td><td class="num">-10,9 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/swensen/">Portefeuille Swensen (Yale)</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">7,6 %</td><td class="num">0,56</td><td class="num neg">-34,6 %</td><td class="num">30 mois</td><td class="num">-18,4 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/cdm/">Composite Dual Momentum</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">5,7 %</td><td class="num">0,55</td><td class="num neg">-14,3 %</td><td class="num">31 mois</td><td class="num">-10,3 %</td></tr><tr class="is-bench"><td><div class="s-name"><a class="s-link" href="/strategies/acwi/">Actions mondiales (référence)</a></div><div class="s-meta"><span class="fam">Référence</span></div></td><td class="num">8,8 %</td><td class="num">0,52</td><td class="num neg">-45,8 %</td><td class="num">28 mois</td><td class="num">-18,4 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/gtaa5/">GTAA 5 / Ivy Portfolio avec timing</a></div><div class="s-meta"><span class="fam">Tendance</span></div></td><td class="num">4,5 %</td><td class="num">0,50</td><td class="num neg">-11,1 %</td><td class="num">35 mois</td><td class="num">-4,4 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/paired_switching/">Paired Switching</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">8,1 %</td><td class="num">0,50</td><td class="num neg">-28,4 %</td><td class="num">33 mois</td><td class="num">-23,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/vaa/">Vigilant Asset Allocation (VAA-G4)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">6,0 %</td><td class="num">0,49</td><td class="num neg">-20,9 %</td><td class="num">53 mois</td><td class="num">-12,7 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/ivy/">Ivy Portfolio (buy &amp; hold)</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">5,5 %</td><td class="num">0,39</td><td class="num neg">-42,3 %</td><td class="num">36 mois</td><td class="num">-10,0 %</td></tr></tbody></table></div>
-      <p class="note-under">Période commune de juil. 2008 à août 2026, frais inclus. CAGR : rendement annualisé. Sharpe : rendement au-delà des T-bills, divisé par la volatilité. Max DD : pire baisse depuis un sommet. Récup. : plus longue période passée sous un sommet précédent.</p></main>
+
+        <h2>Les conventions de calcul</h2>
+        <dl>
+          <dt>Signal</dt><dd>Calculé sur la clôture du dernier jour de bourse du mois.</dd>
+          <dt>Exécution</dt><dd>Au même cours de clôture, position conservée tout le mois suivant. En pratique, on exécute plutôt le lendemain : l'écart est en général faible, mais il existe.</dd>
+          <dt>Frais</dt><dd>0,10 % du montant acheté ou vendu à chaque rééquilibrage (courtage et écart achat-vente). Les frais de gestion des ETF sont déjà inclus dans leurs cours.</dd>
+          <dt>Cash</dt><dd>Les T-bills américains à 1-3 mois (ETF BIL) depuis 2007 ; avant, le taux des T-bills à 3 mois publié par la Réserve fédérale (série FRED TB3MS). Ce taux permet de prolonger avant 2007 les stratégies qui passent en cash.</dd>
+          <dt>Références</dt><dd>Les actions mondiales (ETF MSCI ACWI, pays développés et émergents) servent de référence principale : c'est ce que détient l'investisseur passif typique en Europe. Le S&amp;P 500 est la seconde référence, plus exigeante sur cette période et plus adaptée aux stratégies purement américaines.</dd>
+          <dt>Devise</dt><dd>Tout est calculé en dollars américains. Pour un investisseur en euros, les variations EUR/USD s'ajoutent aux résultats.</dd>
+          <dt>Impôts</dt><dd>Aucun. Tous les rendements sont bruts, avant impôts, car la fiscalité diffère d'un pays à l'autre.</dd>
+        </dl>
+
+        <h2>La période commune</h2>
+        <p>Le tableau principal compare toutes les stratégies de juil. 2008 à août 2026. Cette date est la première où toutes les stratégies peuvent fonctionner avec des ETF réels, en comptant l'historique dont certaines ont besoin pour calculer leur premier signal (jusqu'à 13 mois). Elle inclut la crise financière de 2008, décisive pour juger une stratégie défensive.</p>
+        <p>L'historique complet de chaque stratégie est aussi disponible, mais les chiffres ne se comparent alors plus directement : chaque stratégie a sa propre date de départ.</p>
+
+        <h2>Les mesures</h2>
+        <dl>
+          <dt>CAGR</dt><dd>Rendement annualisé composé.</dd>
+          <dt>Volatilité</dt><dd>Écart-type annualisé des rendements mensuels.</dd>
+          <dt>Sharpe</dt><dd>Rendement au-delà des T-bills, divisé par la volatilité. Certains sites ne retirent pas le rendement du cash, d'où des valeurs parfois plus élevées ailleurs.</dd>
+          <dt>Max drawdown</dt><dd>Pire baisse depuis un sommet, mesurée en fin de mois. Les baisses en cours de mois peuvent être plus fortes.</dd>
+          <dt>Fenêtres glissantes</dt><dd>Rendement annualisé de chaque période de 3, 5 ou 10 ans possible. Elles montrent ce qu'aurait vécu un investisseur selon son moment d'entrée.</dd>
+          <dt>Rotation</dt><dd>Part du portefeuille achetée ou vendue par an. Plus elle est élevée, plus les frais et taxes sur transactions pèsent, quel que soit le pays.</dd>
+        </dl>
+
+        <h2>Fidélité aux règles publiées</h2>
+        <ul>
+          <li>Les règles suivent les publications des auteurs. Quand elles sont ambiguës, la fiche le précise.</li>
+          <li>Quand un ETF utilisé par l'auteur n'existait pas assez tôt, il est remplacé par l'équivalent le plus ancien (par exemple EFA pour VEA, DBC pour PDBC). Chaque remplacement est indiqué sur la fiche.</li>
+          <li>Chaque stratégie a été comparée à des résultats publiés indépendamment : Lazy Portfolio ETF, Allocate Smartly, BestFolio, Quant for Free.</li>
+        </ul>
+
+        <h2>Ce que les backtests ne disent pas</h2>
+        <ul>
+          <li><b>La sur-optimisation.</b> Une stratégie conçue en regardant le passé réussit forcément ce passé. La zone ombrée des graphiques montre la période postérieure à la publication : c'est la seule vraie épreuve.</li>
+          <li><b>Le biais de période.</b> Depuis 2008, les actions américaines ont battu presque tout le reste. Les stratégies diversifiées en pâtissent dans cette comparaison ; ce ne sera pas forcément vrai sur les quinze prochaines années.</li>
+          <li><b>Le jour du rééquilibrage.</b> Le site rééquilibre en fin de mois. Pour certaines stratégies très concentrées, un autre jour du mois donnerait des résultats sensiblement différents.</li>
+          <li><b>Le comportement.</b> Suivre une stratégie pendant dix ans, y compris pendant ses pires périodes, est beaucoup plus difficile que de la lire dans un tableau.</li>
+        </ul>
+
+        <h2>Avertissement</h2>
+        <p>Ce site est pédagogique et gratuit. Il ne vend rien et ne constitue pas un conseil en investissement. Les performances passées ne préjugent pas des performances futures.</p>
+      </article>`
+</main>
   <footer>
     <div>Prototype. Backtests en dollars US sur des ETF américains, dividendes réinvestis, frais de transaction inclus, avant impôts. Les performances passées ne préjugent pas des performances futures. Ceci n'est pas un conseil en investissement.</div>
     <div>Données : cours ajustés yfinance, contrôlés contre les NAV officielles iShares. <a href="/methode/">Méthode et limites</a> · <a href="/equivalents-ucits/">Équivalents UCITS</a></div>

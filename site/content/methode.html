@@ -1,0 +1,55 @@
+<article class="doc">
+        <h1>Méthode et limites</h1>
+        <p class="lede">Toutes les stratégies sont calculées avec les mêmes données, les mêmes conventions et le même moteur. Cette page explique ces choix et ce qu'ils ne capturent pas.</p>
+
+        <h2>Les données</h2>
+        <ul>
+          <li>Cours de clôture quotidiens ajustés des dividendes et des divisions d'actions (source : yfinance), convertis en rendements totaux mensuels.</li>
+          <li>Contrôle : les séries sont comparées une fois par an aux valeurs liquidatives officielles d'iShares. Écart constaté sur le S&amp;P 500 : 0,03&nbsp;% par an sur 26 ans.</li>
+          <li>Uniquement des ETF réels : aucune série n'est prolongée avec des indices avant la création des fonds. C'est ce qui fixe le début de la période commune.</li>
+          <li>Mise à jour automatique au début de chaque mois.</li>
+        </ul>
+
+        <h2>Les conventions de calcul</h2>
+        <dl>
+          <dt>Signal</dt><dd>Calculé sur la clôture du dernier jour de bourse du mois.</dd>
+          <dt>Exécution</dt><dd>Au même cours de clôture, position conservée tout le mois suivant. En pratique, on exécute plutôt le lendemain : l'écart est en général faible, mais il existe.</dd>
+          <dt>Frais</dt><dd>{{COST}} % du montant acheté ou vendu à chaque rééquilibrage (courtage et écart achat-vente). Les frais de gestion des ETF sont déjà inclus dans leurs cours.</dd>
+          <dt>Cash</dt><dd>Les T-bills américains à 1-3 mois (ETF BIL) depuis 2007 ; avant, le taux des T-bills à 3 mois publié par la Réserve fédérale (série FRED TB3MS). Ce taux permet de prolonger avant 2007 les stratégies qui passent en cash.</dd>
+          <dt>Références</dt><dd>Les actions mondiales (ETF MSCI ACWI, pays développés et émergents) servent de référence principale : c'est ce que détient l'investisseur passif typique en Europe. Le S&amp;P 500 est la seconde référence, plus exigeante sur cette période et plus adaptée aux stratégies purement américaines.</dd>
+          <dt>Devise</dt><dd>Tout est calculé en dollars américains. Pour un investisseur en euros, les variations EUR/USD s'ajoutent aux résultats.</dd>
+          <dt>Impôts</dt><dd>Aucun. Tous les rendements sont bruts, avant impôts, car la fiscalité diffère d'un pays à l'autre.</dd>
+        </dl>
+
+        <h2>La période commune</h2>
+        <p>Le tableau principal compare toutes les stratégies de {{C0}} à {{C1}}. Cette date est la première où toutes les stratégies peuvent fonctionner avec des ETF réels, en comptant l'historique dont certaines ont besoin pour calculer leur premier signal (jusqu'à 13 mois). Elle inclut la crise financière de 2008, décisive pour juger une stratégie défensive.</p>
+        <p>L'historique complet de chaque stratégie est aussi disponible, mais les chiffres ne se comparent alors plus directement : chaque stratégie a sa propre date de départ.</p>
+
+        <h2>Les mesures</h2>
+        <dl>
+          <dt>CAGR</dt><dd>Rendement annualisé composé.</dd>
+          <dt>Volatilité</dt><dd>Écart-type annualisé des rendements mensuels.</dd>
+          <dt>Sharpe</dt><dd>Rendement au-delà des T-bills, divisé par la volatilité. Certains sites ne retirent pas le rendement du cash, d'où des valeurs parfois plus élevées ailleurs.</dd>
+          <dt>Max drawdown</dt><dd>Pire baisse depuis un sommet, mesurée en fin de mois. Les baisses en cours de mois peuvent être plus fortes.</dd>
+          <dt>Fenêtres glissantes</dt><dd>Rendement annualisé de chaque période de 3, 5 ou 10 ans possible. Elles montrent ce qu'aurait vécu un investisseur selon son moment d'entrée.</dd>
+          <dt>Rotation</dt><dd>Part du portefeuille achetée ou vendue par an. Plus elle est élevée, plus les frais et taxes sur transactions pèsent, quel que soit le pays.</dd>
+        </dl>
+
+        <h2>Fidélité aux règles publiées</h2>
+        <ul>
+          <li>Les règles suivent les publications des auteurs. Quand elles sont ambiguës, la fiche le précise.</li>
+          <li>Quand un ETF utilisé par l'auteur n'existait pas assez tôt, il est remplacé par l'équivalent le plus ancien (par exemple EFA pour VEA, DBC pour PDBC). Chaque remplacement est indiqué sur la fiche.</li>
+          <li>Chaque stratégie a été comparée à des résultats publiés indépendamment : Lazy Portfolio ETF, Allocate Smartly, BestFolio, Quant for Free.</li>
+        </ul>
+
+        <h2>Ce que les backtests ne disent pas</h2>
+        <ul>
+          <li><b>La sur-optimisation.</b> Une stratégie conçue en regardant le passé réussit forcément ce passé. La zone ombrée des graphiques montre la période postérieure à la publication : c'est la seule vraie épreuve.</li>
+          <li><b>Le biais de période.</b> Depuis 2008, les actions américaines ont battu presque tout le reste. Les stratégies diversifiées en pâtissent dans cette comparaison ; ce ne sera pas forcément vrai sur les quinze prochaines années.</li>
+          <li><b>Le jour du rééquilibrage.</b> Le site rééquilibre en fin de mois. Pour certaines stratégies très concentrées, un autre jour du mois donnerait des résultats sensiblement différents.</li>
+          <li><b>Le comportement.</b> Suivre une stratégie pendant dix ans, y compris pendant ses pires périodes, est beaucoup plus difficile que de la lire dans un tableau.</li>
+        </ul>
+
+        <h2>Avertissement</h2>
+        <p>Ce site est pédagogique et gratuit. Il ne vend rien et ne constitue pas un conseil en investissement. Les performances passées ne préjugent pas des performances futures.</p>
+      </article>`

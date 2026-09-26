@@ -116,6 +116,10 @@ def main(argv=None) -> int:
     if site_dir.exists():  # le site lit sa copie à côté de index.html
         (site_dir / "strategies.json").write_text(
             (out / "strategies.json").read_text(encoding="utf-8"), encoding="utf-8")
+        if (ROOT / "templates" / "app.html").exists():
+            import build_site
+            pages = build_site.build(ROOT)
+            print(f"Site : {sum(p.endswith('index.html') for p in pages)} pages générées dans site/")
 
     print(f"Fenêtre commune : {common_start} → {common_end}  (frais {a.cost:.2%} par transaction)\n")
     print(fmt_table(pd.DataFrame(rows_common).sort_values("sharpe", ascending=False)))
