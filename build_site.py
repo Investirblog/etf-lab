@@ -340,7 +340,10 @@ def method_html(data) -> str:
 
 def legal_html(cfg) -> str:
     ed = cfg.get("editeur", {})
-    lines = [f"<b>{e(ed['nom'])}</b>" if ed.get("nom") else ""]
+    nom = e(ed.get("nom", ""))
+    if nom and ed.get("lien"):
+        nom = f'<a href="{e(ed["lien"])}" rel="noopener">{nom}</a>'
+    lines = [f"<b>{nom}</b>" if nom else ""]
     if ed.get("adresse"):
         lines.append(e(ed["adresse"]))
     if ed.get("contact"):
