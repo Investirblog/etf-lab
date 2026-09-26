@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Signaux des stratégies ETF pour septembre 2026 (GEM, DAA, VAA…) | ETF Strategy Lab</title>
+<title>Signaux des stratégies ETF pour septembre 2026 (GEM, DAA, VAA…) | Labo ETF</title>
 <meta name="description" content="Les allocations de septembre 2026 de toutes les stratégies ETF du site : ce qui change, ce qui reste en place, calculé sur la dernière clôture mensuelle.">
 <link rel="canonical" href="https://etf-strategy-lab.netlify.app/signaux/">
-<meta property="og:site_name" content="ETF Strategy Lab">
+<meta property="og:site_name" content="Labo ETF">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Signaux des stratégies ETF pour septembre 2026 (GEM, DAA, VAA…) | ETF Strategy Lab">
+<meta property="og:title" content="Signaux des stratégies ETF pour septembre 2026 (GEM, DAA, VAA…) | Labo ETF">
 <meta property="og:description" content="Les allocations de septembre 2026 de toutes les stratégies ETF du site : ce qui change, ce qui reste en place, calculé sur la dernière clôture mensuelle.">
 <meta property="og:url" content="https://etf-strategy-lab.netlify.app/signaux/">
 <meta property="og:image" content="https://etf-strategy-lab.netlify.app/og/home.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Signaux des stratégies ETF pour septembre 2026 (GEM, DAA, VAA…) | ETF Strategy Lab">
+<meta property="og:image:alt" content="Signaux des stratégies ETF pour septembre 2026 (GEM, DAA, VAA…) | Labo ETF">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script data-goatcounter="https://etf-strategy-lab.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
@@ -524,12 +524,12 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
 <body>
 <div class="wrap">
   <header class="masthead">
-    <a class="brand" href="/" aria-label="ETF Strategy Lab, accueil">
+    <a class="brand" href="/" aria-label="Labo ETF, accueil">
       <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
         <rect x="1" y="1" width="18" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
         <polyline points="4,14 8,10 11,12 16,5" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      ETF Strategy Lab
+      Labo ETF
     </a>
     <div class="masthead-right">
       <nav class="nav" aria-label="Pages">
@@ -996,7 +996,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     return `<div class="hero-stats">
       <div><b>${strats.length}</b><span>stratégies testées sur les mêmes données</span></div>
       <a href="${PATH_MODE ? BASE + "signaux/" : "#signaux"}"><b>${changed}</b><span>changent d'allocation en ${MOIS_LONG[+nm.slice(5) - 1]} →</span></a>
-      <div><b>${years} ans</b><span>de recul commun, depuis ${mLabel(DATA.common_window[0])}</span></div></div>`;
+      <div><b>${years} ans</b><span>de backtest, sur la même période pour toutes (depuis ${mLabel(DATA.common_window[0])})</span></div></div>`;
   }
 
   function introSentence() {
@@ -1479,12 +1479,12 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     const id = currentId();
     const setTitle = t => { if (!PATH_MODE) document.title = t; };
     const top = () => { if (!PATH_MODE) window.scrollTo(0, 0); };
-    if (id === "methode") { renderMethod(); setTitle("Méthode · ETF Strategy Lab"); top(); }
-    else if (id === "ucits" && UCITS) { renderUcits(); setTitle("Équivalents UCITS · ETF Strategy Lab"); top(); }
+    if (id === "methode") { renderMethod(); setTitle("Méthode · Labo ETF"); top(); }
+    else if (id === "ucits" && UCITS) { renderUcits(); setTitle("Équivalents UCITS · Labo ETF"); top(); }
     else if (id === "signaux") { app.innerHTML = `<section class="doc"><h1>Signaux du mois</h1><p class="lede">Cette page est générée avec le site publié : <a href="/signaux/">voir les signaux du mois</a>.</p></section>`; top(); }
-    else if (id.startsWith("comparer")) { if (id.includes("=")) state.cmp = null; renderCompare(); setTitle("Comparer des stratégies · ETF Strategy Lab"); top(); }
-    else if (id && BY_ID[id]) { renderSheet(BY_ID[id]); setTitle(`${BY_ID[id].name} · ETF Strategy Lab`); top(); }
-    else { renderBoard(); if (!PATH_MODE) document.title = "ETF Strategy Lab"; }
+    else if (id.startsWith("comparer")) { if (id.includes("=")) state.cmp = null; renderCompare(); setTitle("Comparer des stratégies · Labo ETF"); top(); }
+    else if (id && BY_ID[id]) { renderSheet(BY_ID[id]); setTitle(`${BY_ID[id].name} · Labo ETF`); top(); }
+    else { renderBoard(); if (!PATH_MODE) document.title = "Labo ETF"; }
     document.querySelectorAll("[data-nav]").forEach(a => a.toggleAttribute("aria-current", a.dataset.nav === (["methode", "ucits", "signaux"].includes(id) ? id : id.startsWith("comparer") ? "comparer" : "")));
     document.querySelectorAll("[data-nav]").forEach(a => { if (a.hasAttribute("aria-current")) a.setAttribute("aria-current", "page"); });
     showActiveTab();

@@ -22,7 +22,7 @@ from PIL import Image  # noqa: E402
 ROOT = Path(__file__).resolve().parent
 FONTS = ROOT / "assets" / "og-fonts"
 W, H, DPI = 1200, 630, 100
-BRAND = "ETF Strategy Lab"
+BRAND = "Labo ETF"
 
 BG, INK, INK2, INK3, RULE = "#f3f5f1", "#17201b", "#4f5a54", "#7a847e", "#d8ddd5"
 ACCENT, BENCH, NEG = "#2a78d6", "#8e9791", "#b6402e"
@@ -140,7 +140,7 @@ def home_image(data: dict, out: Path):
     _save(fig, out)
 
 
-def build(data: dict, site: Path, brand: str = "ETF Strategy Lab") -> list[str]:
+def build(data: dict, site: Path, brand: str = "Labo ETF") -> list[str]:
     global BRAND
     BRAND = brand
     by_id = {s["id"]: s for s in data["strategies"]}

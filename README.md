@@ -1,4 +1,4 @@
-# ETF Strategy Lab : pipeline de données
+# Labo ETF : pipeline de données
 
 Construit une table de **rendements totaux mensuels** (dividendes réinvestis) pour les ~40 ETF US nécessaires aux stratégies du site. C'est sur cette table que tournent les backtests.
 

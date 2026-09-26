@@ -133,7 +133,7 @@ def page(head_tpl: str, body_tpl: str, *, cfg: dict, path: str, title: str, desc
         f"<title>{e(title)}</title>",
         f'<meta name="description" content="{e(desc)}">',
         f'<link rel="canonical" href="{e(url)}">',
-        '<meta property="og:site_name" content="ETF Strategy Lab">',
+        '<meta property="og:site_name" content="Labo ETF">',
         '<meta property="og:locale" content="fr_FR">',
         f'<meta property="og:type" content="{og_type}">',
         f'<meta property="og:title" content="{e(title)}">',
@@ -156,7 +156,7 @@ def page(head_tpl: str, body_tpl: str, *, cfg: dict, path: str, title: str, desc
     head_tpl = (head_tpl.replace('url("fonts/', 'url("/fonts/').replace('href="favicon', 'href="/favicon')
                 .replace('href="apple-touch-icon', 'href="/apple-touch-icon'))
     body = body_tpl
-    body = body.replace('href="https://etf-strategy-lab.netlify.app/', 'href="/')  # liens du gabarit vers le site publié
+    body = body.replace('href="https://laboetf.netlify.app/', 'href="/')  # liens du gabarit vers le site publié
     body = body.replace('href="#signaux"', 'href="/signaux/"').replace('href="#comparer"', 'href="/comparer/"')
     # liens de navigation réels
     body = body.replace('class="brand" href="#"', 'class="brand" href="/"')
@@ -171,8 +171,8 @@ def page(head_tpl: str, body_tpl: str, *, cfg: dict, path: str, title: str, desc
     body = body.replace("<script>", f"<script>{flags}</script>\n<script>", 1)
     out = ("<!doctype html>\n<html lang=\"fr\">\n<head>\n" + "\n".join(meta) + "\n"
            + head_tpl.strip() + "\n</head>\n<body>\n" + body.strip() + "\n</body>\n</html>\n")
-    name = cfg.get("site_name") or "ETF Strategy Lab"
-    return out if name == "ETF Strategy Lab" else out.replace("ETF Strategy Lab", e(name))
+    name = cfg.get("site_name") or "Labo ETF"
+    return out if name == "Labo ETF" else out.replace("Labo ETF", e(name))
 
 
 # --------------------------------------------------------------------------
@@ -209,7 +209,7 @@ def hero_stats(data) -> str:
     years = (int(c1[:4]) * 12 + int(c1[5:7]) - int(c0[:4]) * 12 - int(c0[5:7]) + 1) // 12
     return (f'<div class="hero-stats"><div><b>{len(strats)}</b><span>stratégies testées sur les mêmes données</span></div>'
             f'<a href="/signaux/"><b>{changed}</b><span>changent d\'allocation en {MOIS_LONG[int(nm[5:7]) - 1]} →</span></a>'
-            f'<div><b>{years}{NBSP}ans</b><span>de recul commun, depuis {m_label(c0)}</span></div></div>')
+            f'<div><b>{years}{NBSP}ans</b><span>de backtest, sur la même période pour toutes (depuis {m_label(c0)})</span></div></div>')
 
 
 def board_html(data, ref) -> str:
@@ -739,7 +739,7 @@ def clip(t: str, n=160) -> str:
 # --------------------------------------------------------------------------
 def build(root: Path = ROOT) -> list[str]:
     cfg = json.loads(CONFIG.read_text(encoding="utf-8")) if CONFIG.exists() else {
-        "site_url": "https://etf-strategy-lab.netlify.app"}
+        "site_url": "https://laboetf.netlify.app"}
     data = json.loads((SITE / "strategies.json").read_text(encoding="utf-8"))
     fiches = json.loads((SITE / "fiches.json").read_text(encoding="utf-8")) if (SITE / "fiches.json").exists() else {}
     uc = json.loads((SITE / "ucits.json").read_text(encoding="utf-8")) if (SITE / "ucits.json").exists() else None
@@ -777,11 +777,11 @@ def build(root: Path = ROOT) -> list[str]:
     common = dict(cfg=cfg, stamp=stamp)
     n = len([s for s in data["strategies"] if s["id"] not in REF_NAMES])
     write("index.html", page(head_tpl, body_tpl, path="", nav="", content=board_html(data, ref),
-                             title="ETF Strategy Lab : les stratégies ETF backtestées et comparées",
+                             title="Labo ETF : les stratégies ETF backtestées et comparées",
                              desc=clip(f"{n} stratégies d'investissement en ETF (Permanent Portfolio, Dual Momentum, "
                                        f"stratégies de Keller…) testées depuis {m_label(c0)} avec les mêmes données : "
                                        "rendement, pire baisse, signal du mois."),
-                             jsonld={"@context": "https://schema.org", "@type": "WebSite", "name": "ETF Strategy Lab",
+                             jsonld={"@context": "https://schema.org", "@type": "WebSite", "name": "Labo ETF",
                                      "url": base_url + "/", "inLanguage": "fr"}, **common))
     for s in data["strategies"]:
         st = s["stats_common"]
@@ -793,35 +793,35 @@ def build(root: Path = ROOT) -> list[str]:
         write(f"strategies/{s['id']}/index.html",
               page(head_tpl, body_tpl, path=f"strategies/{s['id']}/", nav="", og_type="article",
                    content=sheet_html(s, data, fiches, uc, ref), image=s["id"],
-                   title=f"{s['name']} : backtest, règles et signal du mois | ETF Strategy Lab", desc=desc,
+                   title=f"{s['name']} : backtest, règles et signal du mois | Labo ETF", desc=desc,
                    jsonld=[{"@context": "https://schema.org", "@type": "WebPage", "name": s["name"],
                             "description": desc, "inLanguage": "fr",
-                            "isPartOf": {"@type": "WebSite", "name": "ETF Strategy Lab", "url": base_url + "/"}},
+                            "isPartOf": {"@type": "WebSite", "name": "Labo ETF", "url": base_url + "/"}},
                            crumbs_ld(sheet_crumbs(s), base_url)],
                    **common))
     if uc:
         write("equivalents-ucits/index.html",
               page(head_tpl, body_tpl, path="equivalents-ucits/", nav="ucits", content=ucits_html(data, uc),
-                   title="Équivalents UCITS des ETF américains (ISIN, tickers, frais) | ETF Strategy Lab",
+                   title="Équivalents UCITS des ETF américains (ISIN, tickers, frais) | Labo ETF",
                    desc="Pour chaque ETF américain (SPY, TLT, GLD, QQQ…), l'équivalent UCITS accessible en Europe : "
                         "ISIN, cotations, frais et niveau de correspondance.", **common))
     nm = data["strategies"][0]["next_signal"]["for_month"]
     write("signaux/index.html",
           page(head_tpl, body_tpl, path="signaux/", nav="signaux", static=True, content=signals_html(data),
-               title=f"Signaux des stratégies ETF pour {m_long(nm)} (GEM, DAA, VAA…) | ETF Strategy Lab",
+               title=f"Signaux des stratégies ETF pour {m_long(nm)} (GEM, DAA, VAA…) | Labo ETF",
                desc=clip(f"Les allocations de {m_long(nm)} de toutes les stratégies ETF du site : ce qui change, ce qui "
                          "reste en place, calculé sur la dernière clôture mensuelle."), **common))
     for slug, fam in FAMILLES.items():
         write(f"{slug}/index.html",
               page(head_tpl, body_tpl, path=f"{slug}/", nav="none", static=True,
                    content=family_html(slug, fam, data, ref),
-                   title=f"{fam['titre']} : stratégies backtestées et comparées | ETF Strategy Lab",
+                   title=f"{fam['titre']} : stratégies backtestées et comparées | Labo ETF",
                    desc=clip(fam["description"]),
                    jsonld=crumbs_ld([("/", "Stratégies"), (None, fam["titre"])], base_url), **common))
     # comparateur et pages « X ou Y ? »
     write("comparer/index.html",
           page(head_tpl, body_tpl, path="comparer/", nav="comparer", content=compare_index_html(data),
-               title="Comparer des stratégies ETF : courbes, baisses et années côte à côte | ETF Strategy Lab",
+               title="Comparer des stratégies ETF : courbes, baisses et années côte à côte | Labo ETF",
                desc="Comparez deux ou trois stratégies ETF (GEM, Permanent Portfolio, DAA…) : rendement, pire baisse, "
                     "années, en dollars ou en euros.",
                jsonld=crumbs_ld([("/", "Stratégies"), (None, "Comparer")], base_url), **common))
@@ -831,7 +831,7 @@ def build(root: Path = ROOT) -> list[str]:
         write(f"comparer/{slug}/index.html",
               page(head_tpl, body_tpl, path=f"comparer/{slug}/", nav="none", static=True,
                    content=pair_html(c, data, by_id),
-                   title=f"{c['titre']} Backtest et comparaison | ETF Strategy Lab",
+                   title=f"{c['titre']} Backtest et comparaison | Labo ETF",
                    desc=clip(f"{sa['name']} ou {sb['name']} : rendement, pire baisse, années et règles comparés "
                              "sur les mêmes données."),
                    jsonld=crumbs_ld([("/", "Stratégies"), ("/comparer/", "Comparer"), (None, c["titre"])], base_url),
@@ -841,24 +841,24 @@ def build(root: Path = ROOT) -> list[str]:
     else:
         write("methode/index.html",
               page(head_tpl, body_tpl, path="methode/", nav="methode", content=method_html(data),
-                   title="Méthode et limites des backtests | ETF Strategy Lab",
+                   title="Méthode et limites des backtests | Labo ETF",
                    desc="Données, conventions de calcul, période commune, mesures et limites des backtests "
-                        "d'ETF Strategy Lab.", **common))
+                        "de Labo ETF.", **common))
     if not cfg.get("editeur", {}).get("contact"):
         print("⚠️  Mentions légales : ajoute un contact (e-mail ou lien) dans site_config.json, rubrique editeur.")
     write("mentions-legales/index.html",
           page(head_tpl, body_tpl, path="mentions-legales/", nav="none", static=True, content=legal_html(cfg),
-               title="Mentions légales | ETF Strategy Lab",
-               desc="Éditeur, hébergeur, données personnelles et avertissement d'ETF Strategy Lab.", **common))
+               title="Mentions légales | Labo ETF",
+               desc="Éditeur, hébergeur, données personnelles et avertissement de Labo ETF.", **common))
     write("404.html",
           page(head_tpl, body_tpl, path="404.html", nav="", noindex=True,
                content='<section class="doc"><h1>Page introuvable</h1><p class="lede">Cette adresse n\'existe pas '
                        '(ou plus). <a href="/">Voir toutes les stratégies</a>.</p></section>',
-               title="Page introuvable | ETF Strategy Lab", desc="Page introuvable.", **common).replace(
+               title="Page introuvable | Labo ETF", desc="Page introuvable.", **common).replace(
                    '<script>window.ESL_BASE = "/";</script>', '<script>window.ESL_BASE = "/"; window.ESL_404 = true;</script>'))
     try:
         import og_images
-        written += og_images.build(data, SITE, cfg.get("site_name") or "ETF Strategy Lab")
+        written += og_images.build(data, SITE, cfg.get("site_name") or "Labo ETF")
     except ImportError as err:  # matplotlib absent : pages sans image
         print(f"⚠️  Images d'aperçu non générées ({err})")
     today = dt.date.today().isoformat()
