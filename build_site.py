@@ -196,6 +196,22 @@ def intro_sentence(data, ref) -> str:
             f"rapporte, mais ce qu'elle fait traverser pour y arriver.")
 
 
+def hero_stats(data) -> str:
+    strats = [s for s in data["strategies"] if s["id"] not in REF_NAMES]
+    changed = 0
+    for s in strats:
+        h = s.get("signal_history") or {}
+        ms = sorted(h)
+        if s["family"] != "Statique" and len(ms) >= 2 and not same_weights(h[ms[-2]], s["next_signal"]["weights"]):
+            changed += 1
+    nm = data["strategies"][0]["next_signal"]["for_month"]
+    c0, c1 = data["common_window"]
+    years = (int(c1[:4]) * 12 + int(c1[5:7]) - int(c0[:4]) * 12 - int(c0[5:7]) + 1) // 12
+    return (f'<div class="hero-stats"><div><b>{len(strats)}</b><span>stratégies testées sur les mêmes données</span></div>'
+            f'<a href="/signaux/"><b>{changed}</b><span>changent d\'allocation en {MOIS_LONG[int(nm[5:7]) - 1]} →</span></a>'
+            f'<div><b>{years}{NBSP}ans</b><span>de recul commun, depuis {m_label(c0)}</span></div></div>')
+
+
 def board_html(data, ref) -> str:
     c0, c1 = data["common_window"]
     rows = sorted(data["strategies"], key=lambda s: -(s["stats_common"]["sharpe"] or -9))
@@ -212,6 +228,7 @@ def board_html(data, ref) -> str:
     return f"""
       <section class="intro">
         <h1>Les stratégies ETF connues, testées sur les mêmes données et avec les mêmes règles</h1>
+        {hero_stats(data)}
         <p class="key">{intro_sentence(data, ref)}</p>
         <p>Portefeuilles permanents, momentum, suivi de tendance : chaque stratégie est recalculée chaque mois à partir des rendements réels des ETF, frais compris, puis comparée sur la même période. Cliquez sur une stratégie pour ouvrir sa fiche.</p>
         <ul class="method">
@@ -260,7 +277,7 @@ def sheet_html(s, data, fiches, uc, ref) -> str:
     cmp = lambda v: "" if s["id"] == ref["id"] else f'<span class="cmp">{e(rname)} : <span class="num">{v}</span></span>'
     ess = ""
     if f:
-        ess = (f'<section class="panel"><h2>L\'essentiel</h2><div class="essentials"><p>{rich(f["idee"])}</p>'
+        ess = (f'<section class="panel" style="--o:1"><h2>L\'essentiel</h2><div class="essentials"><p>{rich(f["idee"])}</p>'
                f'<h3>Points forts</h3><ul>{"".join(f"<li>{rich(x)}</li>" for x in f["forces"])}</ul>'
                f'<h3>Points faibles</h3><ul>{"".join(f"<li>{rich(x)}</li>" for x in f["faiblesses"])}</ul>'
                + (f'<h3>À savoir</h3><p>{rich(f["a_savoir"])}</p>' if f.get("a_savoir") else "") + "</div></section>")
@@ -305,14 +322,14 @@ def sheet_html(s, data, fiches, uc, ref) -> str:
         <div class="tile"><span class="k">Max drawdown</span><span class="v neg">{pct(st['max_dd'])}</span>{cmp(pct(rst['max_dd']))}</div>
         <div class="tile"><span class="k">Pire année</span><span class="v">{pct(st['worst_year'], 1, True)}</span>{cmp(pct(rst['worst_year'], 1, True))}</div>
       </div>
-      <div class="grid-2"><div class="stack">
+      <div class="grid-2 sheet-grid"><div class="stack">
         {ess}
-        <section class="panel"><h2>Règles</h2><ol class="rules">{''.join(f'<li>{rich(r)}</li>' for r in rules_for(s))}</ol>{extra}</section>
+        <section class="panel" style="--o:5"><h2>Règles</h2><ol class="rules">{''.join(f'<li>{rich(r)}</li>' for r in rules_for(s))}</ol>{extra}</section>
       </div><div class="stack">
-        <section class="panel"><h2>Signal pour {m_long(nm)}</h2><p class="sub">Calculé sur la clôture de fin {m_long(data['data_end'])}.</p><div class="alloc">{sig}</div></section>
+        <section class="panel" style="--o:2"><h2>Signal pour {m_long(nm)}</h2><p class="sub">Calculé sur la clôture de fin {m_long(data['data_end'])}.</p><div class="alloc">{sig}</div></section>
         {history_html(s)}
-        {f'<section class="panel"><h2>Avec des ETF européens</h2><div class="ucits-list">{ucits}</div></section>' if ucits else ''}
-        <section class="panel"><h2>Toutes les mesures</h2><table class="metrics"><thead><tr><th scope="col"></th>{mhead}</tr></thead><tbody>{mt}</tbody></table></section>
+        {f'<section class="panel" style="--o:9"><h2>Avec des ETF européens</h2><div class="ucits-list">{ucits}</div></section>' if ucits else ''}
+        <section class="panel" style="--o:10"><h2>Toutes les mesures</h2><table class="metrics"><thead><tr><th scope="col"></th>{mhead}</tr></thead><tbody>{mt}</tbody></table></section>
         {same_family_html(s, data)}
       </div></div>"""
 
@@ -339,7 +356,7 @@ def same_family_html(s, data) -> str:
         f'<li><a href="/strategies/{x["id"]}/">{e(x["name"])}</a><span class="num">{pct(x["stats_common"]["cagr"])} /an · '
         f'{pct(x["stats_common"]["max_dd"])}</span></li>' for x in others)
     more = f'<a href="/{slug}/">Toute la famille « {e(FAMILLES[slug]["titre"])} »</a>' if slug else ""
-    return (f'<section class="panel"><h2>Même famille</h2><p class="sub">Rendement annuel et pire baisse sur la période commune.</p>'
+    return (f'<section class="panel" style="--o:11"><h2>Même famille</h2><p class="sub">Rendement annuel et pire baisse sur la période commune.</p>'
             f'<ul class="kin">{rows}</ul>{more}</section>')
 
 
@@ -495,7 +512,7 @@ def history_html(s) -> str:
         n += ch
         rows.append(f'<tr class="{"chg" if ch else ""}"><td>{m_label(m)}</td><td class="alloc-txt">{e(alloc_text(h[m]))}</td></tr>')
     lead = f"{n} changement{'s' if n > 1 else ''}" if n else "Aucun changement"
-    return (f'<section class="panel"><h2>Historique des signaux</h2><p class="sub">{lead} sur les {len(ms) - 1} derniers mois. '
+    return (f'<section class="panel" style="--o:4"><h2>Historique des signaux</h2><p class="sub">{lead} sur les {len(ms) - 1} derniers mois. '
             f"En gras : le mois où l'allocation a changé.</p><table class=\"hist\"><thead><tr><th scope=\"col\">Mois</th>"
             f'<th scope="col">Allocation</th></tr></thead><tbody>{"".join(rows)}</tbody></table></section>')
 
@@ -551,7 +568,7 @@ def svg_equity(series, names, width=760, height=280) -> str:
             out.append(f'<text x="{X(i):.1f}" y="{height - 8}" text-anchor="middle" class="ax">{k[:4]}</text>')
     for s, color in reversed(list(zip(series, CMP_COLORS))):
         d = "".join(f'{"L" if i else "M"}{X(i):.1f},{Y(v):.1f}' for i, (_, v) in enumerate(s))
-        out.append(f'<path d="{d}" fill="none" stroke="{color}" stroke-width="2" stroke-linejoin="round"/>')
+        out.append(f'<path d="{d}" fill="none" stroke="{color}" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>')
     out.append("</svg>")
     return "".join(out)
 
@@ -747,7 +764,7 @@ def build(root: Path = ROOT) -> list[str]:
     KNOWN_IDS.update(by_id)
     ref = by_id.get("acwi") or by_id["spy"]
     c0 = data["common_window"][0]
-    stamp = f"Données à fin {m_long(data['data_end'])} · {len(data['strategies'])} stratégies"
+    stamp = f"Données à fin {m_long(data['data_end'])} · {sum(s['id'] not in REF_NAMES for s in data['strategies'])} stratégies"
     base_url = cfg["site_url"].rstrip("/")
     written = []
 

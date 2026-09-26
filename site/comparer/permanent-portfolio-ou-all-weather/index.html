@@ -332,6 +332,17 @@ table.cmp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .cmp-table tr:last-child td, .cmp-table tr:last-child th { border-bottom: 0; }
 .cmp-table .alloc-txt { font-size: 12px; }
 .cmp-grid { margin-top: 18px; }
+.cmp-cards { display: none; }
+.cmp-card { background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--c); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; }
+.cmp-card-name { font-weight: 600; color: var(--ink); text-decoration: none; }
+.cmp-card dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: 13.5px; }
+.cmp-card dt { color: var(--ink-2); }
+.cmp-card dd { margin: 0; font-family: var(--f-mono); font-size: 13px; text-align: right; white-space: nowrap; }
+.cmp-card-sig { font-family: var(--f-mono); font-size: 12px; color: var(--ink-2); border-top: 1px dashed var(--rule-soft); padding-top: 6px; }
+.cmp-card-sig span { font-family: var(--f-body); color: var(--ink-3); margin-right: 4px; }
+.metrics td.num, .cmp-table td.num { white-space: nowrap; }
+.cmp-table td.num .alloc-txt { white-space: normal; }
+.static-chart path { vector-effect: non-scaling-stroke; }
 .cmp-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
 .cmp-list a { display: block; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px; color: var(--ink); text-decoration: none; font-weight: 600; }
 .cmp-list a:hover { border-color: var(--accent); }
@@ -339,6 +350,19 @@ table.cmp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .static-chart svg { display: block; width: 100%; height: auto; }
 .doc-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; }
 @media (max-width: 640px) {
+  .cmp-table-wrap { display: none; }
+  .cmp-cards { display: grid; gap: 10px; }
+  .static-chart .ax { font-size: 21px; }
+  /* en-tête mobile : marque, puis menu sur une ligne qui défile */
+  .masthead { flex-direction: column; align-items: stretch; gap: 10px; padding-block: 16px 10px; }
+  .masthead-right { display: block; min-width: 0; max-width: 100%; }
+  .masthead > * { min-width: 0; }
+  .nav { max-width: 100%; }
+  .stamp { display: none; }
+  .nav { flex-wrap: nowrap; overflow-x: auto; gap: 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav a { white-space: nowrap; padding: 6px 12px; border-radius: 99px; background: var(--chip); color: var(--ink-2); font-size: 13.5px; }
+  .nav a[aria-current="page"], .nav a:hover { background: var(--ink); color: var(--bg); text-decoration: none; }
   .cmp-sels { grid-template-columns: 1fr; }
   .cmp-table th, .cmp-table td { padding: 8px 6px; font-size: 12.5px; }
   .cmp-table th[scope="row"] { white-space: normal; }
@@ -413,7 +437,16 @@ table.sig-table, table.fam-table { width: 100%; border-collapse: collapse; font-
   background: var(--accent); color: #fff; font-size: 13.5px; font-weight: 500; text-decoration: none;
   box-shadow: 0 4px 14px rgba(0, 0, 0, .18); }
 .kofi-float:hover { filter: brightness(1.08); }
-body { padding-bottom: 88px; }
+.kofi-float { transition: opacity .2s, transform .2s; }
+.kofi-float.is-hidden { opacity: 0; transform: translateY(14px); pointer-events: none; }
+/* accroche de l'accueil */
+.hero-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 4px 0 2px; }
+.hero-stats > * { background: var(--surface); padding: 12px 14px; display: grid; gap: 2px; color: inherit; text-decoration: none; }
+.hero-stats b { font-family: var(--f-display); font-weight: 700; font-size: 32px; line-height: 1.05; color: var(--ink); }
+.hero-stats span { font-size: 13px; color: var(--ink-2); line-height: 1.35; }
+.hero-stats a:hover { background: var(--accent-soft); }
+.hero-stats a b { color: var(--accent); }
+@media (max-width: 480px) { .hero-stats > * { padding: 10px; } .hero-stats b { font-size: 26px; } .hero-stats span { font-size: 12px; } }
 @media (max-width: 640px) {
   .kofi-float { padding: 11px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
   .kofi-float span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -424,6 +457,10 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
 
 @media (max-width: 860px) {
   .grid-2 { grid-template-columns: 1fr; }
+  /* fiche sur mobile : l'essentiel et le signal d'abord, les graphiques ensuite */
+  .sheet-grid { display: flex; flex-direction: column; align-items: stretch; gap: 20px; }
+  .sheet-grid > .stack { display: contents; }
+  .sheet-grid > .stack > * { order: var(--o, 50); }
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 1180px) and (min-width: 641px) {
@@ -503,7 +540,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
         <a href="/equivalents-ucits/" data-nav="ucits">Équivalents UCITS</a>
         <a href="/methode/" data-nav="methode">Méthode</a>
       </nav>
-      <span class="stamp" id="stamp">Données à fin août 2026 · 28 stratégies</span>
+      <span class="stamp" id="stamp">Données à fin août 2026 · 26 stratégies</span>
     </div>
   </header>
   <main id="app" aria-live="polite">
@@ -517,7 +554,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       <div class="grid-2 cmp-grid"><div class="stack">
         <section class="panel"><h2>Croissance de 1 $</h2>
           <div class="legend"><span><i style="background:var(--accent)"></i>Permanent Portfolio</span><span><i style="background:var(--pub)"></i>All Weather (version Robbins)</span></div>
-          <div class="chart static-chart"><svg viewBox="0 0 760 280" role="img" aria-label="Croissance de 1 $ : Permanent Portfolio / All Weather (version Robbins)"><line x1="48" x2="746" y1="221.8" y2="221.8" stroke="var(--rule)"/><text x="40" y="225.3" text-anchor="end" class="ax">1 $</text><line x1="48" x2="746" y1="158.8" y2="158.8" stroke="var(--rule-soft)"/><text x="40" y="162.3" text-anchor="end" class="ax">1,5 $</text><line x1="48" x2="746" y1="114.1" y2="114.1" stroke="var(--rule-soft)"/><text x="40" y="117.6" text-anchor="end" class="ax">2 $</text><line x1="48" x2="746" y1="51.1" y2="51.1" stroke="var(--rule-soft)"/><text x="40" y="54.6" text-anchor="end" class="ax">3 $</text><text x="105.9" y="272" text-anchor="middle" class="ax">2010</text><text x="183.1" y="272" text-anchor="middle" class="ax">2012</text><text x="260.3" y="272" text-anchor="middle" class="ax">2014</text><text x="337.5" y="272" text-anchor="middle" class="ax">2016</text><text x="414.7" y="272" text-anchor="middle" class="ax">2018</text><text x="491.9" y="272" text-anchor="middle" class="ax">2020</text><text x="569.1" y="272" text-anchor="middle" class="ax">2022</text><text x="646.3" y="272" text-anchor="middle" class="ax">2024</text><text x="723.5" y="272" text-anchor="middle" class="ax">2026</text><path d="M48.0,224.0L51.2,223.5L54.4,227.5L57.6,241.0L60.9,231.3L64.1,219.0L67.3,232.3L70.5,239.0L73.7,232.1L76.9,232.9L80.2,229.4L83.4,230.2L86.6,225.4L89.8,222.6L93.0,218.4L96.2,219.6L99.5,212.9L102.7,217.1L105.9,217.7L109.1,215.6L112.3,214.5L115.5,210.3L118.8,211.0L122.0,208.7L125.2,206.4L128.4,201.7L131.6,198.5L134.8,198.9L138.1,199.9L141.3,198.7L144.5,199.9L147.7,196.1L150.9,195.6L154.1,190.9L157.4,189.7L160.6,192.9L163.8,188.9L167.0,183.0L170.2,179.9L173.4,177.4L176.7,175.9L179.9,174.3L183.1,170.4L186.3,169.9L189.5,171.6L192.7,168.8L196.0,168.0L199.2,166.8L202.4,162.8L205.6,161.3L208.8,161.2L212.0,163.3L215.3,162.0L218.5,163.7L221.7,163.3L224.9,162.9L228.1,161.0L231.3,158.2L234.6,162.7L237.8,167.3L241.0,165.0L244.2,166.9L247.4,165.3L250.6,161.8L253.9,162.4L257.1,162.6L260.3,159.6L263.5,155.9L266.7,155.6L269.9,153.6L273.2,150.8L276.4,149.1L279.6,150.3L282.8,145.2L286.0,148.9L289.2,146.3L292.5,143.6L295.7,142.2L298.9,136.2L302.1,138.6L305.3,139.4L308.5,140.6L311.8,141.8L315.0,145.7L318.2,143.8L321.4,146.8L324.6,147.0L327.8,143.3L331.1,145.1L334.3,146.9L337.5,144.9L340.7,141.3L343.9,138.2L347.1,136.8L350.4,136.3L353.6,129.5L356.8,127.1L360.0,128.3L363.2,128.7L366.4,133.1L369.7,138.5L372.9,137.5L376.1,135.6L379.3,132.3L382.5,133.0L385.7,131.4L389.0,129.5L392.2,129.2L395.4,127.9L398.6,124.8L401.8,125.8L405.0,124.4L408.3,122.3L411.5,120.1L414.7,119.3L417.9,123.7L421.1,122.7L424.3,123.8L427.6,121.0L430.8,121.0L434.0,120.7L437.2,118.3L440.4,119.6L443.6,125.6L446.9,124.5L450.1,124.6L453.3,119.4L456.5,118.5L459.7,114.0L462.9,113.3L466.2,112.3L469.4,106.9L472.6,106.1L475.8,99.1L479.0,100.5L482.2,99.6L485.5,98.6L488.7,98.3L491.9,93.3L495.1,92.7L498.3,94.3L501.5,88.2L504.8,86.5L508.0,84.9L511.2,77.6L514.4,78.0L517.6,80.0L520.8,84.1L524.1,78.1L527.3,75.9L530.5,78.9L533.7,81.1L536.9,82.8L540.1,77.0L543.4,75.2L546.6,71.8L549.8,67.6L553.0,66.6L556.2,70.6L559.4,64.8L562.7,64.9L565.9,62.4L569.1,67.2L572.3,68.0L575.5,69.2L578.7,79.4L582.0,80.1L585.2,86.5L588.4,81.1L591.6,87.2L594.8,99.2L598.0,98.6L601.3,90.2L604.5,94.8L607.7,85.8L610.9,92.1L614.1,85.7L617.3,84.5L620.6,87.3L623.8,84.3L627.0,83.2L630.2,86.3L633.4,94.7L636.6,98.8L639.9,87.8L643.1,80.1L646.3,80.7L649.5,80.2L652.7,76.5L655.9,82.6L659.2,77.9L662.4,74.8L665.6,71.2L668.8,68.5L672.0,65.2L675.2,68.9L678.5,65.1L681.7,70.6L684.9,67.8L688.1,64.1L691.3,65.9L694.5,67.2L697.8,66.6L701.0,61.8L704.2,61.3L707.4,59.4L710.6,53.7L713.8,50.9L717.1,49.5L720.3,50.8L723.5,47.7L726.7,43.3L729.9,48.3L733.1,43.4L736.4,41.6L739.6,44.2L742.8,45.7L746.0,42.0" fill="none" stroke="var(--pub)" stroke-width="2" stroke-linejoin="round"/><path d="M48.0,222.7L51.2,224.9L54.4,225.7L57.6,238.3L60.9,229.1L64.1,219.4L67.3,225.8L70.5,229.8L73.7,226.5L76.9,226.9L80.2,221.7L83.4,223.9L86.6,219.6L89.8,217.1L93.0,212.4L96.2,212.4L99.5,203.8L102.7,208.6L105.9,209.1L109.1,206.8L112.3,205.6L115.5,201.3L118.8,201.1L122.0,199.6L125.2,199.7L128.4,195.5L131.6,191.7L134.8,190.5L138.1,190.4L141.3,188.4L144.5,191.1L147.7,187.0L150.9,186.4L154.1,180.8L157.4,180.5L160.6,183.1L163.8,178.8L167.0,172.0L170.2,174.0L173.4,170.0L176.7,168.5L179.9,171.1L183.1,165.1L186.3,165.7L189.5,166.5L192.7,165.1L196.0,166.8L199.2,165.0L202.4,162.7L205.6,160.3L208.8,158.4L212.0,160.6L215.3,160.1L218.5,161.6L221.7,161.1L224.9,162.0L228.1,160.3L231.3,160.4L234.6,164.3L237.8,169.9L241.0,166.1L244.2,166.4L247.4,166.2L250.6,163.6L253.9,164.7L257.1,165.3L260.3,162.8L263.5,158.5L266.7,159.2L269.9,157.9L273.2,156.9L276.4,153.9L279.6,155.6L282.8,152.0L286.0,155.8L289.2,154.7L292.5,152.5L295.7,150.8L298.9,144.7L302.1,147.7L305.3,148.6L308.5,149.7L311.8,149.8L315.0,152.8L318.2,152.8L321.4,154.2L324.6,155.0L327.8,151.2L331.1,154.0L334.3,155.1L337.5,152.5L340.7,147.0L343.9,145.0L347.1,143.0L350.4,144.8L353.6,138.1L356.8,135.1L360.0,137.0L363.2,137.3L366.4,141.0L369.7,146.7L372.9,146.8L376.1,143.6L379.3,140.3L382.5,140.6L385.7,138.9L389.0,137.6L392.2,137.9L395.4,136.4L398.6,133.3L401.8,134.8L405.0,134.2L408.3,132.6L411.5,130.6L414.7,128.5L417.9,132.0L421.1,131.7L424.3,132.8L427.6,131.4L430.8,132.3L434.0,132.3L437.2,131.1L440.4,132.2L443.6,135.5L446.9,133.8L450.1,133.2L453.3,128.8L456.5,128.2L459.7,125.7L462.9,125.0L466.2,124.3L469.4,118.0L472.6,117.3L475.8,110.5L479.0,112.3L482.2,110.7L485.5,110.7L488.7,109.3L491.9,104.4L495.1,104.6L498.3,105.8L501.5,98.6L504.8,96.8L508.0,94.9L511.2,86.7L514.4,86.6L517.6,89.5L520.8,92.1L524.1,89.8L527.3,86.1L530.5,89.2L533.7,92.7L536.9,93.2L540.1,88.8L543.4,85.7L546.6,86.1L549.8,82.7L553.0,81.5L556.2,86.0L559.4,81.6L562.7,81.3L565.9,78.8L569.1,83.4L572.3,82.9L575.5,83.6L578.7,91.6L582.0,93.5L585.2,97.9L588.4,94.8L591.6,99.6L594.8,107.7L598.0,107.6L601.3,99.6L604.5,101.4L607.7,93.6L610.9,99.0L614.1,92.2L617.3,91.0L620.6,92.7L623.8,91.0L627.0,89.6L630.2,91.9L633.4,98.8L636.6,98.7L639.9,90.3L643.1,84.5L646.3,85.2L649.5,84.0L652.7,79.0L655.9,82.0L659.2,78.0L662.4,75.8L665.6,71.5L668.8,68.6L672.0,64.6L675.2,65.2L678.5,63.4L681.7,67.2L684.9,63.2L688.1,60.5L691.3,59.1L694.5,57.3L697.8,56.5L701.0,53.2L704.2,53.1L707.4,49.8L710.6,41.9L713.8,38.7L717.1,35.8L720.3,35.5L723.5,30.2L726.7,25.0L729.9,33.7L733.1,30.7L736.4,29.1L739.6,33.7L742.8,35.0L746.0,30.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/></svg></div></section>
+          <div class="chart static-chart"><svg viewBox="0 0 760 280" role="img" aria-label="Croissance de 1 $ : Permanent Portfolio / All Weather (version Robbins)"><line x1="48" x2="746" y1="221.8" y2="221.8" stroke="var(--rule)"/><text x="40" y="225.3" text-anchor="end" class="ax">1 $</text><line x1="48" x2="746" y1="158.8" y2="158.8" stroke="var(--rule-soft)"/><text x="40" y="162.3" text-anchor="end" class="ax">1,5 $</text><line x1="48" x2="746" y1="114.1" y2="114.1" stroke="var(--rule-soft)"/><text x="40" y="117.6" text-anchor="end" class="ax">2 $</text><line x1="48" x2="746" y1="51.1" y2="51.1" stroke="var(--rule-soft)"/><text x="40" y="54.6" text-anchor="end" class="ax">3 $</text><text x="105.9" y="272" text-anchor="middle" class="ax">2010</text><text x="183.1" y="272" text-anchor="middle" class="ax">2012</text><text x="260.3" y="272" text-anchor="middle" class="ax">2014</text><text x="337.5" y="272" text-anchor="middle" class="ax">2016</text><text x="414.7" y="272" text-anchor="middle" class="ax">2018</text><text x="491.9" y="272" text-anchor="middle" class="ax">2020</text><text x="569.1" y="272" text-anchor="middle" class="ax">2022</text><text x="646.3" y="272" text-anchor="middle" class="ax">2024</text><text x="723.5" y="272" text-anchor="middle" class="ax">2026</text><path d="M48.0,224.0L51.2,223.5L54.4,227.5L57.6,241.0L60.9,231.3L64.1,219.0L67.3,232.3L70.5,239.0L73.7,232.1L76.9,232.9L80.2,229.4L83.4,230.2L86.6,225.4L89.8,222.6L93.0,218.4L96.2,219.6L99.5,212.9L102.7,217.1L105.9,217.7L109.1,215.6L112.3,214.5L115.5,210.3L118.8,211.0L122.0,208.7L125.2,206.4L128.4,201.7L131.6,198.5L134.8,198.9L138.1,199.9L141.3,198.7L144.5,199.9L147.7,196.1L150.9,195.6L154.1,190.9L157.4,189.7L160.6,192.9L163.8,188.9L167.0,183.0L170.2,179.9L173.4,177.4L176.7,175.9L179.9,174.3L183.1,170.4L186.3,169.9L189.5,171.6L192.7,168.8L196.0,168.0L199.2,166.8L202.4,162.8L205.6,161.3L208.8,161.2L212.0,163.3L215.3,162.0L218.5,163.7L221.7,163.3L224.9,162.9L228.1,161.0L231.3,158.2L234.6,162.7L237.8,167.3L241.0,165.0L244.2,166.9L247.4,165.3L250.6,161.8L253.9,162.4L257.1,162.6L260.3,159.6L263.5,155.9L266.7,155.6L269.9,153.6L273.2,150.8L276.4,149.1L279.6,150.3L282.8,145.2L286.0,148.9L289.2,146.3L292.5,143.6L295.7,142.2L298.9,136.2L302.1,138.6L305.3,139.4L308.5,140.6L311.8,141.8L315.0,145.7L318.2,143.8L321.4,146.8L324.6,147.0L327.8,143.3L331.1,145.1L334.3,146.9L337.5,144.9L340.7,141.3L343.9,138.2L347.1,136.8L350.4,136.3L353.6,129.5L356.8,127.1L360.0,128.3L363.2,128.7L366.4,133.1L369.7,138.5L372.9,137.5L376.1,135.6L379.3,132.3L382.5,133.0L385.7,131.4L389.0,129.5L392.2,129.2L395.4,127.9L398.6,124.8L401.8,125.8L405.0,124.4L408.3,122.3L411.5,120.1L414.7,119.3L417.9,123.7L421.1,122.7L424.3,123.8L427.6,121.0L430.8,121.0L434.0,120.7L437.2,118.3L440.4,119.6L443.6,125.6L446.9,124.5L450.1,124.6L453.3,119.4L456.5,118.5L459.7,114.0L462.9,113.3L466.2,112.3L469.4,106.9L472.6,106.1L475.8,99.1L479.0,100.5L482.2,99.6L485.5,98.6L488.7,98.3L491.9,93.3L495.1,92.7L498.3,94.3L501.5,88.2L504.8,86.5L508.0,84.9L511.2,77.6L514.4,78.0L517.6,80.0L520.8,84.1L524.1,78.1L527.3,75.9L530.5,78.9L533.7,81.1L536.9,82.8L540.1,77.0L543.4,75.2L546.6,71.8L549.8,67.6L553.0,66.6L556.2,70.6L559.4,64.8L562.7,64.9L565.9,62.4L569.1,67.2L572.3,68.0L575.5,69.2L578.7,79.4L582.0,80.1L585.2,86.5L588.4,81.1L591.6,87.2L594.8,99.2L598.0,98.6L601.3,90.2L604.5,94.8L607.7,85.8L610.9,92.1L614.1,85.7L617.3,84.5L620.6,87.3L623.8,84.3L627.0,83.2L630.2,86.3L633.4,94.7L636.6,98.8L639.9,87.8L643.1,80.1L646.3,80.7L649.5,80.2L652.7,76.5L655.9,82.6L659.2,77.9L662.4,74.8L665.6,71.2L668.8,68.5L672.0,65.2L675.2,68.9L678.5,65.1L681.7,70.6L684.9,67.8L688.1,64.1L691.3,65.9L694.5,67.2L697.8,66.6L701.0,61.8L704.2,61.3L707.4,59.4L710.6,53.7L713.8,50.9L717.1,49.5L720.3,50.8L723.5,47.7L726.7,43.3L729.9,48.3L733.1,43.4L736.4,41.6L739.6,44.2L742.8,45.7L746.0,42.0" fill="none" stroke="var(--pub)" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><path d="M48.0,222.7L51.2,224.9L54.4,225.7L57.6,238.3L60.9,229.1L64.1,219.4L67.3,225.8L70.5,229.8L73.7,226.5L76.9,226.9L80.2,221.7L83.4,223.9L86.6,219.6L89.8,217.1L93.0,212.4L96.2,212.4L99.5,203.8L102.7,208.6L105.9,209.1L109.1,206.8L112.3,205.6L115.5,201.3L118.8,201.1L122.0,199.6L125.2,199.7L128.4,195.5L131.6,191.7L134.8,190.5L138.1,190.4L141.3,188.4L144.5,191.1L147.7,187.0L150.9,186.4L154.1,180.8L157.4,180.5L160.6,183.1L163.8,178.8L167.0,172.0L170.2,174.0L173.4,170.0L176.7,168.5L179.9,171.1L183.1,165.1L186.3,165.7L189.5,166.5L192.7,165.1L196.0,166.8L199.2,165.0L202.4,162.7L205.6,160.3L208.8,158.4L212.0,160.6L215.3,160.1L218.5,161.6L221.7,161.1L224.9,162.0L228.1,160.3L231.3,160.4L234.6,164.3L237.8,169.9L241.0,166.1L244.2,166.4L247.4,166.2L250.6,163.6L253.9,164.7L257.1,165.3L260.3,162.8L263.5,158.5L266.7,159.2L269.9,157.9L273.2,156.9L276.4,153.9L279.6,155.6L282.8,152.0L286.0,155.8L289.2,154.7L292.5,152.5L295.7,150.8L298.9,144.7L302.1,147.7L305.3,148.6L308.5,149.7L311.8,149.8L315.0,152.8L318.2,152.8L321.4,154.2L324.6,155.0L327.8,151.2L331.1,154.0L334.3,155.1L337.5,152.5L340.7,147.0L343.9,145.0L347.1,143.0L350.4,144.8L353.6,138.1L356.8,135.1L360.0,137.0L363.2,137.3L366.4,141.0L369.7,146.7L372.9,146.8L376.1,143.6L379.3,140.3L382.5,140.6L385.7,138.9L389.0,137.6L392.2,137.9L395.4,136.4L398.6,133.3L401.8,134.8L405.0,134.2L408.3,132.6L411.5,130.6L414.7,128.5L417.9,132.0L421.1,131.7L424.3,132.8L427.6,131.4L430.8,132.3L434.0,132.3L437.2,131.1L440.4,132.2L443.6,135.5L446.9,133.8L450.1,133.2L453.3,128.8L456.5,128.2L459.7,125.7L462.9,125.0L466.2,124.3L469.4,118.0L472.6,117.3L475.8,110.5L479.0,112.3L482.2,110.7L485.5,110.7L488.7,109.3L491.9,104.4L495.1,104.6L498.3,105.8L501.5,98.6L504.8,96.8L508.0,94.9L511.2,86.7L514.4,86.6L517.6,89.5L520.8,92.1L524.1,89.8L527.3,86.1L530.5,89.2L533.7,92.7L536.9,93.2L540.1,88.8L543.4,85.7L546.6,86.1L549.8,82.7L553.0,81.5L556.2,86.0L559.4,81.6L562.7,81.3L565.9,78.8L569.1,83.4L572.3,82.9L575.5,83.6L578.7,91.6L582.0,93.5L585.2,97.9L588.4,94.8L591.6,99.6L594.8,107.7L598.0,107.6L601.3,99.6L604.5,101.4L607.7,93.6L610.9,99.0L614.1,92.2L617.3,91.0L620.6,92.7L623.8,91.0L627.0,89.6L630.2,91.9L633.4,98.8L636.6,98.7L639.9,90.3L643.1,84.5L646.3,85.2L649.5,84.0L652.7,79.0L655.9,82.0L659.2,78.0L662.4,75.8L665.6,71.5L668.8,68.6L672.0,64.6L675.2,65.2L678.5,63.4L681.7,67.2L684.9,63.2L688.1,60.5L691.3,59.1L694.5,57.3L697.8,56.5L701.0,53.2L704.2,53.1L707.4,49.8L710.6,41.9L713.8,38.7L717.1,35.8L720.3,35.5L723.5,30.2L726.7,25.0L729.9,33.7L733.1,30.7L736.4,29.1L739.6,33.7L742.8,35.0L746.0,30.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg></div></section>
         <section class="panel"><h2>Ce qui les distingue</h2><ul class="doc-list"><li>Le Permanent Portfolio garde 25 % de cash, qui amortit les chocs mais freine le rendement.</li><li>L&#x27;All Weather dépend fortement des obligations : il souffre quand les taux montent vite.</li><li>Les deux ont eu leur pire année en 2022, quand actions et obligations ont baissé ensemble.</li></ul>
           <p style="margin:0"><a href="/comparer/?s=permanent,all_weather">Ouvrir dans le comparateur</a> (en euros, sur d'autres périodes ou avec une troisième stratégie)</p></section>
       </div><div class="stack">
@@ -539,7 +576,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     <div>Données : cours ajustés yfinance, contrôlés contre les NAV officielles iShares. <a href="/methode/">Méthode et limites</a> · <a href="/equivalents-ucits/">Équivalents UCITS</a> · <a href="/mentions-legales/">Mentions légales</a></div>
   </footer>
 </div>
-<a class="kofi-float" href="https://ko-fi.com/nathanaeldumortier" rel="noopener" aria-label="Soutenir le site : offrir un café sur Ko-fi">
+<a class="kofi-float is-hidden" href="https://ko-fi.com/nathanaeldumortier" rel="noopener" aria-label="Soutenir le site : offrir un café sur Ko-fi">
   <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 11.2c-.9-.9-2.4-.2-2.1 1 .3 1.1 2.1 2.3 2.1 2.3s1.8-1.2 2.1-2.3c.3-1.2-1.2-1.9-2.1-1Z" fill="currentColor"/></svg>
   <span>Offrir un café</span>
 </a>
@@ -709,8 +746,13 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   }
 
   // graphique générique à axe temporel mensuel (lignes, aire ou barres annuelles)
+  // largeur réelle du conteneur : le graphique est dessiné à l'échelle de l'écran (lisible sur mobile)
+  const chartW = host => Math.max(260, Math.min(900, Math.round(host.clientWidth) || 760));
+  const yearStep = (nY, plotW) => [1, 2, 5, 10].find(s => nY / s <= Math.max(2, Math.floor(plotW / 44))) || 10;
+
   function timeChart(host, { series, log = false, yfmt, height = 300, area = false, marker = null, zeroLine = false, tipFmt }) {
-    const W = 760, H = height, m = { t: 12, r: 14, b: 26, l: 52 };
+    const W = chartW(host), narrow = W < 520;
+    const H = Math.round(height * (narrow ? .82 : 1)), m = { t: 12, r: narrow ? 8 : 14, b: 26, l: narrow ? 44 : 52 };
     const all = series.flatMap(s => s.pts);
     const i0 = Math.min(...all.map(p => p.i)), i1 = Math.max(...all.map(p => p.i));
     let lo = Math.min(...all.map(p => p.v)), hi = Math.max(...all.map(p => p.v));
@@ -736,7 +778,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     }
     // graduations X (années)
     const y0 = Math.ceil(i0 / 12), y1 = Math.floor(i1 / 12), nY = y1 - y0 + 1;
-    const stepY = nY > 24 ? 5 : nY > 12 ? 2 : 1;
+    const stepY = yearStep(nY, W - m.l - m.r);
     for (let yr = y0; yr <= y1; yr++) {
       if ((yr % stepY) !== 0 && stepY > 1) continue;
       const xi = x(yr * 12); if (xi < m.l + 10 || xi > W - m.r - 10) continue;
@@ -792,7 +834,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   function annualBars(host, a, b, nameA, nameB) {
     const years = a.map(d => d.y);
     const bm = new Map(b.map(d => [d.y, d.r]));
-    const W = 760, H = 240, m = { t: 12, r: 10, b: 26, l: 46 };
+    const W = chartW(host), H = W < 520 ? 200 : 240, m = { t: 12, r: 8, b: 26, l: W < 520 ? 40 : 46 };
     const vals = [...a.map(d => d.r), ...b.map(d => d.r)];
     let lo = Math.min(0, ...vals), hi = Math.max(0, ...vals);
     const pad = (hi - lo) * .08; lo -= pad; hi += pad;
@@ -805,7 +847,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       svg.append(svgEl("line", { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), class: Math.abs(v) < 1e-9 ? "zero" : "grid" }));
       const t = svgEl("text", { x: m.l - 8, y: y(v) + 3.5, "text-anchor": "end", class: "ax" }); t.textContent = nf(0).format(v * 100) + "\u00a0%"; svg.append(t);
     }
-    const stepL = years.length > 24 ? 5 : years.length > 12 ? 2 : 1;
+    const stepL = yearStep(years.length, W - m.l - m.r);
     const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true;
     years.forEach((yr, k) => {
       const cx = m.l + band * (k + .5);
@@ -848,6 +890,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   const ASC_KEYS = ["name", "vol", "underwater_months"];
 
   function renderBoard() {
+    RERENDER = renderBoard;
     const nextMonth = DATA.strategies[0].next_signal.for_month;
     COLS[COLS.length - 1].label = `Signal ${mLabel(nextMonth)}`;
     const list = DATA.strategies.filter(s => state.family === "Toutes" || s.family === state.family || isRef(s));
@@ -858,6 +901,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     app.innerHTML = `
       <section class="intro">
         <h1>Les stratégies ETF connues, testées sur les mêmes données et avec les mêmes règles</h1>
+        ${heroStats()}
         <p class="key">${introSentence()}</p>
         <p>Portefeuilles permanents, momentum, suivi de tendance : chaque stratégie est recalculée chaque mois à partir des rendements réels des ETF, frais compris, puis comparée sur la même période. Cliquez sur une stratégie pour ouvrir sa fiche.</p>
         <ul class="method">
@@ -948,6 +992,19 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       const y = window.scrollY; rerender(); window.scrollTo(0, y);
       app.querySelector(`[data-bench="${state.bench}"]`)?.focus({ preventScroll: true });
     });
+  }
+
+  function heroStats() {
+    const strats = DATA.strategies.filter(s => !isRef(s));
+    const active = strats.filter(s => s.family !== "Statique");
+    const nm = DATA.strategies[0].next_signal.for_month;
+    const changed = active.filter(s => { const h = s.signal_history || {}, ms = Object.keys(h).sort();
+      return ms.length >= 2 && !sameW(h[ms[ms.length - 2]], s.next_signal.weights); }).length;
+    const years = Math.floor((mIdx(DATA.common_window[1]) - mIdx(DATA.common_window[0]) + 1) / 12);
+    return `<div class="hero-stats">
+      <div><b>${strats.length}</b><span>stratégies testées sur les mêmes données</span></div>
+      <a href="${PATH_MODE ? BASE + "signaux/" : "#signaux"}"><b>${changed}</b><span>changent d'allocation en ${MOIS_LONG[+nm.slice(5) - 1]} →</span></a>
+      <div><b>${years} ans</b><span>de recul commun, depuis ${mLabel(DATA.common_window[0])}</span></div></div>`;
   }
 
   function introSentence() {
@@ -1058,7 +1115,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     const others = DATA.strategies.filter(x => x.family === s.family && x.id !== s.id);
     if (!others.length) return "";
     const fp = FAMILY_PAGES[s.family];
-    return `<section class="panel"><h2>Même famille</h2><p class="sub">Rendement annuel et pire baisse sur la période commune.</p>
+    return `<section class="panel" style="--o:11"><h2>Même famille</h2><p class="sub">Rendement annuel et pire baisse sur la période commune.</p>
       <ul class="kin">${others.map(x => `<li><a href="${href(x.id)}">${esc(x.name)}</a><span class="num">${pct(x.stats_common.cagr, 1)} /an · ${pct(x.stats_common.max_dd, 1)}</span></li>`).join("")}</ul>
       ${PATH_MODE && fp ? `<a href="${BASE + fp[0]}">Toute la famille « ${fp[1]} »</a>` : ""}</section>`;
   }
@@ -1104,6 +1161,24 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       .catch(() => { app.innerHTML = `<p class="err">Impossible de charger la page Méthode.</p>`; });
   }
 
+  // bouton Ko-fi : visible après un peu de défilement, masqué quand le pied de page (qui a le sien) est à l'écran
+  (function kofiFloat() {
+    const k = document.querySelector(".kofi-float"), foot = document.querySelector("footer");
+    if (!k) return;
+    let footVisible = false;
+    const upd = () => { const hide = window.scrollY < 320 || footVisible; k.classList.toggle("is-hidden", hide); k.tabIndex = hide ? -1 : 0; };
+    if (foot && "IntersectionObserver" in window) new IntersectionObserver(es => { footVisible = es[0].isIntersecting; upd(); }).observe(foot);
+    window.addEventListener("scroll", upd, { passive: true });
+    upd();
+  })();
+
+  // menu défilant (mobile) : l'onglet de la page courante reste visible
+  function showActiveTab() {
+    const nav = document.querySelector(".nav"), cur = nav && nav.querySelector("[aria-current]");
+    if (nav && cur && nav.scrollWidth > nav.clientWidth) nav.scrollLeft = Math.max(0, cur.offsetLeft - nav.offsetLeft - 16);
+  }
+  showActiveTab();
+
   // ---------- fil d'Ariane, historique, comparateur ----------
   function crumbs(items) {
     return `<nav class="crumbs" aria-label="Fil d'Ariane">${items.map(([u, t], k) =>
@@ -1124,7 +1199,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       if (ch) n++;
       return `<tr class="${ch ? "chg" : ""}"><td>${mLabel(m)}</td><td class="alloc-txt">${esc(allocText(h[m]))}</td></tr>`;
     }).join("");
-    return `<section class="panel"><h2>Historique des signaux</h2>
+    return `<section class="panel" style="--o:4"><h2>Historique des signaux</h2>
       <p class="sub">${n ? `${n} changement${n > 1 ? "s" : ""}` : "Aucun changement"} sur les ${ms.length - 1} derniers mois. En gras : le mois où l'allocation a changé.</p>
       <table class="hist"><thead><tr><th scope="col">Mois</th><th scope="col">Allocation</th></tr></thead><tbody>${rows}</tbody></table></section>`;
   }
@@ -1137,6 +1212,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     return ids;
   }
   function renderCompare() {
+    RERENDER = renderCompare;
     const host = document.getElementById("cmp-tool") || app;
     const ids = state.cmp || (state.cmp = cmpIdsFromUrl());
     const ss = ids.map(id => BY_ID[id]);
@@ -1172,7 +1248,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       </div>
       ${ccyNote()}
       <p class="sub cmp-period">De ${mLabel(mStr(i0 + 1))} à ${mLabel(mStr(i1))}, frais inclus.</p>
-      <div class="table-scroll"><table class="cmp-table">
+      <div class="table-scroll cmp-table-wrap"><table class="cmp-table">
         <thead><tr><th scope="col"></th>${ss.map((s, k) => `<th scope="col"><i class="sw" style="background:${CMP_COLORS[k]}"></i><a href="${href(s.id)}">${esc(s.name)}</a></th>`).join("")}</tr></thead>
         <tbody>
           ${row("Rendement annuel", m => pct(m.cagr, 1))}
@@ -1182,6 +1258,12 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           ${row("Pire année", m => pct(m.worst_year, 1, true))}
           ${row(`Signal ${mLabel(nm)}`, (m, s) => `<span class="alloc-txt">${esc(s.family === "Statique" ? "Allocation fixe" : allocText(s.next_signal.weights))}</span>`)}
         </tbody></table></div>
+      <div class="cmp-cards">${ss.map((s, k) => `<div class="cmp-card" style="--c:${CMP_COLORS[k]}">
+        <a class="cmp-card-name" href="${href(s.id)}">${esc(s.name)}</a>
+        <dl><dt>Rendement annuel</dt><dd>${pct(ms[k].cagr, 1)}</dd><dt>Pire baisse</dt><dd class="neg">${pct(ms[k].max_dd, 1)}</dd>
+          <dt>Volatilité</dt><dd>${pct(ms[k].vol, 1)}</dd><dt>Sous l'eau (max)</dt><dd>${uwText(ms[k])}</dd>
+          <dt>Pire année</dt><dd>${pct(ms[k].worst_year, 1, true)}</dd></dl>
+        <div class="cmp-card-sig"><span>Signal ${mLabel(nm)}</span> ${esc(s.family === "Statique" ? "Allocation fixe" : allocText(s.next_signal.weights))}</div></div>`).join("")}</div>
       <p class="sub">Corrélation des rendements mensuels (1 : évoluent ensemble, 0 : sans lien) : ${pairs.join(" · ")}.</p>
       <div class="grid-2 cmp-grid"><div class="stack">
         <section class="panel"><h2>Croissance de 1 ${CUR()}</h2>
@@ -1212,6 +1294,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
 
   // ---------- vue fiche ----------
   function renderSheet(s) {
+    RERENDER = () => renderSheet(s);
     const pts = equityPoints(s);
     const [i0, i1] = windowRange(s);
     const own = slice(pts, i0, i1);
@@ -1260,26 +1343,26 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
         <div class="tile"><span class="k">Max drawdown</span><span class="v neg">${pct(st.max_dd, 1)}</span>${cmp("Pire baisse", b?.max_dd, v => pct(v, 1))}</div>
         <div class="tile"><span class="k">Pire année</span><span class="v ${cls(st.worst_year)}">${pct(st.worst_year, 1, true)}</span>${cmp("Année civile complète", b?.worst_year, v => pct(v, 1, true))}</div>
       </div>
-      <div class="grid-2">
+      <div class="grid-2 sheet-grid">
         <div class="stack">
-          <section class="panel">
+          <section class="panel" style="--o:3">
             <h2>Croissance de 1 ${CUR()}</h2>
             <p class="sub">Échelle logarithmique : une même pente correspond au même rendement, quelle que soit l'année.</p>
             <div class="legend"><span><i style="background:var(--accent)"></i>${esc(s.name)}</span>${spyPts ? `<span><i style="background:var(--bench)"></i>${esc(BN())}</span>` : ""}${pubI && pubI > base[0].i && pubI < base[base.length - 1].i ? `<span><i class="box" style="background:var(--pub-soft);outline:1px dashed var(--pub)"></i>Après publication</span>` : ""}</div>
             <div id="c-eq"></div>
           </section>
-          <section class="panel">
+          <section class="panel" style="--o:6">
             <h2>Baisses depuis le sommet</h2>
             <div id="c-dd"></div>
           </section>
-          <section class="panel">
+          <section class="panel" style="--o:7">
             <div class="panel-head"><h2>Rendement sur ${state.roll} ans glissants</h2>
               <div class="seg small" role="group" aria-label="Durée des périodes">${[3, 5, 10].map(y => `<button type="button" data-roll="${y}" aria-pressed="${state.roll === y}">${y} ans</button>`).join("")}</div></div>
             <p class="sub">Rendement annualisé de chaque période de ${state.roll} ans, placé à sa date de fin. Réponse à la question : « et si j'avais commencé ${state.roll} ans plus tôt ? »</p>
             <div id="roll-stats"></div>
             <div id="c-roll"></div>
           </section>
-          <section class="panel">
+          <section class="panel" style="--o:8">
             <h2>Rendement par année</h2>
             <div class="legend"><span><i class="box" style="background:var(--accent)"></i>${esc(s.name)}</span>${spyPts ? `<span><i class="box" style="background:var(--bench)"></i>${esc(BN())}</span>` : ""}</div>
             <div id="c-yr"></div>
@@ -1287,7 +1370,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           ${sameFamily(s)}
         </div>
         <div class="stack">
-          ${FICHES[s.id] ? `<section class="panel">
+          ${FICHES[s.id] ? `<section class="panel" style="--o:1">
             <h2>L'essentiel</h2>
             <div class="essentials">
               <p>${rich(FICHES[s.id].idee)}</p>
@@ -1296,7 +1379,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
               ${FICHES[s.id].a_savoir ? `<h3>À savoir</h3><p>${rich(FICHES[s.id].a_savoir)}</p>` : ""}
             </div>
           </section>` : ""}
-          <section class="panel">
+          <section class="panel" style="--o:2">
             <h2>Signal pour ${mLabelLong(nextM)}</h2>
             <p class="sub">Calculé sur la clôture de fin ${mLabelLong(DATA.data_end)}.</p>
             <div class="alloc">${weights.map(([k, v]) => `
@@ -1305,21 +1388,21 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
             </div>
           </section>
           ${historyPanel(s)}
-          <section class="panel">
+          <section class="panel" style="--o:5">
             <h2>Règles</h2>
             <ol class="rules">${rules.map(r => `<li>${rich(r)}</li>`).join("")}</ol>
             <span class="pill">Rééquilibrage : ${s.rebalance === "annual" ? "annuel" : s.rebalance === "quarterly" ? "trimestriel" : "mensuel"} · rotation ${nf(0).format(s.avg_turnover_year * 50)} % par an</span>
             ${s.variant_note ? `<div class="callout">${rich(s.variant_note)}</div>` : ""}
             ${published ? `<div class="callout"><b>Publiée en ${mLabelLong(published)}.</b> ${pubI > base[base.length - 1].i ? "" : pubI <= base[0].i ? "Tout le backtest affiché est postérieur à la publication : c'est de la performance hors échantillon." : "La zone ombrée du graphique est postérieure à la publication : l'auteur ne la connaissait pas en concevant la stratégie."}</div>` : ""}
           </section>
-          ${UCITS ? `<section class="panel">
+          ${UCITS ? `<section class="panel" style="--o:9">
             <h2>Avec des ETF européens</h2>
             <p class="sub">Les ETF américains ne sont pas accessibles aux particuliers européens. Voici leurs équivalents UCITS.</p>
             <div class="ucits-list">${[...s.assets, ...(s.uses_cash || Object.keys(s.next_signal.weights).includes("CASH") ? ["CASH"] : [])]
               .filter((a, k, arr) => arr.indexOf(a) === k).map(a => ucitsItem(a)).join("")}</div>
             <p class="sub" style="margin:0">Les résultats du site sont calculés avec les ETF américains. Un portefeuille UCITS donnera des résultats proches mais pas identiques. <a href="${href("ucits")}">Table complète</a></p>
           </section>` : ""}
-          <section class="panel">
+          <section class="panel" style="--o:10">
             <h2>Toutes les mesures</h2>
             <table class="metrics">
               <thead><tr><th scope="col"></th>${sameStart ? `<th scope="col">Depuis ${mLabel(src(s).stats_common.start)}</th>` : `<th scope="col">Période commune<span class="th-sub">depuis ${mLabel(src(s).stats_common.start)}</span></th><th scope="col">Historique complet<span class="th-sub">depuis ${mLabel(src(s).stats_full.start)}</span></th>`}</tr></thead>
@@ -1393,11 +1476,14 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       yfmt: v => nf(0).format(v * 100) + "\u00a0%", tipFmt: v => pct(v, 1, true) + " /an" });
   }
 
-  let resizeT;
+  // redessine la vue courante quand la largeur change (rotation du téléphone, fenêtre redimensionnée)
+  let resizeT, lastW = window.innerWidth, RERENDER = null;
   window.addEventListener("resize", () => { clearTimeout(resizeT); resizeT = setTimeout(() => {
-    if (document.getElementById("scatter") && DATA) renderBoard(); }, 250); });
+    if (window.innerWidth === lastW || !RERENDER || !DATA) return;
+    lastW = window.innerWidth; const y = window.scrollY; RERENDER(); window.scrollTo(0, y); }, 250); });
 
   function route() {
+    RERENDER = null;
     const id = currentId();
     const setTitle = t => { if (!PATH_MODE) document.title = t; };
     const top = () => { if (!PATH_MODE) window.scrollTo(0, 0); };
@@ -1409,6 +1495,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     else { renderBoard(); if (!PATH_MODE) document.title = "ETF Strategy Lab"; }
     document.querySelectorAll("[data-nav]").forEach(a => a.toggleAttribute("aria-current", a.dataset.nav === (["methode", "ucits", "signaux"].includes(id) ? id : id.startsWith("comparer") ? "comparer" : "")));
     document.querySelectorAll("[data-nav]").forEach(a => { if (a.hasAttribute("aria-current")) a.setAttribute("aria-current", "page"); });
+    showActiveTab();
   }
 
   // anciens liens #gem, #ucits… : redirection vers la vraie adresse
@@ -1425,7 +1512,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       fetch(asset("ucits.json")).then(r => r.ok ? r.json() : null).catch(() => null),
     ]).then(([f, u]) => { FICHES = f; UCITS = u; return d; });
   }).then(d => {
-    document.getElementById("stamp").textContent = `Données à fin ${mLabelLong(d.data_end)} · ${d.strategies.length} stratégies`;
+    document.getElementById("stamp").textContent = `Données à fin ${mLabelLong(d.data_end)} · ${d.strategies.filter(s => !isRef(s)).length} stratégies`;
     if (window.ESL_404 || window.ESL_STATIC) return;   // 404, mentions légales : on garde le contenu de la page
     const legacyId = PATH_MODE ? location.hash.slice(1) : "";
     if (legacyId && BY_ID[legacyId]) { location.replace(href(legacyId)); return; }
