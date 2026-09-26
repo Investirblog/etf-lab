@@ -75,6 +75,25 @@ def fetch_yf(ticker: str, retries: int = 3) -> pd.Series:
 
 
 FRED_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=TB3MS"
+
+
+def fred_frame(sid: str, timeout: int = 20) -> pd.DataFrame:
+    """Colonnes « date » et sid. Avec une clé (variable FRED_API_KEY), passe par l'API officielle
+    de FRED, qui répond aussi aux serveurs de GitHub ; sinon par l'export CSV du site."""
+    import io
+    import os
+    import requests
+    key = os.environ.get("FRED_API_KEY", "").strip()
+    if key:
+        r = requests.get("https://api.stlouisfed.org/fred/series/observations",
+                         params={"series_id": sid, "api_key": key, "file_type": "json"}, timeout=timeout)
+        r.raise_for_status()
+        obs = r.json()["observations"]
+        return pd.DataFrame({"date": [o["date"] for o in obs], sid: [o["value"] for o in obs]})
+    r = requests.get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}", timeout=timeout,
+                     headers={"User-Agent": "Mozilla/5.0 etf-lab"})
+    r.raise_for_status()
+    return pd.read_csv(io.StringIO(r.text))
 TBILL_START = "1990-01"
 
 
@@ -89,9 +108,7 @@ def fetch_tbill(today: dt.date, retries: int = 2) -> pd.Series:
     last = None
     for attempt in range(1, retries + 1):
         try:
-            r = requests.get(FRED_URL, timeout=20, headers={"User-Agent": "Mozilla/5.0 etf-lab"})
-            r.raise_for_status()
-            df = pd.read_csv(io.StringIO(r.text))
+            df = fred_frame("TB3MS")
             date_col = next(c for c in df.columns if "date" in c.lower())
             rate = pd.to_numeric(df["TB3MS"], errors="coerce")
             idx = pd.PeriodIndex(pd.to_datetime(df[date_col]), freq="M")
@@ -130,10 +147,7 @@ def fetch_fred(col: str, today: dt.date, retries: int = 2) -> pd.Series:
     last = None
     for attempt in range(1, retries + 1):
         try:
-            r = requests.get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}", timeout=20,
-                             headers={"User-Agent": "Mozilla/5.0 etf-lab"})
-            r.raise_for_status()
-            df = pd.read_csv(io.StringIO(r.text))
+            df = fred_frame(sid)
             date_col = next(c for c in df.columns if "date" in c.lower())
             val = pd.to_numeric(df[sid], errors="coerce")
             dates = pd.to_datetime(df[date_col])

@@ -16,6 +16,7 @@ jobs:
     timeout-minutes: 30          # s'arrête proprement si une source reste bloquée
     env:
       PYTHONUNBUFFERED: "1"      # affiche la progression en direct dans les journaux
+      FRED_API_KEY: ${{ secrets.FRED_API_KEY }}   # facultatif : clé FRED (Settings → Secrets → Actions)
     steps:
       - uses: actions/checkout@v4
 
