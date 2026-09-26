@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://etf-strategy-lab.netlify.app/sitemap.xml
+Sitemap: https://laboetf.netlify.app/sitemap.xml
