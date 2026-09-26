@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-26T20:03:59+00:00",
+  "generated_at": "2026-09-26T20:08:45+00:00",
   "source": "yfinance, cours ajustés (dividendes réinvestis, splits corrigés)",
   "common_window_start": "2008-05",
   "etfs": {
@@ -384,10 +384,10 @@
     "TBILL": {
       "name": "T-bills 3 mois (FRED TB3MS)",
       "class": "Cash",
-      "first_month": "1990-01",
+      "first_month": "1960-02",
       "last_month": "2026-08",
-      "months": 440,
-      "source": "cache data/daily (non rafraîchi)"
+      "months": 799,
+      "source": "secours (FRED indisponible)"
     },
     "EURUSD": {
       "name": "Euro en dollars (FRED DEXUSEU) : variation mensuelle de l'euro face au dollar",
@@ -395,7 +395,7 @@
       "first_month": "1999-02",
       "last_month": "2026-08",
       "months": 331,
-      "source": "cache data/daily (non rafraîchi)"
+      "source": "BCE (data-api.ecb.europa.eu)"
     },
     "ECBDEP": {
       "name": "Taux de dépôt de la BCE (FRED ECBDFR), plancher 0 % : compte épargne en euros",
@@ -403,7 +403,7 @@
       "first_month": "1999-01",
       "last_month": "2026-08",
       "months": 332,
-      "source": "cache data/daily (non rafraîchi)"
+      "source": "BCE (data-api.ecb.europa.eu)"
     }
   }
 }

@@ -1,6 +1,6 @@
 # Rapport qualité — 2026-09-26
 
-- ETF traités : 45/42 · erreurs : 3 · alertes : 0
+- ETF traités : 45/42 · erreurs : 0 · alertes : 0
 - Fenêtre commune (tous les ETF traités disponibles) : à partir de 2008-05
 
 ## Détail par ETF
@@ -174,10 +174,10 @@
 - ✅ aucun problème détecté
 
 ### TBILL — T-bills 3 mois (FRED)
-- Source : cache data/daily (non rafraîchi) · couverture 1990-01 → 2026-08 (440 mois)
+- Source : secours (FRED indisponible) · couverture 1960-02 → 2026-08 (799 mois)
 
 ### EURUSD — Euro en dollars (FRED DEXUSEU) : variation mensuelle de l'euro face au dollar
-- Source : cache data/daily (non rafraîchi) · couverture 1999-02 → 2026-08 (331 mois)
+- Source : BCE (data-api.ecb.europa.eu) · couverture 1999-02 → 2026-08 (331 mois)
 
 ### ECBDEP — Taux de dépôt de la BCE (FRED ECBDFR), plancher 0 % : compte épargne en euros
-- Source : cache data/daily (non rafraîchi) · couverture 1999-01 → 2026-08 (332 mois)
+- Source : BCE (data-api.ecb.europa.eu) · couverture 1999-01 → 2026-08 (332 mois)
