@@ -35,7 +35,7 @@ def above_sma(hist: pd.DataFrame, months: int) -> pd.Series:
 # --------------------------------------------------------------------------
 # 1. Global Equities Momentum (Antonacci, « Dual Momentum Investing », 2014)
 # --------------------------------------------------------------------------
-def gem(us="SPY", intl="EFA", bonds="AGG", tbill="BIL", lookback=12):
+def gem(us="SPY", intl="EFA", bonds="AGG", tbill=CASH, lookback=12):
     def w(hist):
         r = trailing(hist, lookback)
         if r[us] > r[tbill]:                       # momentum absolu : actions > T-bills
@@ -86,12 +86,12 @@ def sma_timing(assets, weights=None, months=10):
 MOMENTUM = [
     Strategy(
         id="gem", name="Global Equities Momentum (GEM)",
-        assets=["SPY", "EFA", "AGG", "BIL"], weights=gem(), lookback=12,
-        family="Momentum",
+        assets=["SPY", "EFA", "AGG"], weights=gem(), lookback=12,
+        family="Momentum", uses_cash=True,
         meta={"published": "2014-11", "author": "Gary Antonacci (2014)",
               "note": "Actions US ou internationales si elles battent les T-bills sur 12 mois, sinon obligations",
-              "rules": ["Fin de mois : rendement total sur 12 mois de SPY, EFA et BIL.",
-                        "Si SPY > BIL : investir 100 % dans le meilleur de SPY et EFA.",
+              "rules": ["Fin de mois : rendement total sur 12 mois de SPY, EFA et des T-bills (BIL).",
+                        "Si SPY bat les T-bills : investir 100 % dans le meilleur de SPY et EFA.",
                         "Sinon : 100 % AGG (obligations agrégées US)."],
               "variant_note": "Antonacci utilise l'indice MSCI ACWI ex-US ; EFA (2001) remplace ACWX (2008) pour inclure la crise de 2008."}),
     Strategy(

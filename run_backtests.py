@@ -93,7 +93,7 @@ def main(argv=None) -> int:
             # signal pour le mois qui commence, calculé sur la dernière clôture mensuelle
             "next_signal": {"for_month": str(returns.index[-1] + 1),
                             "weights": {k: round(float(v), 4)
-                                        for k, v in s.weights(returns[s.assets]).items() if v > 1e-6}},
+                                        for k, v in s.weights(returns[s.assets].assign(CASH=rf)).items() if v > 1e-6}},
             "avg_turnover_year": float(r.turnover.sum() / (len(r.returns) / 12)),
         })
 
@@ -105,6 +105,8 @@ def main(argv=None) -> int:
         "common_window": [str(common_start), str(common_end)],
         "cost_per_trade": a.cost,
         "data_end": str(returns.index[-1]),
+        "cash_cagr_common": float((1 + rf.loc[common_start:common_end].fillna(0)).prod()
+                                  ** (12 / len(rf.loc[common_start:common_end])) - 1),
         "etf_names": {k: v["name"] for k, v in json.loads(
             (ROOT / "universe.json").read_text(encoding="utf-8")).items() if not k.startswith("_")},
         "strategies": site,

@@ -1,13 +1,16 @@
 # Rapport qualité — 2026-09-26
 
-- ETF traités : 1/1 · erreurs : 0 · alertes : 4
+- ETF traités : 2/2 · erreurs : 1 · alertes : 0
 - Fenêtre commune (tous les ETF traités disponibles) : à partir de 2008-05
 
 ## Détail par ETF
 
-### REM — iShares Mortgage Real Estate
-- Source : yfinance · couverture 2007-06 → 2026-08 (231 mois)
-- ⚠️ REM : rendement mensuel aberrant 2020-03 : -53.4%
-- ⚠️ REM : variation quotidienne suspecte le 2020-03-18 : -23.3%
-- ⚠️ REM : variation quotidienne suspecte le 2020-03-25 : +21.4%
-- ⚠️ REM : variation quotidienne suspecte le 2020-03-26 : +20.8%
+### ACWI — iShares MSCI ACWI
+- Source : yfinance · couverture 2008-04 → 2026-08 (221 mois)
+- ✅ aucun problème détecté
+
+### TBILL — 
+- ❌ yfinance : historique vide ou trop court (0 lignes)
+
+### TBILL — T-bills 3 mois (FRED)
+- Source : FRED TB3MS · couverture 1990-01 → 2026-08 (440 mois)

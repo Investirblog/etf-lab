@@ -14,6 +14,26 @@ def drawdown(r: pd.Series) -> pd.Series:
     return eq / eq.cummax() - 1
 
 
+def underwater(r: pd.Series) -> tuple[int, str | None, str | None, bool]:
+    """Plus longue période sous un sommet précédent : (mois, début, fin, toujours en cours)."""
+    eq = (1 + r).cumprod().to_numpy()
+    idx = list(r.index)
+    peak, best, start, cur_start = -np.inf, (0, None, None, False), None, None
+    run = 0
+    for k, v in enumerate(eq):
+        if v >= peak - 1e-12:
+            if run > best[0]:
+                best = (run, str(idx[cur_start]), str(idx[k]), False)
+            peak, run, cur_start = v, 0, None
+        else:
+            if cur_start is None:
+                cur_start = k
+            run += 1
+    if run > best[0]:
+        best = (run, str(idx[cur_start]), None, True)
+    return best
+
+
 def rolling_cagr(r: pd.Series, years: int) -> pd.Series:
     n = 12 * years
     return (1 + r).rolling(n).apply(np.prod, raw=True).pow(1 / years).sub(1).dropna()
@@ -47,6 +67,8 @@ def stats(r: pd.Series, rf: pd.Series) -> dict:
         "worst_year": float(yearly.min()) if len(yearly) else np.nan,
         "pct_pos_months": float((r > 0).mean()),
     }
+    uw = underwater(r)
+    out["underwater_months"], out["underwater_start"], out["underwater_end"], out["underwater_ongoing"] = uw
     out["calmar"] = out["cagr"] / abs(out["max_dd"]) if out["max_dd"] < 0 else np.nan
     for y in (5, 10):
         rc = rolling_cagr(r, y)

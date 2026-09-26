@@ -23,7 +23,7 @@ import numpy as np
 import pandas as pd
 
 CASH = "CASH"
-CASH_CHAIN = ["BIL", "SHV", "SHY"]  # T-bills, puis relais pour les années antérieures
+CASH_CHAIN = ["BIL", "TBILL", "SHV", "SHY"]  # ETF T-bills, puis taux FRED avant 2007 (SHV/SHY en secours)
 
 
 def load_returns(path: str | Path) -> pd.DataFrame:
@@ -33,7 +33,7 @@ def load_returns(path: str | Path) -> pd.DataFrame:
 
 
 def cash_series(returns: pd.DataFrame) -> pd.Series:
-    """Rendement du cash : BIL, complété par SHV puis SHY avant leur lancement."""
+    """Rendement du cash : BIL, complété par les T-bills FRED (TBILL) avant son lancement."""
     s = pd.Series(np.nan, index=returns.index)
     for tk in CASH_CHAIN:
         if tk in returns:
@@ -51,7 +51,7 @@ class Strategy:
     rebalance: str = "monthly"
     family: str = ""
     meta: dict = field(default_factory=dict)
-    uses_cash: bool = False     # True si la stratégie peut détenir CASH
+    uses_cash: bool = False     # True si la stratégie détient ou compare au cash (CASH)
 
     def is_rebalance_month(self, t: pd.Period) -> bool:
         return (self.rebalance == "monthly"
@@ -107,7 +107,7 @@ def run(strategy: Strategy, returns: pd.DataFrame, start: str | None = None,
     first = True
     while t < last:
         nxt = t + 1
-        hist = data.loc[:t, strategy.assets]
+        hist = data.loc[:t, strategy.assets + [CASH]]   # CASH disponible pour les comparaisons
         if first or strategy.is_rebalance_month(t):
             target = pd.Series(strategy.weights(hist), dtype=float).reindex(cols, fill_value=0.0)
             if abs(target.sum() - 1) > 1e-6 or (target < -1e-9).any():

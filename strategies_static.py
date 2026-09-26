@@ -8,17 +8,19 @@ de la classe d'actifs décrite par l'auteur.
 from engine import Strategy
 
 
-def fixed(id, name, alloc, rebalance="annual", **meta):
+def fixed(id, name, alloc, rebalance="annual", family="Statique", **meta):
     alloc = {k: v / 100 for k, v in alloc.items()}
     assert abs(sum(alloc.values()) - 1) < 1e-9, id
     return Strategy(id=id, name=name, assets=[k for k in alloc if k != "CASH"],
                     weights=lambda hist, a=alloc: dict(a), rebalance=rebalance,
-                    family="Statique", meta=meta)
+                    family=family, meta=meta)
 
 
 STATIC = [
-    fixed("spy", "S&P 500 (référence)", {"SPY": 100}, rebalance="monthly",
-          author="—", note="Référence : 100 % actions US"),
+    fixed("acwi", "Actions mondiales (référence)", {"ACWI": 100}, rebalance="monthly", family="Référence",
+          author="—", note="Référence principale : 100 % actions mondiales, pays développés et émergents"),
+    fixed("spy", "S&P 500 (référence)", {"SPY": 100}, rebalance="monthly", family="Référence",
+          author="—", note="Seconde référence : 100 % actions américaines"),
     fixed("6040", "60/40 classique", {"SPY": 60, "AGG": 40},
           author="—", note="Le portefeuille équilibré de référence"),
     fixed("permanent", "Permanent Portfolio", {"SPY": 25, "TLT": 25, "GLD": 25, "SHY": 25},

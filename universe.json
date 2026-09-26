@@ -1,6 +1,7 @@
 {
   "_comment": "Univers des ETF US nécessaires aux ~25 stratégies. 'ishares' = nom du fonds chez iShares (sert à reconnaître les fichiers d'audit).",
 
+  "ACWI": {"class": "Actions mondiales",     "name": "iShares MSCI ACWI",                  "ishares": "iShares MSCI ACWI ETF"},
   "SPY":  {"class": "Actions US",            "name": "SPDR S&P 500"},
   "IVV":  {"class": "Actions US",            "name": "iShares Core S&P 500",               "ishares": "iShares Core S&P 500 ETF"},
   "VTI":  {"class": "Actions US",            "name": "Vanguard Total Stock Market"},

@@ -74,6 +74,44 @@ def fetch_yf(ticker: str, retries: int = 3) -> pd.Series:
     raise RuntimeError(f"yfinance : {last_err}")
 
 
+FRED_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=TB3MS"
+TBILL_START = "1990-01"
+
+
+def fetch_tbill(today: dt.date, retries: int = 3) -> pd.Series:
+    """Rendement mensuel des T-bills à 3 mois (FRED, série TB3MS).
+
+    Le taux annuel publié pour le mois m-1 est le rendement acquis pendant le
+    mois m (on achète le T-bill au début du mois). Sert de cash avant BIL (2007).
+    """
+    import io
+    import requests
+    last = None
+    for attempt in range(1, retries + 1):
+        try:
+            r = requests.get(FRED_URL, timeout=60, headers={"User-Agent": "Mozilla/5.0 etf-lab"})
+            r.raise_for_status()
+            df = pd.read_csv(io.StringIO(r.text))
+            date_col = next(c for c in df.columns if "date" in c.lower())
+            rate = pd.to_numeric(df["TB3MS"], errors="coerce")
+            idx = pd.PeriodIndex(pd.to_datetime(df[date_col]), freq="M")
+            s = pd.Series(rate.values, index=idx).dropna()
+            if len(s) < 100:
+                raise ValueError(f"série trop courte ({len(s)} mois)")
+            s = s.reindex(pd.period_range(s.index.min(), s.index.max(), freq="M")).ffill()
+            ret = (s / 100 / 12).shift(1)                     # taux du mois précédent
+            ret = ret[(ret.index >= pd.Period(TBILL_START, "M")) & (ret.index < pd.Period(today, "M"))]
+            # le taux du dernier mois publié finance le mois suivant, s'il est clos
+            nxt = s.index.max() + 1
+            if nxt < pd.Period(today, "M"):
+                ret.loc[nxt] = s.iloc[-1] / 100 / 12
+            return ret.sort_index().rename("TBILL")
+        except Exception as e:  # noqa: BLE001
+            last = e
+            time.sleep(3 * attempt)
+    raise RuntimeError(f"FRED : {last}")
+
+
 # --------------------------------------------------------------------------
 # 2. Quotidien → mensuel
 # --------------------------------------------------------------------------
@@ -266,6 +304,37 @@ def main(argv=None) -> int:
         print(f"[{tk}] {meta[tk]['first_month']} → {meta[tk]['last_month']}"
               + (f"  ({len(issues)} alerte(s))" if issues else ""))
 
+    # T-bills FRED : cash avant 2007 (pas un ETF, donc hors de l'univers yfinance)
+    if not a.only or "TBILL" in tickers:
+        cache = DAILY / "TBILL.csv"
+        try:
+            if a.offline:
+                raise RuntimeError("mode hors-ligne")
+            tb = fetch_tbill(today)
+            tb.to_frame().to_csv(cache)
+            src = "FRED TB3MS"
+        except Exception as e:  # noqa: BLE001
+            if cache.exists():
+                tb = pd.read_csv(cache, index_col=0)["TBILL"]
+                tb.index = pd.PeriodIndex(tb.index, freq="M")
+                src = "cache data/daily (non rafraîchi)"
+                if not a.offline:
+                    errors += 1
+                    print(f"[TBILL] ⚠️ {e} → cache utilisé", file=sys.stderr)
+            else:
+                tb = None
+                errors += 1
+                report.append(f"### TBILL — T-bills 3 mois (FRED)\n- ❌ {e}\n")
+                print(f"[TBILL] ❌ {e}", file=sys.stderr)
+        if tb is not None:
+            series["TBILL"] = tb
+            meta["TBILL"] = {"name": "T-bills 3 mois (FRED TB3MS)", "class": "Cash",
+                             "first_month": str(tb.index.min()), "last_month": str(tb.index.max()),
+                             "months": int(len(tb)), "source": src}
+            report.append(f"### TBILL — T-bills 3 mois (FRED)\n- Source : {src} · couverture "
+                          f"{tb.index.min()} → {tb.index.max()} ({len(tb)} mois)\n")
+            print(f"[TBILL] {tb.index.min()} → {tb.index.max()}")
+
     audit_lines = audit(a.audit, universe, series, today, a.offline) if a.audit else []
 
     common_start = "—"
@@ -281,7 +350,7 @@ def main(argv=None) -> int:
         tri = (1 + table.fillna(0)).cumprod() * 100
         tri = tri.where(table.notna().cumsum() > 0)
         tri.round(4).to_csv(DATA / "monthly_tr_index.csv")
-        common = table.dropna()
+        common = table.drop(columns=["TBILL"], errors="ignore").dropna()
         common_start = common.index.min() if len(common) else "—"
 
     (DATA / "meta.json").write_text(json.dumps({

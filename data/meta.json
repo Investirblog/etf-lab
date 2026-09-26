@@ -1,16 +1,24 @@
 {
-  "generated_at": "2026-09-26T07:09:03+00:00",
+  "generated_at": "2026-09-26T10:39:36+00:00",
   "source": "yfinance, cours ajustés (dividendes réinvestis, splits corrigés)",
   "common_window_start": "2008-05",
   "etfs": {
-    "REM": {
-      "name": "iShares Mortgage Real Estate",
-      "class": "Immobilier",
-      "first_month": "2007-06",
+    "ACWI": {
+      "name": "iShares MSCI ACWI",
+      "class": "Actions mondiales",
+      "first_month": "2008-04",
       "last_month": "2026-08",
-      "months": 231,
+      "months": 221,
       "last_price_date": "2026-09-25",
       "source": "yfinance"
+    },
+    "TBILL": {
+      "name": "T-bills 3 mois (FRED TB3MS)",
+      "class": "Cash",
+      "first_month": "1990-01",
+      "last_month": "2026-08",
+      "months": 440,
+      "source": "FRED TB3MS"
     }
   }
 }

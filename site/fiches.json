@@ -1,140 +1,290 @@
 {
+  "acwi": {
+    "idee": "La référence principale du site : un ETF qui détient les grandes et moyennes entreprises de 47 pays, développés et émergents. C'est le portefeuille passif le plus simple pour un investisseur qui ne veut parier sur aucune région.",
+    "forces": [
+      "Diversification mondiale maximale en une seule ligne.",
+      "Proche de ce que détient l'investisseur passif typique en Europe (ETF monde ou ACWI)."
+    ],
+    "faiblesses": [
+      "Aussi exposé aux krachs que les actions américaines.",
+      "Sur la période testée, les marchés hors États-Unis ont freiné son rendement par rapport au S&P 500."
+    ],
+    "a_savoir": "Les États-Unis représentent environ deux tiers de l'indice. Comparer une stratégie à cette référence plutôt qu'au seul S&P 500 évite de la juger face au marché qui a été, a posteriori, le meilleur de la période."
+  },
   "spy": {
-    "idee": "La référence : 100 % actions américaines, sans jamais rien changer. Toute stratégie doit justifier sa complexité face à cette option, la plus simple et la moins chère qui soit.",
-    "forces": ["Aucune décision à prendre, aucun frais de rotation.", "Sur la période testée, le marché américain a été l'un des meilleurs du monde."],
-    "faiblesses": ["Des baisses très profondes : -42 % de fin de mois en 2008-2009, plus de -50 % en 2000-2002.", "Des périodes longues sans gain : entre 2000 et 2009, dix ans de rendement négatif."],
-    "a_savoir": "Depuis 2008, les actions américaines ont nettement battu le reste du monde. Toutes les comparaisons de ce site en profitent ou en souffrent : c'est le biais de période principal à garder en tête."
+    "idee": "La seconde référence du site : 100 % actions américaines, sans jamais rien changer. C'est la barre la plus haute de la période testée : les actions américaines ont battu presque toutes les autres classes d'actifs depuis 2008.",
+    "forces": [
+      "Aucune décision à prendre, aucun frais de rotation.",
+      "Sur la période testée, le marché américain a été l'un des meilleurs du monde."
+    ],
+    "faiblesses": [
+      "Des baisses très profondes : -42 % de fin de mois en 2008-2009, plus de -50 % en 2000-2002.",
+      "Des périodes longues sans gain : entre 2000 et 2009, dix ans de rendement négatif."
+    ],
+    "a_savoir": "Toute comparaison face au S&P 500 depuis 2008 est flatteuse pour lui : c'est le marché qui a le mieux réussi a posteriori. Il reste la bonne référence pour les stratégies purement américaines (rotation sectorielle, timing du S&P 500, 90/10 de Buffett)."
   },
   "6040": {
     "idee": "60 % d'actions pour la croissance, 40 % d'obligations pour amortir les chocs, remis à l'équilibre une fois par an. C'est le portefeuille équilibré de référence des professionnels.",
-    "forces": ["Réduit nettement les baisses par rapport aux actions seules.", "Simple, bon marché, une seule transaction par an."],
-    "faiblesses": ["Repose sur l'idée que les obligations montent quand les actions baissent, ce qui n'a pas marché en 2022 : -16 % cette année-là.", "Rendement inférieur aux actions seules sur une longue période haussière."],
+    "forces": [
+      "Réduit nettement les baisses par rapport aux actions seules.",
+      "Simple, bon marché, une seule transaction par an."
+    ],
+    "faiblesses": [
+      "Repose sur l'idée que les obligations montent quand les actions baissent, ce qui n'a pas marché en 2022 : -16 % cette année-là.",
+      "Rendement inférieur aux actions seules sur une longue période haussière."
+    ],
     "a_savoir": "Le rééquilibrage annuel oblige à vendre ce qui a monté pour racheter ce qui a baissé : une discipline simple, mais contre-intuitive dans les moments de stress."
   },
   "permanent": {
     "idee": "Harry Browne répartit le portefeuille en quatre quarts égaux, un par climat économique : actions pour la croissance, obligations longues pour la déflation, or pour l'inflation, liquidités pour la récession.",
-    "forces": ["Des baisses modérées : -17 % au pire sur la période testée.", "Pendant la crise de 2008, l'or et les obligations longues ont compensé la chute des actions."],
-    "faiblesses": ["Un quart en liquidités et un quart en or freinent le rendement pendant les longues hausses d'actions.", "En 2022, actions et obligations longues ont baissé ensemble : -13,5 %, et près de deux ans pour revenir au sommet."],
+    "forces": [
+      "Des baisses modérées : -17 % au pire sur la période testée.",
+      "Pendant la crise de 2008, l'or et les obligations longues ont compensé la chute des actions."
+    ],
+    "faiblesses": [
+      "Un quart en liquidités et un quart en or freinent le rendement pendant les longues hausses d'actions.",
+      "En 2022, actions et obligations longues ont baissé ensemble : -13,5 %, et près de deux ans pour revenir au sommet."
+    ],
     "a_savoir": "Le pire moment de cette stratégie n'est pas 2008 mais 2022 : l'inflation a frappé en même temps les actions et les obligations, un cas que les quatre quarts couvrent mal."
   },
   "golden_butterfly": {
     "idee": "Une variante du Permanent Portfolio proposée par Portfolio Charts : la part actions est doublée, dont la moitié en petites capitalisations « value », historiquement plus rémunératrices.",
-    "forces": ["Un profil de risque proche du Permanent Portfolio avec un peu plus de rendement.", "Très bonne régularité sur les longues périodes historiques publiées par l'auteur."],
-    "faiblesses": ["Les petites capitalisations value ont nettement moins bien fait que le S&P 500 depuis 2008.", "Même faiblesse que le Permanent Portfolio en 2022 : -13,8 %."],
+    "forces": [
+      "Un profil de risque proche du Permanent Portfolio avec un peu plus de rendement.",
+      "Très bonne régularité sur les longues périodes historiques publiées par l'auteur."
+    ],
+    "faiblesses": [
+      "Les petites capitalisations value ont nettement moins bien fait que le S&P 500 depuis 2008.",
+      "Même faiblesse que le Permanent Portfolio en 2022 : -13,8 %."
+    ],
     "a_savoir": "La prime des petites capitalisations value, sur laquelle repose ce portefeuille, est au centre d'un débat académique depuis une quinzaine d'années."
   },
   "all_weather": {
     "idee": "La version grand public, popularisée par Tony Robbins en 2014, de la « parité de risque » de Ray Dalio : chaque classe d'actifs doit peser le même risque, d'où une forte part d'obligations d'État (55 %).",
-    "forces": ["Volatilité faible et baisses limitées pendant les crises classiques, 2008 compris.", "Or et matières premières apportent une couverture contre l'inflation."],
-    "faiblesses": ["Très sensible à la hausse des taux : -18,8 % en 2022, sa pire année.", "Il a fallu près de trois ans, jusqu'en 2025, pour retrouver le sommet d'avant 2022."],
+    "forces": [
+      "Volatilité faible et baisses limitées pendant les crises classiques, 2008 compris.",
+      "Or et matières premières apportent une couverture contre l'inflation."
+    ],
+    "faiblesses": [
+      "Très sensible à la hausse des taux : -18,8 % en 2022, sa pire année.",
+      "Il a fallu près de trois ans, jusqu'en 2025, pour retrouver le sommet d'avant 2022."
+    ],
     "a_savoir": "Ce n'est pas le fonds All Weather de Bridgewater : ce dernier utilise du levier sur les obligations et une pondération ajustée en permanence. Cette version simplifiée n'en a ni l'un ni l'autre."
   },
   "three_fund": {
     "idee": "La recette de la communauté Bogleheads : trois fonds indiciels (marché américain total, actions internationales, obligations), des frais minimes et aucune prévision.",
-    "forces": ["Diversification mondiale en trois lignes.", "Le coût le plus bas possible, une seule transaction par an."],
-    "faiblesses": ["Aucune protection active : il subit les krachs, amortis seulement par sa part obligataire.", "La part internationale a pesé sur le rendement depuis 2008."],
+    "forces": [
+      "Diversification mondiale en trois lignes.",
+      "Le coût le plus bas possible, une seule transaction par an."
+    ],
+    "faiblesses": [
+      "Aucune protection active : il subit les krachs, amortis seulement par sa part obligataire.",
+      "La part internationale a pesé sur le rendement depuis 2008."
+    ],
     "a_savoir": "Les Bogleheads ne cherchent pas à battre le marché mais à l'obtenir au moindre coût. À juger sur ce critère, pas sur le classement."
   },
   "ivy": {
     "idee": "Mebane Faber s'inspire des fonds de dotation de Yale et Harvard : cinq classes d'actifs à parts égales (actions US, actions internationales, obligations, immobilier, matières premières), sans aucun timing.",
-    "forces": ["Diversification large entre des moteurs de rendement différents.", "Sert de point de comparaison direct pour la version avec timing (GTAA 5)."],
-    "faiblesses": ["Les matières premières ont perdu de l'argent sur la période (GSG : environ -3,7 % par an depuis 2008).", "Presque aussi exposé aux krachs que les actions : -41 % en 2008-2009."],
+    "forces": [
+      "Diversification large entre des moteurs de rendement différents.",
+      "Sert de point de comparaison direct pour la version avec timing (GTAA 5)."
+    ],
+    "faiblesses": [
+      "Les matières premières ont perdu de l'argent sur la période (GSG : environ -3,7 % par an depuis 2008).",
+      "Presque aussi exposé aux krachs que les actions : -41 % en 2008-2009."
+    ],
     "a_savoir": "Comparez avec la fiche GTAA 5 : les mêmes cinq actifs, avec une seule règle de tendance en plus, divisent le pire drawdown par quatre."
   },
   "swensen": {
     "idee": "Le portefeuille que David Swensen, gérant du fonds de dotation de Yale, recommandait aux particuliers en 2005 : 70 % d'actifs de croissance diversifiés, 30 % d'obligations d'État, dont la moitié indexée sur l'inflation.",
-    "forces": ["Une vraie diversification, avec 20 % d'immobilier coté.", "La moitié des obligations est protégée contre l'inflation."],
-    "faiblesses": ["L'immobilier coté a chuté aussi fort que les actions en 2008 : -35 % au pire.", "Rendement en retrait du 60/40 sur la période, pour un risque plus élevé."],
+    "forces": [
+      "Une vraie diversification, avec 20 % d'immobilier coté.",
+      "La moitié des obligations est protégée contre l'inflation."
+    ],
+    "faiblesses": [
+      "L'immobilier coté a chuté aussi fort que les actions en 2008 : -35 % au pire.",
+      "Rendement en retrait du 60/40 sur la période, pour un risque plus élevé."
+    ],
     "a_savoir": "Swensen insistait autant sur les frais bas et le rééquilibrage discipliné que sur l'allocation elle-même."
   },
   "buffett": {
     "idee": "En 2013, Warren Buffett écrit dans sa lettre aux actionnaires qu'il a demandé que l'héritage de son épouse soit placé à 90 % dans un fonds S&P 500 très bon marché et à 10 % en obligations d'État courtes.",
-    "forces": ["Presque tout le rendement du S&P 500 avec un peu moins de volatilité.", "La simplicité même, défendue par l'investisseur le plus célèbre du monde."],
-    "faiblesses": ["Quasiment la même exposition aux krachs que les actions seules : -38 % en 2008-2009.", "Les 10 % d'obligations courtes protègent très peu."],
+    "forces": [
+      "Presque tout le rendement du S&P 500 avec un peu moins de volatilité.",
+      "La simplicité même, défendue par l'investisseur le plus célèbre du monde."
+    ],
+    "faiblesses": [
+      "Quasiment la même exposition aux krachs que les actions seules : -38 % en 2008-2009.",
+      "Les 10 % d'obligations courtes protègent très peu."
+    ],
     "a_savoir": "Buffett ne présente pas ce conseil comme optimal : c'est une allocation qui évite les erreurs coûteuses d'un héritier peu intéressé par la finance."
   },
   "gem": {
     "idee": "Gary Antonacci combine deux momentums sur 12 mois : le momentum absolu (les actions battent-elles les T-bills ?) décide d'être investi ou non, le momentum relatif choisit entre actions américaines et internationales.",
-    "forces": ["A évité l'essentiel du krach de 2008 en passant en obligations.", "Peu de transactions : moins de deux changements par an en moyenne."],
-    "faiblesses": ["Réagit lentement : 12 mois de recul, donc des sorties et des retours tardifs (2015-2016, 2018, 2020).", "Le refuge obligataire a lui-même chuté en 2022 : -17,1 % sur l'année."],
+    "forces": [
+      "A évité l'essentiel du krach de 2008 en passant en obligations.",
+      "Peu de transactions : moins de deux changements par an en moyenne."
+    ],
+    "faiblesses": [
+      "Réagit lentement : 12 mois de recul, donc des sorties et des retours tardifs (2015-2016, 2018, 2020).",
+      "Le refuge obligataire a lui-même chuté en 2022 : -17,1 % sur l'année."
+    ],
     "a_savoir": "Publiée fin 2014, la stratégie a fait moins bien que le S&P 500 depuis sa publication. Le graphique ombré permet de le constater."
   },
   "adm": {
     "idee": "Une version accélérée du double momentum : un score sur 1, 3 et 6 mois choisit entre actions américaines et petites capitalisations internationales, avec repli sur les obligations d'État longues quand les deux faiblissent.",
-    "forces": ["Très réactive grâce à des durées courtes : excellente en 2008 et 2020.", "L'un des rendements les plus élevés du site."],
-    "faiblesses": ["100 % sur un seul actif : volatilité aussi forte que les actions.", "En 2022, le refuge (TLT) a plongé : -31,1 % sur l'année, un drawdown de -35 % récupéré seulement en 2025."],
+    "forces": [
+      "Très réactive grâce à des durées courtes : excellente en 2008 et 2020.",
+      "L'un des rendements les plus élevés du site."
+    ],
+    "faiblesses": [
+      "100 % sur un seul actif : volatilité aussi forte que les actions.",
+      "En 2022, le refuge (TLT) a plongé : -31,1 % sur l'année, un drawdown de -35 % récupéré seulement en 2025."
+    ],
     "a_savoir": "Comparez avec la variante TLT/TIP : une seule règle ajoutée change complètement 2022. Cette sensibilité à un détail est le signe typique d'un risque de sur-optimisation."
   },
   "adm_tip": {
     "idee": "La même stratégie qu'ADM, mais quand les actions faiblissent, elle choisit entre obligations longues (TLT) et obligations indexées sur l'inflation (TIP), selon le meilleur des deux sur un mois.",
-    "forces": ["Limite fortement les dégâts de 2022 : -24,2 % au lieu de -31,1 %.", "Le meilleur ratio de Sharpe de la famille momentum sur la période."],
-    "faiblesses": ["Mêmes risques de concentration qu'ADM : 100 % sur un seul actif.", "La règle TIP a été ajoutée après la publication originale."],
+    "forces": [
+      "Limite fortement les dégâts de 2022 : -24,2 % au lieu de -31,1 %.",
+      "Le meilleur ratio de Sharpe de la famille momentum sur la période."
+    ],
+    "faiblesses": [
+      "Mêmes risques de concentration qu'ADM : 100 % sur un seul actif.",
+      "La règle TIP a été ajoutée après la publication originale."
+    ],
     "a_savoir": "Une règle ajoutée après coup améliore toujours le passé. La vraie question est de savoir si elle aurait été choisie sans connaître 2022."
   },
   "gtaa5": {
     "idee": "Les cinq classes d'actifs de l'Ivy Portfolio, avec une règle unique : chaque classe n'est détenue que si elle est au-dessus de sa moyenne des 10 derniers mois, sinon sa part passe en cash.",
-    "forces": ["Le plus faible drawdown de tous les portefeuilles testés : environ -11 %.", "Une seule règle, facile à comprendre et à appliquer."],
-    "faiblesses": ["Rendement faible sur la période : matières premières, immobilier et international ont peu rapporté.", "Près de la moitié du temps partiellement en cash, donc en retard dans les marchés haussiers."],
+    "forces": [
+      "Le plus faible drawdown de tous les portefeuilles testés : environ -11 %.",
+      "Une seule règle, facile à comprendre et à appliquer."
+    ],
+    "faiblesses": [
+      "Rendement faible sur la période : matières premières, immobilier et international ont peu rapporté.",
+      "Près de la moitié du temps partiellement en cash, donc en retard dans les marchés haussiers."
+    ],
     "a_savoir": "Cette stratégie a fait nettement mieux dans les backtests remontant aux années 1970. Son rendement récent illustre à quel point la période de test compte."
   },
   "spy_sma10": {
     "idee": "Le suivi de tendance le plus simple : rester en actions américaines tant qu'elles sont au-dessus de leur moyenne des 10 derniers mois, passer en cash sinon.",
-    "forces": ["A évité l'essentiel des baisses prolongées, comme celle de 2008-2009.", "Divise par deux le pire drawdown du S&P 500 sur la période."],
-    "faiblesses": ["Inefficace dans les chutes rapides : en 2020, la sortie est arrivée après le plus gros de la baisse.", "Des faux signaux coûteux dans les marchés hésitants, et -21 % en 2022."],
+    "forces": [
+      "A évité l'essentiel des baisses prolongées, comme celle de 2008-2009.",
+      "Divise par deux le pire drawdown du S&P 500 sur la période."
+    ],
+    "faiblesses": [
+      "Inefficace dans les chutes rapides : en 2020, la sortie est arrivée après le plus gros de la baisse.",
+      "Des faux signaux coûteux dans les marchés hésitants, et -21 % en 2022."
+    ],
     "a_savoir": "Le timing coûte presque 4 points de rendement annuel par rapport au S&P 500 sur la période : c'est le prix de l'assurance contre les krachs longs."
   },
   "vaa": {
     "idee": "Wouter Keller pousse la protection à l'extrême : il suffit qu'un seul des quatre actifs offensifs ait un momentum négatif pour que tout le portefeuille passe en défensif.",
-    "forces": ["Excellente protection dans les longs marchés baissiers.", "Un momentum très réactif (le dernier mois pèse 40 % du score)."],
-    "faiblesses": ["Tout ou rien sur un seul actif, avec des allers-retours fréquents.", "Passe plus de la moitié du temps en défensif, ce qui coûte cher en marché haussier."],
+    "forces": [
+      "Excellente protection dans les longs marchés baissiers.",
+      "Un momentum très réactif (le dernier mois pèse 40 % du score)."
+    ],
+    "faiblesses": [
+      "Tout ou rien sur un seul actif, avec des allers-retours fréquents.",
+      "Passe plus de la moitié du temps en défensif, ce qui coûte cher en marché haussier."
+    ],
     "a_savoir": "Allocate Smartly a montré que ses résultats changent radicalement selon le jour du mois où l'on rééquilibre. Le rééquilibrage de fin de mois n'est qu'un tirage parmi d'autres."
   },
   "daa": {
     "idee": "Deux « canaris », les actions émergentes et les obligations agrégées, servent d'alarme : chaque canari négatif fait passer la moitié du portefeuille en défensif. Le reste est investi dans les 6 actifs les plus forts parmi 12.",
-    "forces": ["Une protection graduelle (0, 50 ou 100 %) plutôt que du tout ou rien.", "Bon compromis rendement/risque sur la période testée."],
-    "faiblesses": ["Beaucoup de paramètres (12 actifs, 6 retenus, 2 canaris) pour un historique limité.", "Rotation élevée : des changements presque tous les mois."],
+    "forces": [
+      "Une protection graduelle (0, 50 ou 100 %) plutôt que du tout ou rien.",
+      "Bon compromis rendement/risque sur la période testée."
+    ],
+    "faiblesses": [
+      "Beaucoup de paramètres (12 actifs, 6 retenus, 2 canaris) pour un historique limité.",
+      "Rotation élevée : des changements presque tous les mois."
+    ],
     "a_savoir": "RotationShield applique la même idée de canari, avec VWO et TIP comme sentinelles."
   },
   "paa": {
     "idee": "Plus il y a d'actifs risqués sous leur moyenne de 12 mois, plus la part d'obligations intermédiaires grandit, jusqu'à 100 % quand la moitié des 12 actifs sont en baisse.",
-    "forces": ["Une protection progressive, proportionnelle à la faiblesse générale du marché.", "Bien placée pendant le krach de 2008."],
-    "faiblesses": ["Son refuge unique, IEF, a baissé en 2022 : la stratégie perd -16,5 % sur l'année.", "Plus de la moitié du temps en obligations en moyenne, ce qui pèse sur le rendement."],
+    "forces": [
+      "Une protection progressive, proportionnelle à la faiblesse générale du marché.",
+      "Bien placée pendant le krach de 2008."
+    ],
+    "faiblesses": [
+      "Son refuge unique, IEF, a baissé en 2022 : la stratégie perd -16,5 % sur l'année.",
+      "Plus de la moitié du temps en obligations en moyenne, ce qui pèse sur le rendement."
+    ],
     "a_savoir": "La version PAA2 testée ici est la plus prudente des variantes proposées par les auteurs."
   },
   "haa": {
     "idee": "Un seul canari, les obligations indexées sur l'inflation (TIP). Tant qu'elles montent, on détient les 4 actifs les plus forts parmi 8 ; sinon, tout passe en T-bills ou en obligations intermédiaires.",
-    "forces": ["Le meilleur ratio de Sharpe et l'un des plus faibles drawdowns du site (environ -9 %).", "Positif en 2022 (+3,2 %) quand presque tout baissait."],
-    "faiblesses": ["Publiée en 2023 : presque tout ce backtest a été vu par les auteurs en concevant la stratégie.", "Choisir TIP comme canari unique est une décision forte, appuyée sur peu d'historique (TIP n'existe que depuis 2003)."],
+    "forces": [
+      "Le meilleur ratio de Sharpe et l'un des plus faibles drawdowns du site (environ -9 %).",
+      "Positif en 2022 (+3,2 %) quand presque tout baissait."
+    ],
+    "faiblesses": [
+      "Publiée en 2023 : presque tout ce backtest a été vu par les auteurs en concevant la stratégie.",
+      "Choisir TIP comme canari unique est une décision forte, appuyée sur peu d'historique (TIP n'existe que depuis 2003)."
+    ],
     "a_savoir": "Les résultats spectaculaires d'une stratégie récente doivent être lus avec prudence : seul le futur, la zone ombrée du graphique, dira si elle tient ses promesses."
   },
   "baa": {
     "idee": "La plus défensive des stratégies de Keller : l'offensive n'est autorisée que si les quatre canaris sont au vert, soit un peu moins de la moitié du temps. Sinon, les 3 meilleurs actifs défensifs, avec les T-bills comme plancher.",
-    "forces": ["Drawdown d'environ -11 % seulement et une pire année quasi nulle sur la période.", "Traverse 2022 en positif (+0,9 %)."],
-    "faiblesses": ["Beaucoup de paramètres, au point qu'Allocate Smartly met en garde contre la sur-optimisation.", "Reste souvent en défensif pendant les hausses : rendement modeste."],
+    "forces": [
+      "Drawdown d'environ -11 % seulement et une pire année quasi nulle sur la période.",
+      "Traverse 2022 en positif (+0,9 %)."
+    ],
+    "faiblesses": [
+      "Beaucoup de paramètres, au point qu'Allocate Smartly met en garde contre la sur-optimisation.",
+      "Reste souvent en défensif pendant les hausses : rendement modeste."
+    ],
     "a_savoir": "Publiée fin 2022, juste après une année où elle brille : c'est exactement le type de situation où le recul des années suivantes est indispensable."
   },
   "sector_rot": {
     "idee": "Chaque mois, investir dans les 3 secteurs américains les plus forts des 3 derniers mois, parmi les 9 grands secteurs du S&P 500.",
-    "forces": ["Profite des tendances sectorielles durables, comme la technologie.", "Un rendement solide sur la période, un peu en dessous du S&P 500."],
-    "faiblesses": ["Toujours 100 % en actions : les krachs passent quasiment intégralement (-34 % en 2008-2009).", "Concentration sur 3 secteurs et rotation mensuelle élevée."],
+    "forces": [
+      "Profite des tendances sectorielles durables, comme la technologie.",
+      "Un rendement solide sur la période, un peu en dessous du S&P 500."
+    ],
+    "faiblesses": [
+      "Toujours 100 % en actions : les krachs passent quasiment intégralement (-34 % en 2008-2009).",
+      "Concentration sur 3 secteurs et rotation mensuelle élevée."
+    ],
     "a_savoir": "Faber a testé plusieurs durées de momentum (de 1 à 12 mois) ; cette version sur 3 mois est celle que décrit StockCharts."
   },
   "sector_rot_trend": {
     "idee": "La même rotation sectorielle, mais tout passe en cash quand le S&P 500 est sous sa moyenne des 10 derniers mois.",
-    "forces": ["Le filtre réduit de près de 40 % le pire drawdown (-21 % au lieu de -34 %).", "Traverse 2008 quasiment à l'équilibre au second semestre."],
-    "faiblesses": ["Le filtre coûte plus de 2 points de rendement annuel sur la période.", "Faux signaux en 2015-2016 : le pire moment de la stratégie."],
+    "forces": [
+      "Le filtre réduit de près de 40 % le pire drawdown (-21 % au lieu de -34 %).",
+      "Traverse 2008 quasiment à l'équilibre au second semestre."
+    ],
+    "faiblesses": [
+      "Le filtre coûte plus de 2 points de rendement annuel sur la période.",
+      "Faux signaux en 2015-2016 : le pire moment de la stratégie."
+    ],
     "a_savoir": "Comparez les deux fiches de rotation sectorielle : c'est un cas d'école du prix d'une assurance contre les krachs."
   },
   "cdm": {
     "idee": "Quatre modules de 25 %, chacun avec son propre double momentum sur 12 mois : actions (US ou international), crédit (entreprises ou haut rendement), immobilier (REIT d'actifs ou hypothécaires), stress économique (or ou obligations longues).",
-    "forces": ["Diversifie les sources de momentum : chaque module peut se protéger indépendamment.", "Moins dépendant des seules actions que GEM."],
-    "faiblesses": ["Les REIT hypothécaires (REM) sont très volatils.", "Le momentum sur 12 mois réagit lentement, comme pour GEM."],
+    "forces": [
+      "Diversifie les sources de momentum : chaque module peut se protéger indépendamment.",
+      "Moins dépendant des seules actions que GEM."
+    ],
+    "faiblesses": [
+      "Les REIT hypothécaires (REM) sont très volatils.",
+      "Le momentum sur 12 mois réagit lentement, comme pour GEM."
+    ],
     "a_savoir": "Antonacci a publié cette stratégie en 2012, deux ans avant GEM. Elle est moins connue mais plus diversifiée."
   },
   "paired_switching": {
     "idee": "Chaque trimestre, détenir soit les actions américaines, soit les obligations d'État longues, selon celui des deux qui a le mieux performé le trimestre précédent.",
-    "forces": ["La plus simple des stratégies tactiques : quatre décisions par an au maximum.", "Très efficace quand actions et obligations évoluent en sens contraire, comme en 2008."],
-    "faiblesses": ["Repose entièrement sur la corrélation négative actions/obligations : en 2022, les deux ont chuté (-23,1 %).", "L'une des rares stratégies du site dont le pire rendement sur 5 ans glissants est négatif."],
+    "forces": [
+      "La plus simple des stratégies tactiques : quatre décisions par an au maximum.",
+      "Très efficace quand actions et obligations évoluent en sens contraire, comme en 2008."
+    ],
+    "faiblesses": [
+      "Repose entièrement sur la corrélation négative actions/obligations : en 2022, les deux ont chuté (-23,1 %).",
+      "L'une des rares stratégies du site dont le pire rendement sur 5 ans glissants est négatif."
+    ],
     "a_savoir": "Ses auteurs ont publié en 2011, après trente ans de baisse des taux d'intérêt, la période idéale pour les obligations longues."
   }
 }
