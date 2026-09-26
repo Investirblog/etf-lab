@@ -18,6 +18,7 @@
   "VWO":  {"class": "Actions émergentes",    "name": "Vanguard FTSE Emerging Markets"},
 
   "VNQ":  {"class": "Immobilier",            "name": "Vanguard Real Estate"},
+  "REM":  {"class": "Immobilier",            "name": "iShares Mortgage Real Estate",       "ishares": "iShares Mortgage Real Estate ETF"},
   "RWX":  {"class": "Immobilier",            "name": "SPDR Dow Jones International Real Estate"},
 
   "GLD":  {"class": "Or / matières premières","name": "SPDR Gold Shares"},

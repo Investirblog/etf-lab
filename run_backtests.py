@@ -24,10 +24,11 @@ import engine
 from metrics import drawdown, stats
 from strategies_keller import KELLER
 from strategies_momentum import MOMENTUM
+from strategies_other import OTHER
 from strategies_static import STATIC
 
 ROOT = Path(__file__).resolve().parent
-ALL = STATIC + MOMENTUM + KELLER  # les autres familles viendront s'ajouter ici
+ALL = STATIC + MOMENTUM + KELLER + OTHER  # les autres familles viendront s'ajouter ici
 
 
 def clean(obj):
@@ -61,6 +62,12 @@ def main(argv=None) -> int:
     returns = engine.load_returns(a.data)
     rf = engine.cash_series(returns)
     strategies = [s for s in ALL if not a.only or s.id in a.only]
+    missing = {s.id: [x for x in s.assets if x not in returns] for s in strategies}
+    for sid, m in missing.items():
+        if m:
+            print(f"⚠️  {sid} ignorée : ETF absents des données {m} "
+                  f"(lance : python3 fetch_data.py --only {' '.join(m)})", file=sys.stderr)
+    strategies = [s for s in strategies if not missing[s.id]]
 
     full = {s.id: engine.run(s, returns, cost=a.cost) for s in strategies}
     common_start = (pd.Period(a.start, "M") if a.start

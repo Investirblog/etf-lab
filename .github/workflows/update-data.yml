@@ -27,11 +27,14 @@ jobs:
         continue-on-error: true
         run: python fetch_data.py
 
+      - name: Recalculer les backtests
+        run: python run_backtests.py
+
       - name: Committer les données
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898315+github-actions[bot]@users.noreply.github.com"
-          git add data/
+          git add data/ results/ site/strategies.json
           git diff --cached --quiet || git commit -m "Données ETF $(date -u +%Y-%m-%d)"
           git push
 

@@ -201,7 +201,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   const app = document.getElementById("app");
   const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
   const MOIS_LONG = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-  const FAMILIES = ["Toutes", "Statique", "Momentum", "Tendance", "Keller"];
+  const FAMILIES = ["Toutes", "Statique", "Momentum", "Tendance", "Keller", "Secteurs"];
   const state = { window: "common", family: "Toutes", sort: { key: "sharpe", dir: -1 } };
   try { const w = localStorage.getItem("esl-window"); if (w === "common" || w === "full") state.window = w; } catch (e) {}
   let DATA = null, BY_ID = {}, SPY = null;
