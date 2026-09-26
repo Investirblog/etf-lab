@@ -1,4 +1,10 @@
 {
-  "_comment": "Adresse publique du site, utilisée pour les liens canoniques, le sitemap et les aperçus sur les réseaux sociaux. À changer si tu prends un nom de domaine.",
-  "site_url": "https://etf-strategy-lab.netlify.app"
+  "_comment": "Réglages du site. site_url : adresse publique (à changer si tu prends un nom de domaine). editeur : identité affichée dans les mentions légales (contact = e-mail ou lien). goatcounter : adresse de comptage (laisser vide pour désactiver).",
+  "site_url": "https://etf-strategy-lab.netlify.app",
+  "editeur": {
+    "nom": "Nathanaël Dumortier",
+    "contact": "",
+    "adresse": ""
+  },
+  "goatcounter": "https://etf-strategy-lab.goatcounter.com/count"
 }

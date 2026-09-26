@@ -162,7 +162,7 @@ KELLER = [
                         "Canaris : VWO et BND. Chaque canari négatif fait passer 50 % du portefeuille en défensif.",
                         "Partie offensive : les 6 meilleurs des 12 actifs risqués, à parts égales.",
                         "Partie défensive : le meilleur de SHY, IEF et LQD."],
-              "variant_note": "RotationShield (rotationshield.be) applique la même logique de canari avec VWO et TIP."}),
+              "variant_note": "[RotationShield](https://rotationshield.be) applique la même logique de canari avec VWO et TIP."}),
     Strategy(
         id="paa", name="Protective Asset Allocation (PAA2)",
         assets=uniq(PAA_RISKY, PAA_SAFE), weights=paa, lookback=13, family="Keller",

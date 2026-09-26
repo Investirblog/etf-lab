@@ -9,6 +9,8 @@ build_site.py — génère les vraies pages HTML du site (une par adresse).
   site/strategies/<id>/index.html     une page par stratégie
   site/equivalents-ucits/index.html   table des équivalents UCITS
   site/methode/index.html             méthode et limites
+  site/mentions-legales/index.html   éditeur, hébergeur, données personnelles
+  site/og/<id>.png                    images d'aperçu (og_images.py)
   site/404.html, site/sitemap.xml, site/robots.txt
 
 Chaque page contient son contenu en HTML (lisible par les moteurs de recherche
@@ -43,6 +45,25 @@ MATCH = {"meme": "même indice", "proche": "proche", "aucun": "aucun"}
 # --------------------------------------------------------------------------
 def e(x) -> str:
     return html.escape(str(x), quote=True)
+
+
+LINK = re.compile(r"\[([^\]]+)\]\((?:strategie:([a-z0-9_]+)|(https?://[^)\s]+))\)")
+KNOWN_IDS: set[str] = set()
+
+
+def rich(x) -> str:
+    """Texte échappé, avec [texte](strategie:adm) et [texte](https://…) convertis en liens."""
+    def sub(m):
+        txt, sid, url = m.groups()
+        if sid:
+            return f'<a href="/strategies/{sid}/">{txt}</a>' if sid in KNOWN_IDS else txt
+        return f'<a href="{url}" target="_blank" rel="noopener">{txt}</a>'
+    return LINK.sub(sub, e(x))
+
+
+def plain(x: str) -> str:
+    """Même texte sans la syntaxe de lien (descriptions, images)."""
+    return LINK.sub(lambda m: m.group(1), x)
 
 
 def m_label(p: str | None) -> str:
@@ -99,8 +120,10 @@ def split_template(tpl: str) -> tuple[str, str]:
 
 
 def page(head_tpl: str, body_tpl: str, *, cfg: dict, path: str, title: str, desc: str,
-         content: str, nav: str, stamp: str, og_type="website", noindex=False, jsonld=None) -> str:
-    url = cfg["site_url"].rstrip("/") + "/" + path
+         content: str, nav: str, stamp: str, og_type="website", noindex=False, jsonld=None,
+         image="home", static=False) -> str:
+    base = cfg["site_url"].rstrip("/")
+    url = base + "/" + path
     meta = [
         '<meta charset="utf-8">',
         '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">',
@@ -113,14 +136,24 @@ def page(head_tpl: str, body_tpl: str, *, cfg: dict, path: str, title: str, desc
         f'<meta property="og:title" content="{e(title)}">',
         f'<meta property="og:description" content="{e(desc)}">',
         f'<meta property="og:url" content="{e(url)}">',
-        '<meta name="twitter:card" content="summary">',
+        f'<meta property="og:image" content="{base}/og/{image}.png">',
+        '<meta property="og:image:width" content="1200">',
+        '<meta property="og:image:height" content="630">',
+        f'<meta property="og:image:alt" content="{e(title)}">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        '<link rel="preload" href="/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>',
     ]
+    if cfg.get("goatcounter"):  # mesure d'audience sans cookie
+        meta.append(f'<script data-goatcounter="{e(cfg["goatcounter"])}" async src="https://gc.zgo.at/count.js"></script>')
     if noindex:
         meta.append('<meta name="robots" content="noindex">')
     if jsonld:
         meta.append('<script type="application/ld+json">'
                     + json.dumps(jsonld, ensure_ascii=False).replace("</", "<\\/") + "</script>")
+    head_tpl = (head_tpl.replace('url("fonts/', 'url("/fonts/').replace('href="favicon', 'href="/favicon')
+                .replace('href="apple-touch-icon', 'href="/apple-touch-icon'))
     body = body_tpl
+    body = body.replace('href="https://etf-strategy-lab.netlify.app/mentions-legales/"', 'href="/mentions-legales/"')
     # liens de navigation réels
     body = body.replace('class="brand" href="#"', 'class="brand" href="/"')
     body = body.replace('<a href="#" data-nav="">', '<a href="/" data-nav="">')
@@ -130,7 +163,8 @@ def page(head_tpl: str, body_tpl: str, *, cfg: dict, path: str, title: str, desc
                         f'<span class="stamp" id="stamp">{e(stamp)}</span>')
     body = body.replace('<main id="app" aria-live="polite"></main>',
                         f'<main id="app" aria-live="polite">{content}</main>')
-    body = body.replace("<script>", '<script>window.ESL_BASE = "/";</script>\n<script>', 1)
+    flags = 'window.ESL_BASE = "/";' + (" window.ESL_STATIC = true;" if static else "")
+    body = body.replace("<script>", f"<script>{flags}</script>\n<script>", 1)
     return ("<!doctype html>\n<html lang=\"fr\">\n<head>\n" + "\n".join(meta) + "\n"
             + head_tpl.strip() + "\n</head>\n<body>\n" + body.strip() + "\n</body>\n</html>\n")
 
@@ -219,10 +253,10 @@ def sheet_html(s, data, fiches, uc, ref) -> str:
     cmp = lambda v: "" if s["id"] == ref["id"] else f'<span class="cmp">{e(rname)} : <span class="num">{v}</span></span>'
     ess = ""
     if f:
-        ess = (f'<section class="panel"><h2>L\'essentiel</h2><div class="essentials"><p>{e(f["idee"])}</p>'
-               f'<h3>Points forts</h3><ul>{"".join(f"<li>{e(x)}</li>" for x in f["forces"])}</ul>'
-               f'<h3>Points faibles</h3><ul>{"".join(f"<li>{e(x)}</li>" for x in f["faiblesses"])}</ul>'
-               + (f'<h3>À savoir</h3><p>{e(f["a_savoir"])}</p>' if f.get("a_savoir") else "") + "</div></section>")
+        ess = (f'<section class="panel"><h2>L\'essentiel</h2><div class="essentials"><p>{rich(f["idee"])}</p>'
+               f'<h3>Points forts</h3><ul>{"".join(f"<li>{rich(x)}</li>" for x in f["forces"])}</ul>'
+               f'<h3>Points faibles</h3><ul>{"".join(f"<li>{rich(x)}</li>" for x in f["faiblesses"])}</ul>'
+               + (f'<h3>À savoir</h3><p>{rich(f["a_savoir"])}</p>' if f.get("a_savoir") else "") + "</div></section>")
     nm = s["next_signal"]["for_month"]
     sig = "".join(
         f'<div class="alloc-row"><span class="tk">{"Cash" if k == "CASH" else e(k)}</span>'
@@ -231,7 +265,7 @@ def sheet_html(s, data, fiches, uc, ref) -> str:
         for k, v in sorted(s["next_signal"]["weights"].items(), key=lambda kv: -kv[1]))
     extra = ""
     if s.get("variant_note"):
-        extra += f'<div class="callout">{e(s["variant_note"])}</div>'
+        extra += f'<div class="callout">{rich(s["variant_note"])}</div>'
     if s.get("published"):
         extra += f'<div class="callout"><b>Publiée en {m_long(s["published"])}.</b></div>'
     assets = list(dict.fromkeys(s["assets"] + (["CASH"] if s.get("uses_cash") or "CASH" in s["next_signal"]["weights"] else [])))
@@ -260,7 +294,7 @@ def sheet_html(s, data, fiches, uc, ref) -> str:
       </div>
       <div class="grid-2"><div class="stack">
         {ess}
-        <section class="panel"><h2>Règles</h2><ol class="rules">{''.join(f'<li>{e(r)}</li>' for r in rules_for(s))}</ol>{extra}</section>
+        <section class="panel"><h2>Règles</h2><ol class="rules">{''.join(f'<li>{rich(r)}</li>' for r in rules_for(s))}</ol>{extra}</section>
       </div><div class="stack">
         <section class="panel"><h2>Signal pour {m_long(nm)}</h2><p class="sub">Calculé sur la clôture de fin {m_long(data['data_end'])}.</p><div class="alloc">{sig}</div></section>
         {f'<section class="panel"><h2>Avec des ETF européens</h2><div class="ucits-list">{ucits}</div></section>' if ucits else ''}
@@ -304,6 +338,33 @@ def method_html(data) -> str:
             .replace("{{COST}}", num(data["cost_per_trade"] * 100, 2)))
 
 
+def legal_html(cfg) -> str:
+    ed = cfg.get("editeur", {})
+    lines = [f"<b>{e(ed['nom'])}</b>" if ed.get("nom") else ""]
+    if ed.get("adresse"):
+        lines.append(e(ed["adresse"]))
+    if ed.get("contact"):
+        c = ed["contact"]
+        lines.append(f'Contact : <a href="mailto:{e(c)}">{e(c)}</a>' if "@" in c and not c.startswith("http")
+                     else f'Contact : <a href="{e(c)}">{e(c)}</a>')
+    editeur = "<br>".join(x for x in lines if x)
+    return f"""
+      <section class="doc">
+        <h1>Mentions légales</h1>
+        <h2>Éditeur</h2>
+        <p>{editeur}<br>Site personnel, gratuit, sans publicité ni produit à vendre.</p>
+        <h2>Hébergement</h2>
+        <p>Netlify, Inc., 101 2nd Street, San Francisco, CA 94105, États-Unis (<a href="https://www.netlify.com">netlify.com</a>).</p>
+        <h2>Données personnelles et cookies</h2>
+        <p>Ce site ne dépose aucun cookie et ne demande aucune donnée personnelle. La fréquentation est mesurée avec <a href="https://www.goatcounter.com">GoatCounter</a>, un outil de statistiques sans cookie qui ne conserve ni adresse IP ni identifiant : il compte les pages vues, les sites d'origine, la taille d'écran et le pays. Les polices de caractères sont hébergées sur le site lui-même. Comme tout hébergeur, Netlify peut conserver des journaux techniques (dont l'adresse IP) pour assurer la sécurité du service.</p>
+        <p>Une préférence d'affichage (la référence choisie, actions mondiales ou S&amp;P 500) est enregistrée dans votre navigateur. Elle ne quitte pas votre appareil.</p>
+        <h2>Avertissement</h2>
+        <p>Les informations de ce site sont fournies à titre éducatif et général. Elles ne constituent ni un conseil en investissement, ni une recommandation personnalisée, ni une offre d'achat ou de vente d'un instrument financier. Les résultats sont des simulations (backtests) calculées sur des données passées, avant impôts : les performances passées ne préjugent pas des performances futures. Vérifiez toute information auprès de sources officielles avant de prendre une décision.</p>
+        <h2>Sources et crédits</h2>
+        <p>Cours ajustés via yfinance (Yahoo Finance), contrôlés contre les valeurs liquidatives publiées par iShares ; taux des T-bills : Réserve fédérale (FRED). Les stratégies présentées ont été publiées par leurs auteurs respectifs, cités sur chaque fiche. Polices IBM Plex, sous licence SIL Open Font License.</p>
+      </section>"""
+
+
 def clip(t: str, n=160) -> str:
     return t if len(t) <= n else t[: n - 1].rsplit(" ", 1)[0].rstrip(" .,;:") + "…"
 
@@ -319,6 +380,8 @@ def build(root: Path = ROOT) -> list[str]:
     uc = json.loads((SITE / "ucits.json").read_text(encoding="utf-8")) if (SITE / "ucits.json").exists() else None
     head_tpl, body_tpl = split_template(TEMPLATE.read_text(encoding="utf-8"))
     by_id = {s["id"]: s for s in data["strategies"]}
+    KNOWN_IDS.clear()
+    KNOWN_IDS.update(by_id)
     ref = by_id.get("acwi") or by_id["spy"]
     c0 = data["common_window"][0]
     stamp = f"Données à fin {m_long(data['data_end'])} · {len(data['strategies'])} stratégies"
@@ -349,7 +412,7 @@ def build(root: Path = ROOT) -> list[str]:
         desc = clip(desc + tail if len(desc + tail) <= 160 else desc)
         write(f"strategies/{s['id']}/index.html",
               page(head_tpl, body_tpl, path=f"strategies/{s['id']}/", nav="", og_type="article",
-                   content=sheet_html(s, data, fiches, uc, ref),
+                   content=sheet_html(s, data, fiches, uc, ref), image=s["id"],
                    title=f"{s['name']} : backtest, règles et signal du mois | ETF Strategy Lab", desc=desc,
                    jsonld={"@context": "https://schema.org", "@type": "WebPage", "name": s["name"],
                            "description": desc, "inLanguage": "fr",
@@ -366,12 +429,23 @@ def build(root: Path = ROOT) -> list[str]:
                title="Méthode et limites des backtests | ETF Strategy Lab",
                desc="Données, conventions de calcul, période commune, mesures et limites des backtests "
                     "d'ETF Strategy Lab.", **common))
+    if not cfg.get("editeur", {}).get("contact"):
+        print("⚠️  Mentions légales : ajoute un contact (e-mail ou lien) dans site_config.json, rubrique editeur.")
+    write("mentions-legales/index.html",
+          page(head_tpl, body_tpl, path="mentions-legales/", nav="none", static=True, content=legal_html(cfg),
+               title="Mentions légales | ETF Strategy Lab",
+               desc="Éditeur, hébergeur, données personnelles et avertissement d'ETF Strategy Lab.", **common))
     write("404.html",
           page(head_tpl, body_tpl, path="404.html", nav="", noindex=True,
                content='<section class="doc"><h1>Page introuvable</h1><p class="lede">Cette adresse n\'existe pas '
                        '(ou plus). <a href="/">Voir toutes les stratégies</a>.</p></section>',
                title="Page introuvable | ETF Strategy Lab", desc="Page introuvable.", **common).replace(
                    '<script>window.ESL_BASE = "/";</script>', '<script>window.ESL_BASE = "/"; window.ESL_404 = true;</script>'))
+    try:
+        import og_images
+        written += og_images.build(data, SITE)
+    except ImportError as err:  # matplotlib absent : pages sans image
+        print(f"⚠️  Images d'aperçu non générées ({err})")
     today = dt.date.today().isoformat()
     urls = ["", "equivalents-ucits/", "methode/"] + [f"strategies/{s['id']}/" for s in data["strategies"]]
     write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'

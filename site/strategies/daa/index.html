@@ -12,12 +12,28 @@
 <meta property="og:title" content="Defensive Asset Allocation (DAA-G12) : backtest, règles et signal du mois | ETF Strategy Lab">
 <meta property="og:description" content="Deux « canaris » (émergents et obligations) décident de la part défensive. Depuis juil. 2008 : 7,9 % par an, pire baisse -19,5 %.">
 <meta property="og:url" content="https://etf-strategy-lab.netlify.app/strategies/daa/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://etf-strategy-lab.netlify.app/og/daa.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Defensive Asset Allocation (DAA-G12) : backtest, règles et signal du mois | ETF Strategy Lab">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script data-goatcounter="https://etf-strategy-lab.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Defensive Asset Allocation (DAA-G12)", "description": "Deux « canaris » (émergents et obligations) décident de la part défensive. Depuis juil. 2008 : 7,9 % par an, pire baisse -19,5 %.", "inLanguage": "fr", "isPartOf": {"@type": "WebSite", "name": "ETF Strategy Lab", "url": "https://etf-strategy-lab.netlify.app/"}}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>
+/* Polices IBM Plex hébergées sur le site (licence OFL, aucune requête vers Google) */
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: italic; font-weight: 400; font-display: swap; src: url("/fonts/ibm-plex-sans-latin-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans Condensed"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/ibm-plex-sans-condensed-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans Condensed"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/ibm-plex-sans-condensed-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans Condensed"; font-style: normal; font-weight: 700; font-display: swap; src: url("/fonts/ibm-plex-sans-condensed-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
 :root {
   --bg: #f3f5f1;
   --surface: #fbfcfa;
@@ -106,12 +122,12 @@ button { font: inherit; color: inherit; }
 table.board { width: 100%; border-collapse: collapse; min-width: 880px; }
 .board th { font-family: var(--f-display); font-weight: 600; font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
   color: var(--ink-3); text-align: right; padding: 12px 12px 10px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
-.board th:first-child, .board td:first-child { text-align: left; padding-left: 16px; min-width: 250px; }
+.board th:first-child, .board td:first-child { text-align: left; padding-left: 16px; min-width: 210px; }
 .board th button { all: unset; cursor: pointer; display: inline-flex; gap: 4px; align-items: center; }
 .board th button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .board th[aria-sort] { color: var(--ink); }
 .board th .arrow { font-size: 10px; width: 8px; display: inline-block; }
-.board td { padding: 11px 12px; border-bottom: 1px solid var(--rule-soft); text-align: right; vertical-align: middle; }
+.board td { padding: 11px 10px; border-bottom: 1px solid var(--rule-soft); text-align: right; vertical-align: middle; }
 .board tr:last-child td { border-bottom: 0; }
 .board tbody tr { cursor: pointer; transition: background .12s; }
 .board tbody tr:hover, .board tbody tr:focus-visible { background: var(--accent-soft); outline: none; }
@@ -122,7 +138,7 @@ table.board { width: 100%; border-collapse: collapse; min-width: 880px; }
 .s-meta { font-size: 12px; color: var(--ink-3); display: flex; gap: 8px; align-items: center; margin-top: 2px; }
 .fam { font-family: var(--f-display); font-weight: 600; font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase;
   padding: 1px 7px; border-radius: 4px; background: var(--chip); color: var(--ink-2); }
-.signal { font-family: var(--f-mono); font-size: 12px; color: var(--ink-2); text-align: left !important; white-space: nowrap; }
+.signal { font-family: var(--f-mono); font-size: 12px; color: var(--ink-2); text-align: left !important; white-space: normal; max-width: 140px; }
 .spark { display: block; }
 .note-under { font-size: 12.5px; color: var(--ink-3); margin-top: 10px; max-width: 90ch; }
 
@@ -282,12 +298,33 @@ table.ucits { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .intro .key { font-size: 16.5px; color: var(--ink); max-width: 66ch; }
 .intro .key b { font-weight: 600; }
 
+.support { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; display: grid; gap: 10px; color: var(--ink-2); font-size: 13.5px; margin-bottom: 8px; }
+.support p { margin: 0; }
+.support b { color: var(--ink); }
+.support-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 8px; background: var(--accent); color: #fff; font-weight: 500; font-size: 13.5px; text-decoration: none; }
+.btn:hover { filter: brightness(1.08); }
+.btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
 footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--ink-3); display: grid; gap: 6px; max-width: 90ch; }
 .err { padding: 40px 0; color: var(--neg); }
 
 @media (max-width: 860px) {
   .grid-2 { grid-template-columns: 1fr; }
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 1180px) and (min-width: 641px) {
+  .board th:nth-child(2), .board td:nth-child(2) { display: none; }
+  table.board { min-width: 0; }
+}
+@media (max-width: 1080px) and (min-width: 641px) {
+  /* tablette : stratégie, CAGR, Sharpe, Max DD, Récup., Pire année */
+  .board th:nth-child(4), .board td:nth-child(4),
+  .board th:nth-child(9), .board td:nth-child(9),
+  .board th:nth-child(10), .board td:nth-child(10) { display: none; }
+  .board th:first-child, .board td:first-child { min-width: 0; }
+}
+@media (max-width: 720px) and (min-width: 641px) {
+  .board th:nth-child(8), .board td:nth-child(8) { display: none; }
 }
 @media (max-width: 640px) {
   .ucits thead { display: none; }
@@ -367,16 +404,23 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
         <div class="tile"><span class="k">Pire année</span><span class="v">-12,0 %</span><span class="cmp">Actions mondiales : <span class="num">-18,4 %</span></span></div>
       </div>
       <div class="grid-2"><div class="stack">
-        <section class="panel"><h2>L'essentiel</h2><div class="essentials"><p>Deux « canaris », les actions émergentes et les obligations agrégées, servent d&#x27;alarme : chaque canari négatif fait passer la moitié du portefeuille en défensif. Le reste est investi dans les 6 actifs les plus forts parmi 12.</p><h3>Points forts</h3><ul><li>Une protection graduelle (0, 50 ou 100 %) plutôt que du tout ou rien.</li><li>Bon compromis rendement/risque sur la période testée.</li></ul><h3>Points faibles</h3><ul><li>Beaucoup de paramètres (12 actifs, 6 retenus, 2 canaris) pour un historique limité.</li><li>Rotation élevée : des changements presque tous les mois.</li></ul><h3>À savoir</h3><p>RotationShield applique la même idée de canari, avec VWO et TIP comme sentinelles.</p></div></section>
-        <section class="panel"><h2>Règles</h2><ol class="rules"><li>Fin de mois : momentum 13612W de chaque actif.</li><li>Canaris : VWO et BND. Chaque canari négatif fait passer 50 % du portefeuille en défensif.</li><li>Partie offensive : les 6 meilleurs des 12 actifs risqués, à parts égales.</li><li>Partie défensive : le meilleur de SHY, IEF et LQD.</li></ol><div class="callout">RotationShield (rotationshield.be) applique la même logique de canari avec VWO et TIP.</div><div class="callout"><b>Publiée en juillet 2018.</b></div></section>
+        <section class="panel"><h2>L'essentiel</h2><div class="essentials"><p>Deux « canaris », les actions émergentes et les obligations agrégées, servent d&#x27;alarme : chaque canari négatif fait passer la moitié du portefeuille en défensif. Le reste est investi dans les 6 actifs les plus forts parmi 12.</p><h3>Points forts</h3><ul><li>Une protection graduelle (0, 50 ou 100 %) plutôt que du tout ou rien.</li><li>Bon compromis rendement/risque sur la période testée.</li></ul><h3>Points faibles</h3><ul><li>Beaucoup de paramètres (12 actifs, 6 retenus, 2 canaris) pour un historique limité.</li><li>Rotation élevée : des changements presque tous les mois.</li></ul><h3>À savoir</h3><p><a href="https://rotationshield.be" target="_blank" rel="noopener">RotationShield</a> applique la même idée de canari, avec VWO et TIP comme sentinelles.</p></div></section>
+        <section class="panel"><h2>Règles</h2><ol class="rules"><li>Fin de mois : momentum 13612W de chaque actif.</li><li>Canaris : VWO et BND. Chaque canari négatif fait passer 50 % du portefeuille en défensif.</li><li>Partie offensive : les 6 meilleurs des 12 actifs risqués, à parts égales.</li><li>Partie défensive : le meilleur de SHY, IEF et LQD.</li></ol><div class="callout"><a href="https://rotationshield.be" target="_blank" rel="noopener">RotationShield</a> applique la même logique de canari avec VWO et TIP.</div><div class="callout"><b>Publiée en juillet 2018.</b></div></section>
       </div><div class="stack">
         <section class="panel"><h2>Signal pour septembre 2026</h2><p class="sub">Calculé sur la clôture de fin août 2026.</p><div class="alloc"><div class="alloc-row"><span class="tk">SHY</span><span class="bar"><i style="width:50.0%"></i></span><span class="pc num">50 %</span><span class="nm">iShares 1-3 Year Treasury Bond</span></div><div class="alloc-row"><span class="tk">GSG</span><span class="bar"><i style="width:8.3%"></i></span><span class="pc num">8,3 %</span><span class="nm">iShares S&amp;P GSCI Commodity-Indexed</span></div><div class="alloc-row"><span class="tk">GLD</span><span class="bar"><i style="width:8.3%"></i></span><span class="pc num">8,3 %</span><span class="nm">SPDR Gold Shares</span></div><div class="alloc-row"><span class="tk">QQQ</span><span class="bar"><i style="width:8.3%"></i></span><span class="pc num">8,3 %</span><span class="nm">Invesco QQQ (Nasdaq-100)</span></div><div class="alloc-row"><span class="tk">EWJ</span><span class="bar"><i style="width:8.3%"></i></span><span class="pc num">8,3 %</span><span class="nm">iShares MSCI Japan</span></div><div class="alloc-row"><span class="tk">SPY</span><span class="bar"><i style="width:8.3%"></i></span><span class="pc num">8,3 %</span><span class="nm">SPDR S&amp;P 500</span></div><div class="alloc-row"><span class="tk">VWO</span><span class="bar"><i style="width:8.3%"></i></span><span class="pc num">8,3 %</span><span class="nm">Vanguard FTSE Emerging Markets</span></div></div></section>
         <section class="panel"><h2>Avec des ETF européens</h2><div class="ucits-list"><div class="ucits-item"><div class="top"><span class="us num">SPY</span><span aria-hidden="true">→</span><b>CSPX</b><span class="match meme">même indice</span></div><div class="fmeta">iShares Core S&amp;P 500 UCITS ETF USD (Acc) · <span class="isin">IE00B5BMR087</span> · frais 0,07 %</div></div><div class="ucits-item"><div class="top"><span class="us num">IWM</span><span aria-hidden="true">→</span><b>R2US</b><span class="match meme">même indice</span></div><div class="fmeta">SPDR Russell 2000 U.S. Small Cap UCITS ETF · <span class="isin">IE00BJ38QD84</span> · frais 0,30 %</div></div><div class="ucits-item"><div class="top"><span class="us num">QQQ</span><span aria-hidden="true">→</span><b>CNDX</b><span class="match meme">même indice</span></div><div class="fmeta">iShares Nasdaq 100 UCITS ETF (Acc) · <span class="isin">IE00B53SZB19</span> · frais 0,30 %</div></div><div class="ucits-item"><div class="top"><span class="us num">VGK</span><span aria-hidden="true">→</span><b>IMAE</b><span class="match proche">proche</span></div><div class="fmeta">iShares Core MSCI Europe UCITS ETF EUR (Acc) · <span class="isin">IE00B4K48X80</span> · frais 0,12 %</div><div class="unote">MSCI Europe au lieu du FTSE Developed Europe : exposition quasi identique.</div></div><div class="ucits-item"><div class="top"><span class="us num">EWJ</span><span aria-hidden="true">→</span><b>IJPA</b><span class="match proche">proche</span></div><div class="fmeta">iShares Core MSCI Japan IMI UCITS ETF · <span class="isin">IE00B4L5YX21</span> · frais 0,12 %</div><div class="unote">MSCI Japan IMI : inclut aussi les petites capitalisations japonaises.</div></div><div class="ucits-item"><div class="top"><span class="us num">VWO</span><span aria-hidden="true">→</span><b>EMIM</b><span class="match proche">proche</span></div><div class="fmeta">iShares Core MSCI Emerging Markets IMI UCITS ETF (Acc) · <span class="isin">IE00BKM4GZ66</span> · frais 0,18 %</div><div class="unote">MSCI Emerging Markets IMI au lieu du FTSE Emerging : MSCI classe la Corée du Sud parmi les émergents, FTSE non. Le fonds UCITS en contient donc, VWO pas.</div></div><div class="ucits-item"><div class="top"><span class="us num">VNQ</span><span aria-hidden="true">→</span><b>IUSP</b><span class="match proche">proche</span></div><div class="fmeta">iShares US Property Yield UCITS ETF · <span class="isin">IE00B1FZSF77</span> · frais 0,40 %</div><div class="unote">Sélection de REIT américains à rendement élevé, pas l&#x27;ensemble du secteur.</div></div><div class="ucits-item"><div class="top"><span class="us num">GSG</span><span aria-hidden="true">→</span><b>ICOM</b><span class="match proche">proche</span></div><div class="fmeta">iShares Diversified Commodity Swap UCITS ETF · <span class="isin">IE00BDFL4P12</span> · frais 0,19 %</div><div class="unote">Indice Bloomberg Commodity : nettement moins d&#x27;énergie que le S&amp;P GSCI.</div></div><div class="ucits-item"><div class="top"><span class="us num">GLD</span><span aria-hidden="true">→</span><b>SGLN</b><span class="match meme">même indice</span></div><div class="fmeta">iShares Physical Gold ETC · <span class="isin">IE00B4ND3602</span> · frais 0,12 %</div><div class="unote">ETC adossé à de l&#x27;or physique (pas un fonds UCITS au sens strict).</div></div><div class="ucits-item"><div class="top"><span class="us num">TLT</span><span aria-hidden="true">→</span><b>DTLA</b><span class="match meme">même indice</span></div><div class="fmeta">iShares USD Treasury Bond 20+yr UCITS ETF USD (Acc) · <span class="isin">IE00BFM6TC58</span> · frais 0,07 %</div></div><div class="ucits-item"><div class="top"><span class="us num">HYG</span><span aria-hidden="true">→</span><b>IHYU</b><span class="match meme">même indice</span></div><div class="fmeta">iShares USD High Yield Corporate Bond UCITS ETF (Dist) · <span class="isin">IE00B4PY7Y77</span> · frais 0,50 %</div></div><div class="ucits-item"><div class="top"><span class="us num">LQD</span><span aria-hidden="true">→</span><b>LQDA</b><span class="match meme">même indice</span></div><div class="fmeta">iShares USD Corporate Bond UCITS ETF (Dist) · <span class="isin">IE0032895942</span> · frais 0,20 %</div></div><div class="ucits-item"><div class="top"><span class="us num">SHY</span><span aria-hidden="true">→</span><b>IBTS</b><span class="match meme">même indice</span></div><div class="fmeta">iShares USD Treasury Bond 1-3yr UCITS ETF (Dist) · <span class="isin">IE00B14X4S71</span> · frais 0,07 %</div></div><div class="ucits-item"><div class="top"><span class="us num">IEF</span><span aria-hidden="true">→</span><b>CBU0</b><span class="match meme">même indice</span></div><div class="fmeta">iShares USD Treasury Bond 7-10yr UCITS ETF (Acc) · <span class="isin">IE00B3VWN518</span> · frais 0,07 %</div></div><div class="ucits-item"><div class="top"><span class="us num">BND</span><span aria-hidden="true">→</span><b>IUAA</b><span class="match meme">même indice</span></div><div class="fmeta">iShares US Aggregate Bond UCITS ETF (Acc) · <span class="isin">IE00BYXYYM63</span> · frais 0,25 %</div><div class="unote">Bloomberg US Aggregate au lieu du US Aggregate Float Adjusted : quasi identique.</div></div></div></section>
         <section class="panel"><h2>Toutes les mesures</h2><table class="metrics"><thead><tr><th scope="col"></th><th scope="col">Commune</th><th scope="col">Complet</th></tr></thead><tbody><tr><td>Début</td><td class="num">juil. 2008</td><td class="num">mai 2008</td></tr><tr><td>CAGR</td><td class="num">7,9 %</td><td class="num">7,8 %</td></tr><tr><td>Volatilité</td><td class="num">8,3 %</td><td class="num">8,4 %</td></tr><tr><td>Sharpe</td><td class="num">0,80</td><td class="num">0,79</td></tr><tr><td>Max drawdown</td><td class="num">-19,5 %</td><td class="num">-19,5 %</td></tr><tr><td>Plus longue période sous l'eau</td><td class="num">48 mois</td><td class="num">48 mois</td></tr><tr><td>Meilleure année</td><td class="num">+25,7 %</td><td class="num">+25,7 %</td></tr><tr><td>Pire année</td><td class="num">-12,0 %</td><td class="num">-12,0 %</td></tr><tr><td>Pire 5 ans (annualisé)</td><td class="num">+2,1 %</td><td class="num">+2,1 %</td></tr><tr><td>Pire 10 ans (annualisé)</td><td class="num">+4,1 %</td><td class="num">+4,1 %</td></tr></tbody></table></section>
       </div></div></main>
   <footer>
-    <div>Prototype. Backtests en dollars US sur des ETF américains, dividendes réinvestis, frais de transaction inclus, avant impôts. Les performances passées ne préjugent pas des performances futures. Ceci n'est pas un conseil en investissement.</div>
-    <div>Données : cours ajustés yfinance, contrôlés contre les NAV officielles iShares. <a href="/methode/">Méthode et limites</a> · <a href="/equivalents-ucits/">Équivalents UCITS</a></div>
+    <div class="support">
+      <p><b>Un site gratuit, sans publicité ni produit à vendre.</b> Il est tenu par Nathanaël Dumortier, auteur de la newsletter <a href="https://investir.blog">investir.blog</a>.</p>
+      <div class="support-links">
+        <a class="btn" href="https://investir.blog/subscribe">Recevoir la newsletter</a>
+        <a class="btn ghost" href="https://ko-fi.com/nathanaeldumortier" rel="noopener">Offrir un café sur Ko-fi</a>
+      </div>
+    </div>
+    <div>Backtests en dollars US sur des ETF américains, dividendes réinvestis, frais de transaction inclus, avant impôts. Les performances passées ne préjugent pas des performances futures. Ceci n'est pas un conseil en investissement.</div>
+    <div>Données : cours ajustés yfinance, contrôlés contre les NAV officielles iShares. <a href="/methode/">Méthode et limites</a> · <a href="/equivalents-ucits/">Équivalents UCITS</a> · <a href="/mentions-legales/">Mentions légales</a></div>
   </footer>
 </div>
 
@@ -430,6 +474,10 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   const dec = (v, d = 2) => v == null || isNaN(v) ? "—" : nf(d).format(v);
   const cls = v => v == null ? "" : v < 0 ? "neg" : "";
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  // Textes des fiches : [texte](strategie:adm) = lien interne, [texte](https://…) = lien externe
+  const rich = s => esc(s).replace(/\[([^\]]+)\]\((?:strategie:([a-z0-9_]+)|(https?:\/\/[^)\s]+))\)/g,
+    (m, txt, id, url) => id ? (BY_ID[id] ? `<a href="${href(id)}">${txt}</a>` : txt)
+      : `<a href="${url}" target="_blank" rel="noopener">${txt}</a>`);
   const svgEl = (tag, attrs = {}) => { const e = document.createElementNS("http://www.w3.org/2000/svg", tag);
     for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
 
@@ -492,7 +540,9 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     if (s.family === "Statique" && s.id !== "spy") return "Allocation fixe";
     const w = Object.entries(s.next_signal.weights).sort((a, b) => b[1] - a[1]);
     if (w.length === 1) return `100 % ${w[0][0]}`;
-    if (w.length <= 3) return w.map(([k, v]) => `${nf(0).format(v * 100)} % ${k}`).join(" · ");
+    const equal = w.every(([, v]) => Math.abs(v - w[0][1]) < 1e-6);
+    if (equal && w.length <= 3) return w.map(([k]) => k).join(" · ");
+    if (w.length <= 2) return w.map(([k, v]) => `${nf(0).format(v * 100)} % ${k}`).join(" · ");
     return `${w.length} lignes`;
   }
 
@@ -500,7 +550,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   function sparkline(s) {
     const [i0, i1] = windowRange(s);
     const pts = rebase(slice(equityPoints(s), i0, i1));
-    const W = 120, H = 30, lo = Math.log(Math.min(...pts.map(p => p.v))), hi = Math.log(Math.max(...pts.map(p => p.v)));
+    const W = 96, H = 28, lo = Math.log(Math.min(...pts.map(p => p.v))), hi = Math.log(Math.max(...pts.map(p => p.v)));
     const x = i => (i - pts[0].i) / (pts[pts.length - 1].i - pts[0].i) * (W - 4) + 2;
     const y = v => H - 3 - (Math.log(v) - lo) / (hi - lo || 1) * (H - 6);
     const d = pts.map((p, k) => `${k ? "L" : "M"}${x(p.i).toFixed(1)},${y(p.v).toFixed(1)}`).join("");
@@ -962,10 +1012,10 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           ${FICHES[s.id] ? `<section class="panel">
             <h2>L'essentiel</h2>
             <div class="essentials">
-              <p>${esc(FICHES[s.id].idee)}</p>
-              <h3>Points forts</h3><ul>${FICHES[s.id].forces.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
-              <h3>Points faibles</h3><ul>${FICHES[s.id].faiblesses.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
-              ${FICHES[s.id].a_savoir ? `<h3>À savoir</h3><p>${esc(FICHES[s.id].a_savoir)}</p>` : ""}
+              <p>${rich(FICHES[s.id].idee)}</p>
+              <h3>Points forts</h3><ul>${FICHES[s.id].forces.map(x => `<li>${rich(x)}</li>`).join("")}</ul>
+              <h3>Points faibles</h3><ul>${FICHES[s.id].faiblesses.map(x => `<li>${rich(x)}</li>`).join("")}</ul>
+              ${FICHES[s.id].a_savoir ? `<h3>À savoir</h3><p>${rich(FICHES[s.id].a_savoir)}</p>` : ""}
             </div>
           </section>` : ""}
           <section class="panel">
@@ -978,9 +1028,9 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           </section>
           <section class="panel">
             <h2>Règles</h2>
-            <ol class="rules">${rules.map(r => `<li>${esc(r)}</li>`).join("")}</ol>
+            <ol class="rules">${rules.map(r => `<li>${rich(r)}</li>`).join("")}</ol>
             <span class="pill">Rééquilibrage : ${s.rebalance === "annual" ? "annuel" : s.rebalance === "quarterly" ? "trimestriel" : "mensuel"} · rotation ${nf(0).format(s.avg_turnover_year * 50)} % par an</span>
-            ${s.variant_note ? `<div class="callout">${esc(s.variant_note)}</div>` : ""}
+            ${s.variant_note ? `<div class="callout">${rich(s.variant_note)}</div>` : ""}
             ${published ? `<div class="callout"><b>Publiée en ${mLabelLong(published)}.</b> ${pubI > base[base.length - 1].i ? "" : pubI <= base[0].i ? "Tout le backtest affiché est postérieur à la publication : c'est de la performance hors échantillon." : "La zone ombrée du graphique est postérieure à la publication : l'auteur ne la connaissait pas en concevant la stratégie."}</div>` : ""}
           </section>
           ${UCITS ? `<section class="panel">
@@ -1093,7 +1143,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     ]).then(([f, u]) => { FICHES = f; UCITS = u; return d; });
   }).then(d => {
     document.getElementById("stamp").textContent = `Données à fin ${mLabelLong(d.data_end)} · ${d.strategies.length} stratégies`;
-    if (window.ESL_404) return;             // page 404 : on garde son message
+    if (window.ESL_404 || window.ESL_STATIC) return;   // 404, mentions légales : on garde le contenu de la page
     const legacyId = PATH_MODE ? location.hash.slice(1) : "";
     if (legacyId && BY_ID[legacyId]) { location.replace(href(legacyId)); return; }
     if (!PATH_MODE) window.addEventListener("hashchange", route);

@@ -12,12 +12,28 @@
 <meta property="og:title" content="90/10 de Warren Buffett : backtest, règles et signal du mois | ETF Strategy Lab">
 <meta property="og:description" content="Le conseil de Buffett pour l&#x27;héritage de son épouse : 90 % S&amp;P 500, 10 % obligations d&#x27;État courtes. Depuis juil. 2008 : 11,5 % par an, pire baisse -37,5 %.">
 <meta property="og:url" content="https://etf-strategy-lab.netlify.app/strategies/buffett/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://etf-strategy-lab.netlify.app/og/buffett.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="90/10 de Warren Buffett : backtest, règles et signal du mois | ETF Strategy Lab">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script data-goatcounter="https://etf-strategy-lab.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "90/10 de Warren Buffett", "description": "Le conseil de Buffett pour l'héritage de son épouse : 90 % S&P 500, 10 % obligations d'État courtes. Depuis juil. 2008 : 11,5 % par an, pire baisse -37,5 %.", "inLanguage": "fr", "isPartOf": {"@type": "WebSite", "name": "ETF Strategy Lab", "url": "https://etf-strategy-lab.netlify.app/"}}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>
+/* Polices IBM Plex hébergées sur le site (licence OFL, aucune requête vers Google) */
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: italic; font-weight: 400; font-display: swap; src: url("/fonts/ibm-plex-sans-latin-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans Condensed"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/ibm-plex-sans-condensed-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans Condensed"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/ibm-plex-sans-condensed-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans Condensed"; font-style: normal; font-weight: 700; font-display: swap; src: url("/fonts/ibm-plex-sans-condensed-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
 :root {
   --bg: #f3f5f1;
   --surface: #fbfcfa;
@@ -106,12 +122,12 @@ button { font: inherit; color: inherit; }
 table.board { width: 100%; border-collapse: collapse; min-width: 880px; }
 .board th { font-family: var(--f-display); font-weight: 600; font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
   color: var(--ink-3); text-align: right; padding: 12px 12px 10px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
-.board th:first-child, .board td:first-child { text-align: left; padding-left: 16px; min-width: 250px; }
+.board th:first-child, .board td:first-child { text-align: left; padding-left: 16px; min-width: 210px; }
 .board th button { all: unset; cursor: pointer; display: inline-flex; gap: 4px; align-items: center; }
 .board th button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .board th[aria-sort] { color: var(--ink); }
 .board th .arrow { font-size: 10px; width: 8px; display: inline-block; }
-.board td { padding: 11px 12px; border-bottom: 1px solid var(--rule-soft); text-align: right; vertical-align: middle; }
+.board td { padding: 11px 10px; border-bottom: 1px solid var(--rule-soft); text-align: right; vertical-align: middle; }
 .board tr:last-child td { border-bottom: 0; }
 .board tbody tr { cursor: pointer; transition: background .12s; }
 .board tbody tr:hover, .board tbody tr:focus-visible { background: var(--accent-soft); outline: none; }
@@ -122,7 +138,7 @@ table.board { width: 100%; border-collapse: collapse; min-width: 880px; }
 .s-meta { font-size: 12px; color: var(--ink-3); display: flex; gap: 8px; align-items: center; margin-top: 2px; }
 .fam { font-family: var(--f-display); font-weight: 600; font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase;
   padding: 1px 7px; border-radius: 4px; background: var(--chip); color: var(--ink-2); }
-.signal { font-family: var(--f-mono); font-size: 12px; color: var(--ink-2); text-align: left !important; white-space: nowrap; }
+.signal { font-family: var(--f-mono); font-size: 12px; color: var(--ink-2); text-align: left !important; white-space: normal; max-width: 140px; }
 .spark { display: block; }
 .note-under { font-size: 12.5px; color: var(--ink-3); margin-top: 10px; max-width: 90ch; }
 
@@ -282,12 +298,33 @@ table.ucits { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .intro .key { font-size: 16.5px; color: var(--ink); max-width: 66ch; }
 .intro .key b { font-weight: 600; }
 
+.support { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; display: grid; gap: 10px; color: var(--ink-2); font-size: 13.5px; margin-bottom: 8px; }
+.support p { margin: 0; }
+.support b { color: var(--ink); }
+.support-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 8px; background: var(--accent); color: #fff; font-weight: 500; font-size: 13.5px; text-decoration: none; }
+.btn:hover { filter: brightness(1.08); }
+.btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
 footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--ink-3); display: grid; gap: 6px; max-width: 90ch; }
 .err { padding: 40px 0; color: var(--neg); }
 
 @media (max-width: 860px) {
   .grid-2 { grid-template-columns: 1fr; }
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 1180px) and (min-width: 641px) {
+  .board th:nth-child(2), .board td:nth-child(2) { display: none; }
+  table.board { min-width: 0; }
+}
+@media (max-width: 1080px) and (min-width: 641px) {
+  /* tablette : stratégie, CAGR, Sharpe, Max DD, Récup., Pire année */
+  .board th:nth-child(4), .board td:nth-child(4),
+  .board th:nth-child(9), .board td:nth-child(9),
+  .board th:nth-child(10), .board td:nth-child(10) { display: none; }
+  .board th:first-child, .board td:first-child { min-width: 0; }
+}
+@media (max-width: 720px) and (min-width: 641px) {
+  .board th:nth-child(8), .board td:nth-child(8) { display: none; }
 }
 @media (max-width: 640px) {
   .ucits thead { display: none; }
@@ -375,8 +412,15 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
         <section class="panel"><h2>Toutes les mesures</h2><table class="metrics"><thead><tr><th scope="col"></th><th scope="col">Commune</th><th scope="col">Complet</th></tr></thead><tbody><tr><td>Début</td><td class="num">juil. 2008</td><td class="num">août 2002</td></tr><tr><td>CAGR</td><td class="num">11,5 %</td><td class="num">10,5 %</td></tr><tr><td>Volatilité</td><td class="num">13,9 %</td><td class="num">13,2 %</td></tr><tr><td>Sharpe</td><td class="num">0,76</td><td class="num">0,70</td></tr><tr><td>Max drawdown</td><td class="num">-37,5 %</td><td class="num">-45,9 %</td></tr><tr><td>Plus longue période sous l'eau</td><td class="num">27 mois</td><td class="num">51 mois</td></tr><tr><td>Meilleure année</td><td class="num">+29,1 %</td><td class="num">+29,1 %</td></tr><tr><td>Pire année</td><td class="num">-16,7 %</td><td class="num">-32,5 %</td></tr><tr><td>Pire 5 ans (annualisé)</td><td class="num">+6,3 %</td><td class="num">-5,4 %</td></tr><tr><td>Pire 10 ans (annualisé)</td><td class="num">+9,4 %</td><td class="num">+6,1 %</td></tr></tbody></table></section>
       </div></div></main>
   <footer>
-    <div>Prototype. Backtests en dollars US sur des ETF américains, dividendes réinvestis, frais de transaction inclus, avant impôts. Les performances passées ne préjugent pas des performances futures. Ceci n'est pas un conseil en investissement.</div>
-    <div>Données : cours ajustés yfinance, contrôlés contre les NAV officielles iShares. <a href="/methode/">Méthode et limites</a> · <a href="/equivalents-ucits/">Équivalents UCITS</a></div>
+    <div class="support">
+      <p><b>Un site gratuit, sans publicité ni produit à vendre.</b> Il est tenu par Nathanaël Dumortier, auteur de la newsletter <a href="https://investir.blog">investir.blog</a>.</p>
+      <div class="support-links">
+        <a class="btn" href="https://investir.blog/subscribe">Recevoir la newsletter</a>
+        <a class="btn ghost" href="https://ko-fi.com/nathanaeldumortier" rel="noopener">Offrir un café sur Ko-fi</a>
+      </div>
+    </div>
+    <div>Backtests en dollars US sur des ETF américains, dividendes réinvestis, frais de transaction inclus, avant impôts. Les performances passées ne préjugent pas des performances futures. Ceci n'est pas un conseil en investissement.</div>
+    <div>Données : cours ajustés yfinance, contrôlés contre les NAV officielles iShares. <a href="/methode/">Méthode et limites</a> · <a href="/equivalents-ucits/">Équivalents UCITS</a> · <a href="/mentions-legales/">Mentions légales</a></div>
   </footer>
 </div>
 
@@ -430,6 +474,10 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   const dec = (v, d = 2) => v == null || isNaN(v) ? "—" : nf(d).format(v);
   const cls = v => v == null ? "" : v < 0 ? "neg" : "";
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  // Textes des fiches : [texte](strategie:adm) = lien interne, [texte](https://…) = lien externe
+  const rich = s => esc(s).replace(/\[([^\]]+)\]\((?:strategie:([a-z0-9_]+)|(https?:\/\/[^)\s]+))\)/g,
+    (m, txt, id, url) => id ? (BY_ID[id] ? `<a href="${href(id)}">${txt}</a>` : txt)
+      : `<a href="${url}" target="_blank" rel="noopener">${txt}</a>`);
   const svgEl = (tag, attrs = {}) => { const e = document.createElementNS("http://www.w3.org/2000/svg", tag);
     for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
 
@@ -492,7 +540,9 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     if (s.family === "Statique" && s.id !== "spy") return "Allocation fixe";
     const w = Object.entries(s.next_signal.weights).sort((a, b) => b[1] - a[1]);
     if (w.length === 1) return `100 % ${w[0][0]}`;
-    if (w.length <= 3) return w.map(([k, v]) => `${nf(0).format(v * 100)} % ${k}`).join(" · ");
+    const equal = w.every(([, v]) => Math.abs(v - w[0][1]) < 1e-6);
+    if (equal && w.length <= 3) return w.map(([k]) => k).join(" · ");
+    if (w.length <= 2) return w.map(([k, v]) => `${nf(0).format(v * 100)} % ${k}`).join(" · ");
     return `${w.length} lignes`;
   }
 
@@ -500,7 +550,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   function sparkline(s) {
     const [i0, i1] = windowRange(s);
     const pts = rebase(slice(equityPoints(s), i0, i1));
-    const W = 120, H = 30, lo = Math.log(Math.min(...pts.map(p => p.v))), hi = Math.log(Math.max(...pts.map(p => p.v)));
+    const W = 96, H = 28, lo = Math.log(Math.min(...pts.map(p => p.v))), hi = Math.log(Math.max(...pts.map(p => p.v)));
     const x = i => (i - pts[0].i) / (pts[pts.length - 1].i - pts[0].i) * (W - 4) + 2;
     const y = v => H - 3 - (Math.log(v) - lo) / (hi - lo || 1) * (H - 6);
     const d = pts.map((p, k) => `${k ? "L" : "M"}${x(p.i).toFixed(1)},${y(p.v).toFixed(1)}`).join("");
@@ -962,10 +1012,10 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           ${FICHES[s.id] ? `<section class="panel">
             <h2>L'essentiel</h2>
             <div class="essentials">
-              <p>${esc(FICHES[s.id].idee)}</p>
-              <h3>Points forts</h3><ul>${FICHES[s.id].forces.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
-              <h3>Points faibles</h3><ul>${FICHES[s.id].faiblesses.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
-              ${FICHES[s.id].a_savoir ? `<h3>À savoir</h3><p>${esc(FICHES[s.id].a_savoir)}</p>` : ""}
+              <p>${rich(FICHES[s.id].idee)}</p>
+              <h3>Points forts</h3><ul>${FICHES[s.id].forces.map(x => `<li>${rich(x)}</li>`).join("")}</ul>
+              <h3>Points faibles</h3><ul>${FICHES[s.id].faiblesses.map(x => `<li>${rich(x)}</li>`).join("")}</ul>
+              ${FICHES[s.id].a_savoir ? `<h3>À savoir</h3><p>${rich(FICHES[s.id].a_savoir)}</p>` : ""}
             </div>
           </section>` : ""}
           <section class="panel">
@@ -978,9 +1028,9 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           </section>
           <section class="panel">
             <h2>Règles</h2>
-            <ol class="rules">${rules.map(r => `<li>${esc(r)}</li>`).join("")}</ol>
+            <ol class="rules">${rules.map(r => `<li>${rich(r)}</li>`).join("")}</ol>
             <span class="pill">Rééquilibrage : ${s.rebalance === "annual" ? "annuel" : s.rebalance === "quarterly" ? "trimestriel" : "mensuel"} · rotation ${nf(0).format(s.avg_turnover_year * 50)} % par an</span>
-            ${s.variant_note ? `<div class="callout">${esc(s.variant_note)}</div>` : ""}
+            ${s.variant_note ? `<div class="callout">${rich(s.variant_note)}</div>` : ""}
             ${published ? `<div class="callout"><b>Publiée en ${mLabelLong(published)}.</b> ${pubI > base[base.length - 1].i ? "" : pubI <= base[0].i ? "Tout le backtest affiché est postérieur à la publication : c'est de la performance hors échantillon." : "La zone ombrée du graphique est postérieure à la publication : l'auteur ne la connaissait pas en concevant la stratégie."}</div>` : ""}
           </section>
           ${UCITS ? `<section class="panel">
@@ -1093,7 +1143,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     ]).then(([f, u]) => { FICHES = f; UCITS = u; return d; });
   }).then(d => {
     document.getElementById("stamp").textContent = `Données à fin ${mLabelLong(d.data_end)} · ${d.strategies.length} stratégies`;
-    if (window.ESL_404) return;             // page 404 : on garde son message
+    if (window.ESL_404 || window.ESL_STATIC) return;   // 404, mentions légales : on garde le contenu de la page
     const legacyId = PATH_MODE ? location.hash.slice(1) : "";
     if (legacyId && BY_ID[legacyId]) { location.replace(href(legacyId)); return; }
     if (!PATH_MODE) window.addEventListener("hashchange", route);

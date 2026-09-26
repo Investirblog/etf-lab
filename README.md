@@ -63,7 +63,8 @@ Le cash (`CASH`) correspond à BIL ; avant son lancement (2007), au taux des T-b
 
 Le site interactif est dans `templates/app.html`. À chaque `run_backtests.py`, le générateur `build_site.py` produit dans `site/` une vraie page HTML par adresse :
 
-- `/` (accueil), `/strategies/<id>/` (une page par stratégie), `/equivalents-ucits/`, `/methode/`, `404.html` ;
+- `/` (accueil), `/strategies/<id>/` (une page par stratégie), `/equivalents-ucits/`, `/methode/`, `/mentions-legales/`, `404.html` ;
+- `og/*.png` : une image d'aperçu par page pour les réseaux sociaux (`og_images.py`, via matplotlib) ;
 - `sitemap.xml` et `robots.txt`.
 
 Chaque page contient son texte en HTML, avec titre, description, lien canonique et balises Open Graph : Google et les aperçus de liens (X, Facebook, WhatsApp) la lisent sans exécuter de JavaScript. Le script prend ensuite le relais pour les graphiques. Les anciens liens (`/#gem`) redirigent vers les nouvelles adresses.
@@ -72,7 +73,11 @@ Fichiers à modifier à la main :
 - `site/fiches.json` : les textes des fiches ;
 - `site/ucits.json` : les équivalents UCITS ;
 - `site/content/methode.html` : la page Méthode ;
-- `site_config.json` : l'adresse publique du site (à changer si tu prends un nom de domaine).
+- `site_config.json` : l'adresse publique du site (à changer si tu prends un nom de domaine), l'éditeur affiché dans les mentions légales et l'adresse GoatCounter.
+
+Dans les textes des fiches et des règles, `[ADM](strategie:adm)` crée un lien vers une autre fiche et `[RotationShield](https://rotationshield.be)` un lien externe.
+
+Fichiers fixes du site (à ne pas supprimer) : `site/fonts/` (polices IBM Plex hébergées sur le site, pas d'appel à Google), `site/favicon.svg`, `site/favicon-48.png`, `site/apple-touch-icon.png`. Les polices des images d'aperçu sont dans `assets/og-fonts/`.
 
 Ne modifie pas les pages générées dans `site/` : elles sont réécrites à chaque exécution.
 

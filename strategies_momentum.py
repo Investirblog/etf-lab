@@ -109,7 +109,7 @@ MOMENTUM = [
         family="Momentum",
         meta={"published": "2018-05", "author": "EngineeredPortfolio (2018), variante Allocate Smartly",
               "note": "Comme ADM, mais la poche défensive choisit entre TLT et TIP",
-              "rules": ["Mêmes règles qu'ADM pour la partie actions.",
+              "rules": ["Mêmes règles qu'[ADM](strategie:adm) pour la partie actions.",
                         "En défensif : TLT ou TIP, celui qui a le meilleur rendement sur 1 mois."],
               "variant_note": "Règle ajoutée après la publication originale : elle améliore nettement 2022, "
                               "ce qui illustre le risque de sur-optimisation a posteriori."}),

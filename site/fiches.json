@@ -48,7 +48,7 @@
     "a_savoir": "Le pire moment de cette stratégie n'est pas 2008 mais 2022 : l'inflation a frappé en même temps les actions et les obligations, un cas que les quatre quarts couvrent mal."
   },
   "golden_butterfly": {
-    "idee": "Une variante du Permanent Portfolio proposée par Portfolio Charts : la part actions est doublée, dont la moitié en petites capitalisations « value », historiquement plus rémunératrices.",
+    "idee": "Une variante du [Permanent Portfolio](strategie:permanent) proposée par Portfolio Charts : la part actions est doublée, dont la moitié en petites capitalisations « value », historiquement plus rémunératrices.",
     "forces": [
       "Un profil de risque proche du Permanent Portfolio avec un peu plus de rendement.",
       "Très bonne régularité sur les longues périodes historiques publiées par l'auteur."
@@ -87,13 +87,13 @@
     "idee": "Mebane Faber s'inspire des fonds de dotation de Yale et Harvard : cinq classes d'actifs à parts égales (actions US, actions internationales, obligations, immobilier, matières premières), sans aucun timing.",
     "forces": [
       "Diversification large entre des moteurs de rendement différents.",
-      "Sert de point de comparaison direct pour la version avec timing (GTAA 5)."
+      "Sert de point de comparaison direct pour la version avec timing ([GTAA 5](strategie:gtaa5))."
     ],
     "faiblesses": [
       "Les matières premières ont perdu de l'argent sur la période (GSG : environ -3,7 % par an depuis 2008).",
       "Presque aussi exposé aux krachs que les actions : -41 % en 2008-2009."
     ],
-    "a_savoir": "Comparez avec la fiche GTAA 5 : les mêmes cinq actifs, avec une seule règle de tendance en plus, divisent le pire drawdown par quatre."
+    "a_savoir": "Comparez avec la fiche [GTAA 5](strategie:gtaa5) : les mêmes cinq actifs, avec une seule règle de tendance en plus, divisent le pire drawdown par quatre."
   },
   "swensen": {
     "idee": "Le portefeuille que David Swensen, gérant du fonds de dotation de Yale, recommandait aux particuliers en 2005 : 70 % d'actifs de croissance diversifiés, 30 % d'obligations d'État, dont la moitié indexée sur l'inflation.",
@@ -141,10 +141,10 @@
       "100 % sur un seul actif : volatilité aussi forte que les actions.",
       "En 2022, le refuge (TLT) a plongé : -31,1 % sur l'année, un drawdown de -35 % récupéré seulement en 2025."
     ],
-    "a_savoir": "Comparez avec la variante TLT/TIP : une seule règle ajoutée change complètement 2022. Cette sensibilité à un détail est le signe typique d'un risque de sur-optimisation."
+    "a_savoir": "Comparez avec la [variante TLT/TIP](strategie:adm_tip) : une seule règle ajoutée change complètement 2022. Cette sensibilité à un détail est le signe typique d'un risque de sur-optimisation."
   },
   "adm_tip": {
-    "idee": "La même stratégie qu'ADM, mais quand les actions faiblissent, elle choisit entre obligations longues (TLT) et obligations indexées sur l'inflation (TIP), selon le meilleur des deux sur un mois.",
+    "idee": "La même stratégie qu'[ADM](strategie:adm), mais quand les actions faiblissent, elle choisit entre obligations longues (TLT) et obligations indexées sur l'inflation (TIP), selon le meilleur des deux sur un mois.",
     "forces": [
       "Limite fortement les dégâts de 2022 : -24,2 % au lieu de -31,1 %.",
       "Le meilleur ratio de Sharpe de la famille momentum sur la période."
@@ -156,7 +156,7 @@
     "a_savoir": "Une règle ajoutée après coup améliore toujours le passé. La vraie question est de savoir si elle aurait été choisie sans connaître 2022."
   },
   "gtaa5": {
-    "idee": "Les cinq classes d'actifs de l'Ivy Portfolio, avec une règle unique : chaque classe n'est détenue que si elle est au-dessus de sa moyenne des 10 derniers mois, sinon sa part passe en cash.",
+    "idee": "Les cinq classes d'actifs de l'[Ivy Portfolio](strategie:ivy), avec une règle unique : chaque classe n'est détenue que si elle est au-dessus de sa moyenne des 10 derniers mois, sinon sa part passe en cash.",
     "forces": [
       "Le plus faible drawdown de tous les portefeuilles testés : environ -11 %.",
       "Une seule règle, facile à comprendre et à appliquer."
@@ -201,7 +201,7 @@
       "Beaucoup de paramètres (12 actifs, 6 retenus, 2 canaris) pour un historique limité.",
       "Rotation élevée : des changements presque tous les mois."
     ],
-    "a_savoir": "RotationShield applique la même idée de canari, avec VWO et TIP comme sentinelles."
+    "a_savoir": "[RotationShield](https://rotationshield.be) applique la même idée de canari, avec VWO et TIP comme sentinelles."
   },
   "paa": {
     "idee": "Plus il y a d'actifs risqués sous leur moyenne de 12 mois, plus la part d'obligations intermédiaires grandit, jusqu'à 100 % quand la moitié des 12 actifs sont en baisse.",
@@ -252,7 +252,7 @@
     "a_savoir": "Faber a testé plusieurs durées de momentum (de 1 à 12 mois) ; cette version sur 3 mois est celle que décrit StockCharts."
   },
   "sector_rot_trend": {
-    "idee": "La même rotation sectorielle, mais tout passe en cash quand le S&P 500 est sous sa moyenne des 10 derniers mois.",
+    "idee": "La même [rotation sectorielle](strategie:sector_rot), mais tout passe en cash quand le S&P 500 est sous sa moyenne des 10 derniers mois.",
     "forces": [
       "Le filtre réduit de près de 40 % le pire drawdown (-21 % au lieu de -34 %).",
       "Traverse 2008 quasiment à l'équilibre au second semestre."
@@ -261,7 +261,7 @@
       "Le filtre coûte plus de 2 points de rendement annuel sur la période.",
       "Faux signaux en 2015-2016 : le pire moment de la stratégie."
     ],
-    "a_savoir": "Comparez les deux fiches de rotation sectorielle : c'est un cas d'école du prix d'une assurance contre les krachs."
+    "a_savoir": "Comparez avec la [rotation sectorielle sans filtre](strategie:sector_rot) : c'est un cas d'école du prix d'une assurance contre les krachs."
   },
   "cdm": {
     "idee": "Quatre modules de 25 %, chacun avec son propre double momentum sur 12 mois : actions (US ou international), crédit (entreprises ou haut rendement), immobilier (REIT d'actifs ou hypothécaires), stress économique (or ou obligations longues).",
@@ -273,7 +273,7 @@
       "Les REIT hypothécaires (REM) sont très volatils.",
       "Le momentum sur 12 mois réagit lentement, comme pour GEM."
     ],
-    "a_savoir": "Antonacci a publié cette stratégie en 2012, deux ans avant GEM. Elle est moins connue mais plus diversifiée."
+    "a_savoir": "Antonacci a publié cette stratégie en 2012, deux ans avant [GEM](strategie:gem). Elle est moins connue mais plus diversifiée."
   },
   "paired_switching": {
     "idee": "Chaque trimestre, détenir soit les actions américaines, soit les obligations d'État longues, selon celui des deux qui a le mieux performé le trimestre précédent.",
