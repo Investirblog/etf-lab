@@ -45,6 +45,9 @@
 }
 
 * { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+.wrap > *, .intro > *, .grid-2 > *, .stack > *, .panel > * { min-width: 0; }
+body { overflow-wrap: break-word; }
 body {
   background: var(--bg); color: var(--ink);
   font-family: var(--f-body); font-size: 15px; line-height: 1.55;
@@ -164,6 +167,46 @@ table.metrics { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .metrics td:first-child, .metrics th:first-child { text-align: left; color: var(--ink-2); }
 .metrics tr:last-child td { border-bottom: 0; }
 
+/* Fenêtres glissantes (fiche) */
+.roll-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.roll-stats div { display: grid; gap: 1px; }
+.roll-stats .k { font-size: 11.5px; color: var(--ink-3); }
+.roll-stats .v { font-family: var(--f-mono); font-size: 16px; font-weight: 500; }
+.roll-stats .c { font-size: 11.5px; color: var(--ink-3); }
+.seg.small button { padding: 4px 10px; font-size: 12.5px; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* Robustesse (page d'accueil) */
+.robust { margin-top: 34px; display: grid; gap: 12px; }
+.robust h2 { font-family: var(--f-display); font-weight: 600; font-size: 22px; margin: 0; text-wrap: balance; }
+.robust .seg { justify-self: start; }
+.robust .sub { color: var(--ink-2); font-size: 14px; margin: 0; max-width: 75ch; }
+.rb { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 12px 14px; display: grid; gap: 2px; }
+.rb-row, .rb-axis { display: grid; grid-template-columns: minmax(0, 230px) minmax(0, 1fr) 62px; gap: 12px; align-items: center; padding-inline: 4px; }
+.rb-row { min-height: 28px; cursor: pointer; border-radius: 5px; }
+.rb-row:hover, .rb-row:focus-visible { background: var(--accent-soft); outline: none; }
+.rb-row.is-bench .rb-name { font-weight: 600; }
+.rb-name { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rb-track { position: relative; height: 18px; }
+.rb-track .line { position: absolute; top: 8.5px; height: 1px; background: var(--ink-3); }
+.rb-track .box { position: absolute; top: 3px; height: 12px; border-radius: 3px; background: var(--accent-soft); border: 1px solid var(--accent); }
+.rb-row.is-bench .rb-track .box { background: var(--chip); border-color: var(--bench); }
+.rb-track .med { position: absolute; top: 0; width: 3px; height: 18px; margin-left: -1.5px; border-radius: 2px; background: var(--accent); }
+.rb-row.is-bench .rb-track .med { background: var(--ink-2); }
+.rb-track .zero { position: absolute; top: -5px; bottom: -5px; width: 1px; background: var(--ink-3); opacity: .5; }
+.rb-med { font-family: var(--f-mono); font-size: 12px; text-align: right; }
+.rb-axis .ticks { position: relative; height: 16px; }
+.rb-axis .ticks span { position: absolute; transform: translateX(-50%); font-family: var(--f-mono); font-size: 10.5px; color: var(--ink-3); white-space: nowrap; }
+.rb-axis .lbl { font-size: 11px; color: var(--ink-3); text-align: right; }
+.rb-key { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: var(--ink-3); }
+.rb-key span { display: inline-flex; align-items: center; gap: 6px; }
+
+/* L'essentiel (fiche) */
+.essentials { display: grid; gap: 10px; font-size: 14px; }
+.essentials p { margin: 0; }
+.essentials h3 { font-family: var(--f-display); font-weight: 600; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); margin: 4px 0 0; }
+.essentials ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
+
 footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--ink-3); display: grid; gap: 6px; max-width: 90ch; }
 .err { padding: 40px 0; color: var(--neg); }
 
@@ -172,6 +215,12 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
+  .rb-row, .rb-axis { grid-template-columns: minmax(0, 1fr) 46px; gap: 2px 8px; padding-inline: 2px; }
+  .rb-row { padding-block: 5px; }
+  .rb-name { grid-column: 1 / -1; font-size: 12.5px; white-space: normal; }
+  .rb-axis > span:first-child { display: none; }
+  .rb-med { font-size: 11px; }
+  .roll-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   /* tableau compact : stratégie, CAGR, Sharpe, Max DD */
   table.board { min-width: 0; }
   .board th:first-child, .board td:first-child { min-width: 0; padding-left: 12px; }
@@ -219,7 +268,8 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
   const MOIS_LONG = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
   const FAMILIES = ["Toutes", "Statique", "Momentum", "Tendance", "Keller", "Secteurs"];
-  const state = { window: "common", family: "Toutes", sort: { key: "sharpe", dir: -1 } };
+  const state = { window: "common", family: "Toutes", sort: { key: "sharpe", dir: -1 }, roll: 5 };
+  let FICHES = {};
   try { const w = localStorage.getItem("esl-window"); if (w === "common" || w === "full") state.window = w; } catch (e) {}
   let DATA = null, BY_ID = {}, SPY = null;
 
@@ -265,6 +315,24 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     }
     return [...out.values()].map(o => ({ y: o.y, r: o.g - 1, full: o.n === 12 }));
   }
+  // rendement annualisé sur `years` ans glissants, indexé par le mois de fin
+  function rolling(pts, years) {
+    const n = years * 12, out = [];
+    for (let k = n; k < pts.length; k++) out.push({ i: pts[k].i, v: Math.pow(pts[k].v / pts[k - n].v, 1 / years) - 1 });
+    return out;
+  }
+  function quantile(arr, q) {
+    const a = [...arr].sort((x, y) => x - y), p = (a.length - 1) * q, lo = Math.floor(p), hi = Math.ceil(p);
+    return a[lo] + (a[hi] - a[lo]) * (p - lo);
+  }
+  function rollSummary(r) {
+    if (!r.length) return null;
+    const v = r.map(x => x.v);
+    return { min: Math.min(...v), p25: quantile(v, .25), med: quantile(v, .5), p75: quantile(v, .75),
+             max: Math.max(...v), pos: v.filter(x => x > 0).length / v.length, n: v.length };
+  }
+  const windowPts = s => { const [i0, i1] = windowRange(s); return slice(equityPoints(s), i0, i1); };
+
   function windowRange(s) {
     const pts = equityPoints(s);
     if (state.window === "common") return [mIdx(DATA.common_window[0]) - 1, mIdx(DATA.common_window[1])];
@@ -480,10 +548,20 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           </tbody>
         </table>
       </div>
-      <p class="note-under">CAGR : rendement annualisé. Sharpe : rendement au-delà des T-bills, divisé par la volatilité. Max DD : pire baisse depuis un sommet, en fin de mois. Pire 10 ans : le plus mauvais rendement annualisé sur toutes les périodes de 10 ans glissantes.${state.window === "full" ? " En historique complet, chaque stratégie a sa propre date de départ : les chiffres ne se comparent pas directement." : ""}</p>`;
+      <p class="note-under">CAGR : rendement annualisé. Sharpe : rendement au-delà des T-bills, divisé par la volatilité. Max DD : pire baisse depuis un sommet, en fin de mois. Pire 10 ans : le plus mauvais rendement annualisé sur toutes les périodes de 10 ans glissantes.${state.window === "full" ? " En historique complet, chaque stratégie a sa propre date de départ : les chiffres ne se comparent pas directement." : ""}</p>
+      <section class="robust" aria-labelledby="rb-title">
+        <h2 id="rb-title">Rendement sur ${state.roll} ans selon la date de départ</h2>
+        <p class="sub">Chaque ligne résume toutes les périodes de ${state.roll} ans possibles${state.window === "common" ? " depuis " + mLabel(DATA.common_window[0]) : ""}. Une stratégie robuste a une barre courte et loin du zéro : peu importe le moment où l'on commence.</p>
+        <div class="seg small" role="group" aria-label="Durée des périodes">${[3, 5, 10].map(y => `<button type="button" data-roll="${y}" aria-pressed="${state.roll === y}">${y} ans</button>`).join("")}</div>
+        <div class="rb" id="rb"></div>
+        <div class="rb-key"><span><svg width="34" height="14" aria-hidden="true"><line x1="1" x2="33" y1="7" y2="7" stroke="currentColor"/><rect x="9" y="2" width="16" height="10" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><rect x="16" y="1" width="3" height="12" rx="1" fill="var(--accent)"/></svg>trait : pire et meilleure période · boîte : la moitié centrale des périodes · repère : la médiane</span></div>
+      </section>`;
+    renderRobust(list);
 
     app.querySelectorAll("[data-win]").forEach(b => b.onclick = () => { state.window = b.dataset.win;
       try { localStorage.setItem("esl-window", state.window); } catch (e) {} renderBoard(); });
+    app.querySelectorAll("[data-roll]").forEach(b => b.onclick = () => { state.roll = +b.dataset.roll; renderBoard();
+      app.querySelector(`[data-roll="${state.roll}"]`)?.focus(); });
     app.querySelectorAll("[data-fam]").forEach(b => b.onclick = () => { state.family = b.dataset.fam; renderBoard(); });
     app.querySelectorAll("[data-sort]").forEach(b => b.onclick = () => {
       const k = b.dataset.sort;
@@ -493,6 +571,33 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     app.querySelectorAll("tbody tr").forEach(tr => {
       const go = () => { location.hash = tr.dataset.id; };
       tr.onclick = go; tr.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
+    });
+  }
+
+  function renderRobust(list) {
+    const host = document.getElementById("rb");
+    const rows = list.map(s => ({ s, r: rollSummary(rolling(windowPts(s), state.roll)) })).filter(x => x.r);
+    if (!rows.length) { host.innerHTML = `<p class="sub">Pas assez d'historique pour des périodes de ${state.roll} ans.</p>`; return; }
+    rows.sort((a, b) => b.r.med - a.r.med);
+    let lo = Math.min(0, ...rows.map(x => x.r.min)), hi = Math.max(0, ...rows.map(x => x.r.max));
+    const span = hi - lo, step = span > .5 ? .2 : span > .25 ? .1 : .05;
+    lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step;
+    const X = v => ((v - lo) / (hi - lo) * 100).toFixed(2) + "%";
+    const ticks = []; for (let v = lo; v <= hi + 1e-9; v += step) ticks.push(+v.toFixed(4));
+    const narrow = window.matchMedia("(max-width: 640px)").matches;
+    const shown = narrow && ticks.length > 4 ? ticks.filter(v => Math.abs(Math.round(v / step)) % 2 === 0) : ticks;
+    host.innerHTML = `<div class="rb-axis" aria-hidden="true"><span></span><div class="ticks">${shown.map(v => `<span style="left:${X(v)}">${nf(0).format(v * 100)} %</span>`).join("")}</div><span class="lbl">médiane</span></div>` +
+      rows.map(({ s, r }) => `<div class="rb-row${s.id === "spy" ? " is-bench" : ""}" tabindex="0" data-id="${s.id}"
+          title="${esc(s.name)} : pire ${pct(r.min, 1)}, médiane ${pct(r.med, 1)}, meilleure ${pct(r.max, 1)} par an sur ${state.roll} ans · ${nf(0).format(r.pos * 100)} % des périodes positives">
+        <span class="rb-name">${esc(s.name)}</span>
+        <div class="rb-track"><span class="zero" style="left:${X(0)}"></span>
+          <span class="line" style="left:${X(r.min)};width:calc(${X(r.max)} - ${X(r.min)})"></span>
+          <span class="box" style="left:${X(r.p25)};width:calc(${X(r.p75)} - ${X(r.p25)})"></span>
+          <span class="med" style="left:${X(r.med)}"></span></div>
+        <span class="rb-med ${cls(r.med)}">${pct(r.med, 1)}</span></div>`).join("");
+    host.querySelectorAll(".rb-row").forEach(el => {
+      const go = () => { location.hash = el.dataset.id; };
+      el.onclick = go; el.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
     });
   }
 
@@ -551,12 +656,28 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
             <div id="c-dd"></div>
           </section>
           <section class="panel">
+            <div class="panel-head"><h2>Rendement sur ${state.roll} ans glissants</h2>
+              <div class="seg small" role="group" aria-label="Durée des périodes">${[3, 5, 10].map(y => `<button type="button" data-roll="${y}" aria-pressed="${state.roll === y}">${y} ans</button>`).join("")}</div></div>
+            <p class="sub">Rendement annualisé de chaque période de ${state.roll} ans, placé à sa date de fin. Réponse à la question : « et si j'avais commencé ${state.roll} ans plus tôt ? »</p>
+            <div id="roll-stats"></div>
+            <div id="c-roll"></div>
+          </section>
+          <section class="panel">
             <h2>Rendement par année</h2>
             <div class="legend"><span><i class="box" style="background:var(--accent)"></i>${esc(s.name)}</span>${spyPts ? `<span><i class="box" style="background:var(--bench)"></i>S&amp;P 500</span>` : ""}</div>
             <div id="c-yr"></div>
           </section>
         </div>
         <div class="stack">
+          ${FICHES[s.id] ? `<section class="panel">
+            <h2>L'essentiel</h2>
+            <div class="essentials">
+              <p>${esc(FICHES[s.id].idee)}</p>
+              <h3>Points forts</h3><ul>${FICHES[s.id].forces.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+              <h3>Points faibles</h3><ul>${FICHES[s.id].faiblesses.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+              ${FICHES[s.id].a_savoir ? `<h3>À savoir</h3><p>${esc(FICHES[s.id].a_savoir)}</p>` : ""}
+            </div>
+          </section>` : ""}
           <section class="panel">
             <h2>Signal pour ${mLabelLong(nextM)}</h2>
             <p class="sub">Calculé sur la clôture du ${mLabelLong(DATA.data_end)}.</p>
@@ -613,9 +734,33 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       yfmt: v => nf(0).format(v * 100) + " %", tipFmt: v => pct(v, 1),
     });
     annualBars(document.getElementById("c-yr"), annual(base), spyPts ? annual(spyPts) : [], s.name, "S&P 500");
+    drawRolling(s, base, spyPts);
 
     app.querySelectorAll("[data-win]").forEach(b => b.onclick = () => { state.window = b.dataset.win;
       try { localStorage.setItem("esl-window", state.window); } catch (e) {} renderSheet(s); });
+    app.querySelectorAll("[data-roll]").forEach(b => b.onclick = () => { state.roll = +b.dataset.roll;
+      const y = window.scrollY; renderSheet(s); window.scrollTo(0, y);
+      app.querySelector(`[data-roll="${state.roll}"]`)?.focus({ preventScroll: true }); });
+  }
+
+  function drawRolling(s, base, spyPts) {
+    const r = rolling(base, state.roll), rs = spyPts ? rolling(spyPts, state.roll) : [];
+    const box = document.getElementById("roll-stats"), host = document.getElementById("c-roll");
+    if (!r.length) { box.innerHTML = `<p class="sub">Historique trop court pour des périodes de ${state.roll} ans sur cette fenêtre.</p>`; host.innerHTML = ""; return; }
+    const a = rollSummary(r), b = rs.length ? rollSummary(rs) : null;
+    const spyMap = new Map(rs.map(x => [x.i, x.v]));
+    const beat = rs.length ? r.filter(x => spyMap.has(x.i) && x.v > spyMap.get(x.i)).length / r.length : null;
+    const cell = (k, v, c) => `<div><span class="k">${k}</span><span class="v ${cls(v)}">${pct(v, 1, true)}</span>${c ? `<span class="c">${c}</span>` : ""}</div>`;
+    box.innerHTML = `<div class="roll-stats">
+      ${cell("Pire période", a.min, b ? `S&amp;P 500 : ${pct(b.min, 1, true)}` : "")}
+      ${cell("Médiane", a.med, b ? `S&amp;P 500 : ${pct(b.med, 1, true)}` : "")}
+      ${cell("Meilleure période", a.max, b ? `S&amp;P 500 : ${pct(b.max, 1, true)}` : "")}
+      <div><span class="k">Périodes positives</span><span class="v">${nf(0).format(a.pos * 100)} %</span>${beat != null ? `<span class="c">bat le S&amp;P 500 : ${nf(0).format(beat * 100)} %</span>` : `<span class="c">${a.n} périodes</span>`}</div>
+    </div>`;
+    const series = [{ name: s.name, color: "var(--accent)", pts: r, width: 2 }];
+    if (rs.length) series.push({ name: "S&P 500", color: "var(--bench)", pts: rs, width: 1.4 });
+    timeChart(host, { series, height: 220, zeroLine: true,
+      yfmt: v => nf(0).format(v * 100) + " %", tipFmt: v => pct(v, 1, true) + " /an" });
   }
 
   function route() {
@@ -626,6 +771,8 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
 
   fetch("strategies.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
     DATA = d; d.strategies.forEach(s => BY_ID[s.id] = s); SPY = BY_ID.spy;
+    return fetch("fiches.json").then(r => r.ok ? r.json() : {}).catch(() => ({})).then(f => { FICHES = f; return d; });
+  }).then(d => {
     document.getElementById("stamp").textContent = `Données au ${mLabelLong(d.data_end)} · ${d.strategies.length} stratégies`;
     window.addEventListener("hashchange", route); route();
   }).catch(e => {

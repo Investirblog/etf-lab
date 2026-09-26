@@ -61,7 +61,7 @@ Le cash (`CASH`) correspond à BIL, avec SHV puis SHY comme relais avant son lan
 
 ## Site (prototype)
 
-`site/index.html` + `site/strategies.json`, copié automatiquement par `run_backtests.py`. Pour le voir en local :
+`site/index.html` + `site/strategies.json` (copié automatiquement par `run_backtests.py`) + `site/fiches.json` (les textes des fiches : idée, points forts, points faibles, à savoir). Tu peux modifier `fiches.json` librement : c'est du texte, aucun calcul. Pour le voir en local :
 
 ```bash
 cd site && python3 -m http.server 8000   # puis http://localhost:8000
