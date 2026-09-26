@@ -249,7 +249,7 @@ table.ucits { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .ucits-item .top { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
 /* Nuage rendement / pire baisse */
-.scatter-wrap { display: grid; gap: 10px; margin-block: 8px 26px; }
+.scatter-wrap { display: grid; gap: 12px; margin-top: 34px; }
 .scatter-wrap h2 { font-family: var(--f-display); font-weight: 600; font-size: 22px; margin: 0; text-wrap: balance; }
 .scatter-wrap .sub { color: var(--ink-2); font-size: 14px; margin: 0; max-width: 75ch; }
 .scatter { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 12px 6px; }
@@ -605,13 +605,6 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           <li>Devise <b>USD</b></li>
         </ul>
       </section>
-      <section class="scatter-wrap" aria-labelledby="sc-title">
-        <h2 id="sc-title">Ce que chaque stratégie a rapporté, et ce qu'elle a fait traverser</h2>
-        <p class="sub">Chaque point est une stratégie, de ${mLabel(c0)} à ${mLabel(c1)} : son rendement annuel en hauteur, sa pire baisse en largeur. La ligne relie le cash à la référence choisie : elle représente, de façon approximative, tous les mélanges actions + cash. Un point au-dessus de la ligne a obtenu plus de rendement pour une même pire baisse.</p>
-        <div class="bench-pick"><span>Référence :</span>${benchSeg()}</div>
-        <div class="scatter" id="scatter"></div>
-        <p class="scatter-note" id="scatter-note"></p>
-      </section>
       <div class="controls">
         <div class="seg" role="group" aria-label="Période">
           <button type="button" data-win="common" aria-pressed="${state.window === "common"}">Période commune<span class="sub">${c0.slice(0, 4)}–${c1.slice(0, 4)}</span></button>
@@ -645,6 +638,13 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
         </table>
       </div>
       <p class="note-under">CAGR : rendement annualisé. Sharpe : rendement au-delà des T-bills, divisé par la volatilité. Max DD : pire baisse depuis un sommet, en fin de mois. Récup. : plus longue période passée sous un sommet précédent, c'est-à-dire le plus long délai pour retrouver son argent (« + » : pas encore récupéré). Pire 10 ans : le plus mauvais rendement annualisé sur toutes les périodes de 10 ans glissantes.${state.window === "full" ? " En historique complet, chaque stratégie a sa propre date de départ : les chiffres ne se comparent pas directement." : ""}</p>
+      <section class="scatter-wrap" aria-labelledby="sc-title">
+        <h2 id="sc-title">Ce que chaque stratégie a rapporté, et ce qu'elle a fait traverser</h2>
+        <p class="sub">Chaque point est une stratégie, de ${mLabel(c0)} à ${mLabel(c1)} : son rendement annuel en hauteur, sa pire baisse en largeur. La ligne relie le cash à la référence choisie : elle représente, de façon approximative, tous les mélanges actions + cash. Un point au-dessus de la ligne a obtenu plus de rendement pour une même pire baisse.</p>
+        <div class="bench-pick"><span>Référence :</span>${benchSeg()}</div>
+        <div class="scatter" id="scatter"></div>
+        <p class="scatter-note" id="scatter-note"></p>
+      </section>
       <section class="robust" aria-labelledby="rb-title">
         <h2 id="rb-title">Rendement sur ${state.roll} ans selon la date de départ</h2>
         <p class="sub">Chaque ligne résume toutes les périodes de ${state.roll} ans possibles${state.window === "common" ? " depuis " + mLabel(DATA.common_window[0]) : ""}. Une stratégie robuste a une barre courte et loin du zéro : peu importe le moment où l'on commence.</p>
@@ -691,7 +691,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     const sharper = strats.filter(s => s.stats_common.sharpe > rs.sharpe).length;
     const shallower = strats.filter(s => s.stats_common.max_dd > rs.max_dd).length;
     const n = strats.length, name = ref.id === "acwi" ? "les actions mondiales" : "le S&amp;P 500";
-    return `Depuis ${mLabel(DATA.common_window[0])}, <b>${better} stratégie${better > 1 ? "s" : ""} sur ${n}</b> ${better > 1 ? "ont" : "a"} rapporté plus que ${name} (${pct(rs.cagr, 1)} par an). Mais <b>${shallower}</b> ${shallower > 1 ? "ont" : "a"} subi une pire baisse moins profonde que ses ${pct(rs.max_dd, 0)}, et <b>${sharper}</b> ${sharper > 1 ? "ont" : "a"} mieux rémunéré chaque unité de risque. La vraie question n'est pas seulement combien une stratégie rapporte, mais ce qu'elle fait traverser pour y arriver.`;
+    return `Depuis ${mLabel(DATA.common_window[0])}, <b>${better} stratégie${better > 1 ? "s" : ""} sur ${n}</b> ${better > 1 ? "ont" : "a"} rapporté plus que ${name} (${pct(rs.cagr, 1)} par an). Mais <b>${shallower === n ? `toutes les ${n}` : shallower}</b> ${shallower > 1 ? "ont" : "a"} subi une pire baisse moins profonde que ses ${pct(rs.max_dd, 0)}, et <b>${sharper === n ? `toutes` : sharper}</b> ${sharper > 1 ? "ont" : "a"} mieux rémunéré chaque unité de risque. La vraie question n'est pas seulement combien une stratégie rapporte, mais ce qu'elle fait traverser pour y arriver.`;
   }
 
   function renderScatter(list) {
@@ -956,7 +956,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           </section>` : ""}
           <section class="panel">
             <h2>Signal pour ${mLabelLong(nextM)}</h2>
-            <p class="sub">Calculé sur la clôture du ${mLabelLong(DATA.data_end)}.</p>
+            <p class="sub">Calculé sur la clôture de fin ${mLabelLong(DATA.data_end)}.</p>
             <div class="alloc">${weights.map(([k, v]) => `
               <div class="alloc-row"><span class="tk">${k === "CASH" ? "Cash" : esc(k)}</span><span class="bar"><i style="width:${(v * 100).toFixed(1)}%"></i></span><span class="pc num">${nf(v * 100 % 1 ? 1 : 0).format(v * 100)}&nbsp;%</span>
               <span class="nm">${k === "CASH" ? "T-bills (BIL)" : esc(names[k] || "")}</span></div>`).join("")}
@@ -1070,7 +1070,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       fetch("ucits.json").then(r => r.ok ? r.json() : null).catch(() => null),
     ]).then(([f, u]) => { FICHES = f; UCITS = u; return d; });
   }).then(d => {
-    document.getElementById("stamp").textContent = `Données au ${mLabelLong(d.data_end)} · ${d.strategies.length} stratégies`;
+    document.getElementById("stamp").textContent = `Données à fin ${mLabelLong(d.data_end)} · ${d.strategies.length} stratégies`;
     window.addEventListener("hashchange", route); route();
   }).catch(e => {
     app.innerHTML = `<p class="err">Impossible de charger strategies.json (${esc(e.message)}). Vérifiez que le fichier se trouve à côté de cette page.</p>`;
