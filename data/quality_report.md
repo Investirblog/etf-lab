@@ -174,7 +174,7 @@
 - ✅ aucun problème détecté
 
 ### TBILL — T-bills 3 mois (FRED)
-- Source : secours (FRED indisponible) · couverture 1960-02 → 2026-08 (799 mois)
+- Source : FRED TB3MS · couverture 1990-01 → 2026-08 (440 mois)
 
 ### EURUSD — Euro en dollars (FRED DEXUSEU) : variation mensuelle de l'euro face au dollar
 - Source : BCE (data-api.ecb.europa.eu) · couverture 1999-02 → 2026-08 (331 mois)
