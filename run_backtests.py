@@ -42,6 +42,19 @@ def clean(obj):
     return obj
 
 
+def signal_history(s, returns: pd.DataFrame, rf: pd.Series, n: int = 13) -> dict:
+    """Signal calculé à chaque fin de mois, indexé par le mois où il s'applique."""
+    data = returns[s.assets].assign(CASH=rf)
+    out = {}
+    for t in returns.index[-n:]:
+        try:
+            w = s.weights(data.loc[:t])
+        except Exception:  # historique insuffisant
+            continue
+        out[str(t + 1)] = {k: round(float(v), 4) for k, v in w.items() if v > 1e-6}
+    return out
+
+
 def fmt_table(df: pd.DataFrame) -> str:
     show = df[["name", "cagr", "vol", "sharpe", "max_dd", "worst_year", "roll10_min"]].copy()
     for c in ("cagr", "vol", "max_dd", "worst_year", "roll10_min"):
@@ -95,6 +108,8 @@ def main(argv=None) -> int:
                             "weights": {k: round(float(v), 4)
                                         for k, v in s.weights(returns[s.assets].assign(CASH=rf)).items() if v > 1e-6}},
             "avg_turnover_year": float(r.turnover.sum() / (len(r.returns) / 12)),
+            # signaux des 13 derniers mois (mois de détention -> poids), pour la page « Signaux du mois »
+            "signal_history": signal_history(s, returns, rf),
         })
 
     out = ROOT / "results"

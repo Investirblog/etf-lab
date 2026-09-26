@@ -22,6 +22,7 @@ from PIL import Image  # noqa: E402
 ROOT = Path(__file__).resolve().parent
 FONTS = ROOT / "assets" / "og-fonts"
 W, H, DPI = 1200, 630, 100
+BRAND = "ETF Strategy Lab"
 
 BG, INK, INK2, INK3, RULE = "#f3f5f1", "#17201b", "#4f5a54", "#7a847e", "#d8ddd5"
 ACCENT, BENCH, NEG = "#2a78d6", "#8e9791", "#b6402e"
@@ -40,7 +41,7 @@ def _canvas():
     ax.add_patch(matplotlib.patches.FancyBboxPatch((1.2, 1.2), 17.6, 17.6, boxstyle="round,pad=0,rounding_size=3",
                                                    fill=False, ec=INK, lw=2.2))
     ax.plot([4, 8, 11, 16], [6, 10, 8, 15], color=ACCENT, lw=3, solid_capstyle="round", solid_joinstyle="round")
-    fig.text(106 / W, 1 - 75 / H, "ETF Strategy Lab", fontproperties=_font("ibm-plex-sans-600", 20), color=INK, va="center")
+    fig.text(106 / W, 1 - 75 / H, BRAND, fontproperties=_font("ibm-plex-sans-600", 20), color=INK, va="center")
     return fig
 
 
@@ -139,7 +140,9 @@ def home_image(data: dict, out: Path):
     _save(fig, out)
 
 
-def build(data: dict, site: Path) -> list[str]:
+def build(data: dict, site: Path, brand: str = "ETF Strategy Lab") -> list[str]:
+    global BRAND
+    BRAND = brand
     by_id = {s["id"]: s for s in data["strategies"]}
     ref = by_id.get("acwi") or by_id["spy"]
     home_image(data, site / "og" / "home.png")

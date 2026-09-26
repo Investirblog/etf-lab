@@ -298,6 +298,63 @@ table.ucits { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .intro .key { font-size: 16.5px; color: var(--ink); max-width: 66ch; }
 .intro .key b { font-weight: 600; }
 
+/* Liens de famille, « même famille » */
+a.fam { text-decoration: none; }
+a.fam:hover { background: var(--accent-soft); color: var(--accent); }
+.fam-links { font-size: 13.5px; color: var(--ink-3); margin: 0; }
+.fam-links span { margin-right: 4px; }
+.kin { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; font-size: 13.5px; }
+.kin li { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.kin .num { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+
+/* Signaux du mois, pages de famille */
+.sig-sec { margin-top: 26px; display: grid; gap: 12px; }
+.sig-sec h2 { font-family: var(--f-display); font-weight: 600; font-size: 22px; margin: 0; }
+.sig-sec .sub { color: var(--ink-2); font-size: 14px; margin: 0; }
+.sig-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.sig-card { background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; }
+.sig-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; font-weight: 600; }
+.sig-head a:not(.fam) { color: var(--ink); text-decoration: none; }
+.sig-head a:not(.fam):hover { text-decoration: underline; }
+.sig-row { display: grid; grid-template-columns: 78px 1fr; gap: 8px; font-size: 13.5px; align-items: baseline; }
+.sig-row .lab { font-size: 12px; color: var(--ink-3); }
+.sig-row.before .alloc-txt { color: var(--ink-3); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--ink-3) 50%, transparent); }
+.sig-row.now .alloc-txt { font-weight: 500; }
+.alloc-txt { font-family: var(--f-mono); font-size: 12.5px; }
+table.sig-table, table.fam-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.sig-table th, .fam-table th { font-family: var(--f-display); font-weight: 600; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3);
+  text-align: left; padding: 11px 12px 9px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+.sig-table td, .fam-table td { padding: 10px 12px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+.sig-table tr:last-child td, .fam-table tr:last-child td { border-bottom: 0; }
+.sig-table td:first-child a, .fam-table td:first-child a { font-weight: 600; color: var(--ink); text-decoration: none; }
+.sig-table td:first-child a:hover, .fam-table td:first-child a:hover { text-decoration: underline; }
+.sig-table .since { font-size: 12.5px; color: var(--ink-3); white-space: nowrap; }
+.fam-table td.num, .fam-table th:nth-child(n+2):nth-child(-n+5) { text-align: right; }
+.fam-table td.num { white-space: nowrap; }
+.fam-table tr.is-bench td { background: color-mix(in srgb, var(--chip) 55%, transparent); }
+.fixed-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+.fixed-list li { background: var(--surface); padding: 9px 14px; display: flex; justify-content: space-between; gap: 6px 14px; flex-wrap: wrap; font-size: 14px; }
+.fixed-list a { color: var(--ink); text-decoration: none; font-weight: 500; }
+.fixed-list a:hover { text-decoration: underline; }
+@media (max-width: 640px) {
+  .sig-table thead, .fam-table thead { display: none; }
+  .sig-table, .sig-table tbody, .fam-table, .fam-table tbody { display: block; }
+  .sig-table tr { display: grid; gap: 4px; padding: 12px 14px; border-bottom: 1px solid var(--rule-soft); }
+  .sig-table td { padding: 0; border: 0; }
+  .fam-table tr { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px 8px; padding: 12px 14px; border-bottom: 1px solid var(--rule-soft); }
+  .fam-table td { padding: 0; border: 0; text-align: left !important; }
+  .fam-table td:first-child, .fam-table td:last-child { grid-column: 1 / -1; }
+  .fam-table tr.is-bench { background: color-mix(in srgb, var(--chip) 55%, transparent); }
+  .fam-table tr.is-bench td { background: transparent; }
+  .fam-table td:last-child:empty { display: none; }
+  .fam-table td.num::before { display: block; font-family: var(--f-display); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+  .fam-table td:nth-child(2)::before { content: "CAGR"; }
+  .fam-table td:nth-child(3)::before { content: "Max DD"; }
+  .fam-table td:nth-child(4)::before { content: "Récup."; }
+  .fam-table td:nth-child(5)::before { content: "Sharpe"; }
+  .sig-row { grid-template-columns: 64px 1fr; }
+}
+
 .support { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; display: grid; gap: 10px; color: var(--ink-2); font-size: 13.5px; margin-bottom: 8px; }
 .support p { margin: 0; }
 .support b { color: var(--ink); }
@@ -395,6 +452,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     <div class="masthead-right">
       <nav class="nav" aria-label="Pages">
         <a href="/" data-nav="" aria-current="page">Stratégies</a>
+        <a href="/signaux/" data-nav="signaux">Signaux du mois</a>
         <a href="/equivalents-ucits/" data-nav="ucits">Équivalents UCITS</a>
         <a href="/methode/" data-nav="methode">Méthode</a>
       </nav>
@@ -404,7 +462,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   <main id="app" aria-live="polite">
       <a class="back" href="/">← Toutes les stratégies</a>
       <section class="sheet-head">
-        <div class="byline"><span class="fam">Statique</span><span>Warren Buffett, lettre aux actionnaires (2013)</span></div>
+        <div class="byline"><a class="fam" href="/portefeuilles-fixes/">Statique</a><span>Warren Buffett, lettre aux actionnaires (2013)</span></div>
         <h1>90/10 de Warren Buffett</h1>
         <p class="lede">Le conseil de Buffett pour l&#x27;héritage de son épouse : 90 % S&amp;P 500, 10 % obligations d&#x27;État courtes</p>
       </section>
@@ -421,6 +479,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
         <section class="panel"><h2>Signal pour septembre 2026</h2><p class="sub">Calculé sur la clôture de fin août 2026.</p><div class="alloc"><div class="alloc-row"><span class="tk">SPY</span><span class="bar"><i style="width:90.0%"></i></span><span class="pc num">90 %</span><span class="nm">SPDR S&amp;P 500</span></div><div class="alloc-row"><span class="tk">SHY</span><span class="bar"><i style="width:10.0%"></i></span><span class="pc num">10 %</span><span class="nm">iShares 1-3 Year Treasury Bond</span></div></div></section>
         <section class="panel"><h2>Avec des ETF européens</h2><div class="ucits-list"><div class="ucits-item"><div class="top"><span class="us num">SPY</span><span aria-hidden="true">→</span><b>CSPX</b><span class="match meme">même indice</span></div><div class="fmeta">iShares Core S&amp;P 500 UCITS ETF USD (Acc) · <span class="isin">IE00B5BMR087</span> · frais 0,07 %</div></div><div class="ucits-item"><div class="top"><span class="us num">SHY</span><span aria-hidden="true">→</span><b>IBTS</b><span class="match meme">même indice</span></div><div class="fmeta">iShares USD Treasury Bond 1-3yr UCITS ETF (Dist) · <span class="isin">IE00B14X4S71</span> · frais 0,07 %</div></div></div></section>
         <section class="panel"><h2>Toutes les mesures</h2><table class="metrics"><thead><tr><th scope="col"></th><th scope="col">Commune</th><th scope="col">Complet</th></tr></thead><tbody><tr><td>Début</td><td class="num">juil. 2008</td><td class="num">août 2002</td></tr><tr><td>CAGR</td><td class="num">11,5 %</td><td class="num">10,5 %</td></tr><tr><td>Volatilité</td><td class="num">13,9 %</td><td class="num">13,2 %</td></tr><tr><td>Sharpe</td><td class="num">0,76</td><td class="num">0,70</td></tr><tr><td>Max drawdown</td><td class="num">-37,5 %</td><td class="num">-45,9 %</td></tr><tr><td>Plus longue période sous l'eau</td><td class="num">27 mois</td><td class="num">51 mois</td></tr><tr><td>Meilleure année</td><td class="num">+29,1 %</td><td class="num">+29,1 %</td></tr><tr><td>Pire année</td><td class="num">-16,7 %</td><td class="num">-32,5 %</td></tr><tr><td>Pire 5 ans (annualisé)</td><td class="num">+6,3 %</td><td class="num">-5,4 %</td></tr><tr><td>Pire 10 ans (annualisé)</td><td class="num">+9,4 %</td><td class="num">+6,1 %</td></tr></tbody></table></section>
+        <section class="panel"><h2>Même famille</h2><p class="sub">Rendement annuel et pire baisse sur la période commune.</p><ul class="kin"><li><a href="/strategies/6040/">60/40 classique</a><span class="num">8,9 % /an · -24,4 %</span></li><li><a href="/strategies/permanent/">Permanent Portfolio</a><span class="num">7,0 % /an · -17,0 %</span></li><li><a href="/strategies/golden_butterfly/">Golden Butterfly</a><span class="num">7,7 % /an · -17,8 %</span></li><li><a href="/strategies/all_weather/">All Weather (version Robbins)</a><span class="num">6,6 % /an · -21,1 %</span></li><li><a href="/strategies/three_fund/">Portefeuille 3 fonds (Bogleheads)</a><span class="num">7,7 % /an · -25,1 %</span></li><li><a href="/strategies/ivy/">Ivy Portfolio (buy &amp; hold)</a><span class="num">5,5 % /an · -42,3 %</span></li><li><a href="/strategies/swensen/">Portefeuille Swensen (Yale)</a><span class="num">7,6 % /an · -34,6 %</span></li></ul><a href="/portefeuilles-fixes/">Toute la famille « Portefeuilles fixes »</a></section>
       </div></div></main>
   <footer>
     <div class="support">
@@ -733,6 +792,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           <li>Rééquilibrage <b>fin de mois</b></li>
           <li>Devise <b>USD</b></li>
         </ul>
+        ${famLinks()}
       </section>
       <div class="controls">
         <div class="seg" role="group" aria-label="Période">
@@ -910,6 +970,21 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   }
 
   const MATCH = { meme: "même indice", proche: "proche", aucun: "aucun" };
+  // pages par famille (générées par build_site.py, uniquement sur le site publié)
+  const FAMILY_PAGES = { Statique: ["portefeuilles-fixes/", "Portefeuilles fixes"], Momentum: ["momentum/", "Stratégies momentum"],
+    Tendance: ["suivi-de-tendance/", "Suivi de tendance"], Keller: ["strategies-keller/", "Stratégies de Keller"],
+    Secteurs: ["rotation-sectorielle/", "Rotation sectorielle"] };
+  const famChip = f => PATH_MODE && FAMILY_PAGES[f] ? `<a class="fam" href="${BASE + FAMILY_PAGES[f][0]}">${esc(f)}</a>` : `<span class="fam">${esc(f)}</span>`;
+  const famLinks = () => PATH_MODE ? `<p class="fam-links"><span>Par famille :</span> ${Object.values(FAMILY_PAGES)
+    .map(([p, t]) => `<a href="${BASE + p}">${t}</a>`).join(" · ")}</p>` : "";
+  function sameFamily(s) {
+    const others = DATA.strategies.filter(x => x.family === s.family && x.id !== s.id);
+    if (!others.length) return "";
+    const fp = FAMILY_PAGES[s.family];
+    return `<section class="panel"><h2>Même famille</h2><p class="sub">Rendement annuel et pire baisse sur la période commune.</p>
+      <ul class="kin">${others.map(x => `<li><a href="${href(x.id)}">${esc(x.name)}</a><span class="num">${pct(x.stats_common.cagr, 1)} /an · ${pct(x.stats_common.max_dd, 1)}</span></li>`).join("")}</ul>
+      ${PATH_MODE && fp ? `<a href="${BASE + fp[0]}">Toute la famille « ${fp[1]} »</a>` : ""}</section>`;
+  }
   function ucitsItem(t) {
     const m = UCITS.map[t]; if (!m) return "";
     const f = m.funds.map(k => UCITS._funds[k]);
@@ -981,7 +1056,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     app.innerHTML = `
       <a class="back" href="${href("")}">← Toutes les stratégies</a>
       <section class="sheet-head">
-        <div class="byline"><span class="fam">${esc(s.family)}</span><span>${esc(s.author || "")}</span></div>
+        <div class="byline">${famChip(s.family)}<span>${esc(s.author || "")}</span></div>
         <h1>${esc(s.name)}</h1>
         <p class="lede">${esc(s.note || "")}</p>
       </section>
@@ -1022,6 +1097,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
             <div class="legend"><span><i class="box" style="background:var(--accent)"></i>${esc(s.name)}</span>${spyPts ? `<span><i class="box" style="background:var(--bench)"></i>${esc(BN())}</span>` : ""}</div>
             <div id="c-yr"></div>
           </section>
+          ${sameFamily(s)}
         </div>
         <div class="stack">
           ${FICHES[s.id] ? `<section class="panel">
@@ -1137,9 +1213,10 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     const top = () => { if (!PATH_MODE) window.scrollTo(0, 0); };
     if (id === "methode") { renderMethod(); setTitle("Méthode · ETF Strategy Lab"); top(); }
     else if (id === "ucits" && UCITS) { renderUcits(); setTitle("Équivalents UCITS · ETF Strategy Lab"); top(); }
+    else if (id === "signaux") { app.innerHTML = `<section class="doc"><h1>Signaux du mois</h1><p class="lede">Cette page est générée avec le site publié : <a href="/signaux/">voir les signaux du mois</a>.</p></section>`; top(); }
     else if (id && BY_ID[id]) { renderSheet(BY_ID[id]); setTitle(`${BY_ID[id].name} · ETF Strategy Lab`); top(); }
     else { renderBoard(); if (!PATH_MODE) document.title = "ETF Strategy Lab"; }
-    document.querySelectorAll("[data-nav]").forEach(a => a.toggleAttribute("aria-current", a.dataset.nav === (["methode", "ucits"].includes(id) ? id : "")));
+    document.querySelectorAll("[data-nav]").forEach(a => a.toggleAttribute("aria-current", a.dataset.nav === (["methode", "ucits", "signaux"].includes(id) ? id : "")));
     document.querySelectorAll("[data-nav]").forEach(a => { if (a.hasAttribute("aria-current")) a.setAttribute("aria-current", "page"); });
   }
 

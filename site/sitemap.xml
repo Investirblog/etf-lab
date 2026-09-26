@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://etf-strategy-lab.netlify.app/</loc><lastmod>2026-09-26</lastmod></url>
+  <url><loc>https://etf-strategy-lab.netlify.app/signaux/</loc><lastmod>2026-09-26</lastmod></url>
   <url><loc>https://etf-strategy-lab.netlify.app/equivalents-ucits/</loc><lastmod>2026-09-26</lastmod></url>
   <url><loc>https://etf-strategy-lab.netlify.app/methode/</loc><lastmod>2026-09-26</lastmod></url>
+  <url><loc>https://etf-strategy-lab.netlify.app/portefeuilles-fixes/</loc><lastmod>2026-09-26</lastmod></url>
+  <url><loc>https://etf-strategy-lab.netlify.app/momentum/</loc><lastmod>2026-09-26</lastmod></url>
+  <url><loc>https://etf-strategy-lab.netlify.app/suivi-de-tendance/</loc><lastmod>2026-09-26</lastmod></url>
+  <url><loc>https://etf-strategy-lab.netlify.app/strategies-keller/</loc><lastmod>2026-09-26</lastmod></url>
+  <url><loc>https://etf-strategy-lab.netlify.app/rotation-sectorielle/</loc><lastmod>2026-09-26</lastmod></url>
   <url><loc>https://etf-strategy-lab.netlify.app/strategies/acwi/</loc><lastmod>2026-09-26</lastmod></url>
   <url><loc>https://etf-strategy-lab.netlify.app/strategies/spy/</loc><lastmod>2026-09-26</lastmod></url>
   <url><loc>https://etf-strategy-lab.netlify.app/strategies/6040/</loc><lastmod>2026-09-26</lastmod></url>

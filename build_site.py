@@ -38,6 +38,8 @@ MOIS_LONG = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "
 NBSP = " "
 REF_NAMES = {"acwi": "Actions mondiales", "spy": "S&P 500"}
 MATCH = {"meme": "même indice", "proche": "proche", "aucun": "aucun"}
+FAMILLES: dict = {}          # slug -> textes (site/content/familles.json)
+FAM_SLUG: dict = {}          # famille -> slug
 
 
 # --------------------------------------------------------------------------
@@ -153,7 +155,8 @@ def page(head_tpl: str, body_tpl: str, *, cfg: dict, path: str, title: str, desc
     head_tpl = (head_tpl.replace('url("fonts/', 'url("/fonts/').replace('href="favicon', 'href="/favicon')
                 .replace('href="apple-touch-icon', 'href="/apple-touch-icon'))
     body = body_tpl
-    body = body.replace('href="https://etf-strategy-lab.netlify.app/mentions-legales/"', 'href="/mentions-legales/"')
+    body = body.replace('href="https://etf-strategy-lab.netlify.app/', 'href="/')  # liens du gabarit vers le site publié
+    body = body.replace('href="#signaux"', 'href="/signaux/"')
     # liens de navigation réels
     body = body.replace('class="brand" href="#"', 'class="brand" href="/"')
     body = body.replace('<a href="#" data-nav="">', '<a href="/" data-nav="">')
@@ -165,8 +168,10 @@ def page(head_tpl: str, body_tpl: str, *, cfg: dict, path: str, title: str, desc
                         f'<main id="app" aria-live="polite">{content}</main>')
     flags = 'window.ESL_BASE = "/";' + (" window.ESL_STATIC = true;" if static else "")
     body = body.replace("<script>", f"<script>{flags}</script>\n<script>", 1)
-    return ("<!doctype html>\n<html lang=\"fr\">\n<head>\n" + "\n".join(meta) + "\n"
-            + head_tpl.strip() + "\n</head>\n<body>\n" + body.strip() + "\n</body>\n</html>\n")
+    out = ("<!doctype html>\n<html lang=\"fr\">\n<head>\n" + "\n".join(meta) + "\n"
+           + head_tpl.strip() + "\n</head>\n<body>\n" + body.strip() + "\n</body>\n</html>\n")
+    name = cfg.get("site_name") or "ETF Strategy Lab"
+    return out if name == "ETF Strategy Lab" else out.replace("ETF Strategy Lab", e(name))
 
 
 # --------------------------------------------------------------------------
@@ -214,6 +219,7 @@ def board_html(data, ref) -> str:
           <li>Rééquilibrage <b>fin de mois</b></li>
           <li>Devise <b>USD</b></li>
         </ul>
+        {fam_links()}
       </section>
       <div class="table-scroll"><table class="board">
         <thead><tr><th scope="col">Stratégie</th><th scope="col">CAGR</th><th scope="col">Sharpe</th>
@@ -282,7 +288,7 @@ def sheet_html(s, data, fiches, uc, ref) -> str:
     return f"""
       <a class="back" href="/">← Toutes les stratégies</a>
       <section class="sheet-head">
-        <div class="byline"><span class="fam">{e(s['family'])}</span><span>{e(s.get('author', ''))}</span></div>
+        <div class="byline">{fam_chip(s['family'])}<span>{e(s.get('author', ''))}</span></div>
         <h1>{e(s['name'])}</h1>
         <p class="lede">{e(s.get('note', ''))}</p>
       </section>
@@ -299,7 +305,147 @@ def sheet_html(s, data, fiches, uc, ref) -> str:
         <section class="panel"><h2>Signal pour {m_long(nm)}</h2><p class="sub">Calculé sur la clôture de fin {m_long(data['data_end'])}.</p><div class="alloc">{sig}</div></section>
         {f'<section class="panel"><h2>Avec des ETF européens</h2><div class="ucits-list">{ucits}</div></section>' if ucits else ''}
         <section class="panel"><h2>Toutes les mesures</h2><table class="metrics"><thead><tr><th scope="col"></th><th scope="col">Commune</th><th scope="col">Complet</th></tr></thead><tbody>{mt}</tbody></table></section>
+        {same_family_html(s, data)}
       </div></div>"""
+
+
+def fam_chip(family: str) -> str:
+    slug = FAM_SLUG.get(family)
+    return (f'<a class="fam" href="/{slug}/">{e(family)}</a>' if slug
+            else f'<span class="fam">{e(family)}</span>')
+
+
+def fam_links() -> str:
+    if not FAMILLES:
+        return ""
+    return ('<p class="fam-links"><span>Par famille :</span> '
+            + " · ".join(f'<a href="/{slug}/">{e(f["titre"])}</a>' for slug, f in FAMILLES.items()) + "</p>")
+
+
+def same_family_html(s, data) -> str:
+    others = [x for x in data["strategies"] if x["family"] == s["family"] and x["id"] != s["id"]]
+    if not others:
+        return ""
+    slug = FAM_SLUG.get(s["family"])
+    rows = "".join(
+        f'<li><a href="/strategies/{x["id"]}/">{e(x["name"])}</a><span class="num">{pct(x["stats_common"]["cagr"])} /an · '
+        f'{pct(x["stats_common"]["max_dd"])}</span></li>' for x in others)
+    more = f'<a href="/{slug}/">Toute la famille « {e(FAMILLES[slug]["titre"])} »</a>' if slug else ""
+    return (f'<section class="panel"><h2>Même famille</h2><p class="sub">Rendement annuel et pire baisse sur la période commune.</p>'
+            f'<ul class="kin">{rows}</ul>{more}</section>')
+
+
+def alloc_text(w: dict) -> str:
+    """{'SPY': .6, 'AGG': .4} -> « 60 % SPY · 40 % AGG » ; poids égaux regroupés."""
+    groups: dict = {}
+    for k, v in w.items():
+        groups.setdefault(round(v, 3), []).append("Cash" if k == "CASH" else k)
+    parts = []
+    for v, ks in sorted(groups.items(), key=lambda kv: -kv[0]):
+        parts.append(f"{weight_text(v)} {ks[0]}" if len(ks) == 1 else f"{weight_text(v)} chacun : {', '.join(ks)}")
+    return " · ".join(parts)
+
+
+def same_weights(a: dict, b: dict) -> bool:
+    return all(abs(a.get(k, 0) - b.get(k, 0)) < 0.005 for k in set(a) | set(b))
+
+
+def signal_since(s) -> str | None:
+    """Premier mois de la série ininterrompue du signal actuel ("long" : toute la fenêtre de 13 mois)."""
+    h = s.get("signal_history") or {}
+    months = sorted(h)
+    if not months:
+        return None
+    cur, since = s["next_signal"]["weights"], None
+    for m in reversed(months):
+        if not same_weights(h[m], cur):
+            break
+        since = m
+    return "long" if since == months[0] else since
+
+
+def signals_html(data) -> str:
+    nm = data["strategies"][0]["next_signal"]["for_month"]
+    tactical = [s for s in data["strategies"] if s["family"] not in ("Statique", "Référence")]
+    fixed = [s for s in data["strategies"] if s["family"] == "Statique"]
+    changed, same = [], []
+    for s in tactical:
+        h = s.get("signal_history") or {}
+        months = sorted(h)
+        prev = h[months[-2]] if len(months) >= 2 else None
+        (changed if prev is not None and not same_weights(prev, s["next_signal"]["weights"]) else same).append((s, prev))
+    order = lambda lst: sorted(lst, key=lambda x: (x[0]["family"], x[0]["name"]))
+
+    def card(s, prev):
+        return (f'<li class="sig-card"><div class="sig-head"><a href="/strategies/{s["id"]}/">{e(s["name"])}</a>{fam_chip(s["family"])}</div>'
+                f'<div class="sig-row now"><span class="lab">Nouveau</span>'
+                f'<span class="alloc-txt">{e(alloc_text(s["next_signal"]["weights"]))}</span></div>'
+                f'<div class="sig-row before"><span class="lab">Avant</span><span class="alloc-txt">{e(alloc_text(prev))}</span></div></li>')
+
+    def row(s):
+        since = signal_since(s)
+        stxt = "depuis plus d'un an" if since == "long" else f"depuis {m_label(since)}" if since else ""
+        return (f'<tr><td><a href="/strategies/{s["id"]}/">{e(s["name"])}</a><div class="s-meta">{fam_chip(s["family"])}</div></td>'
+                f'<td class="alloc-txt">{e(alloc_text(s["next_signal"]["weights"]))}</td><td class="since">{stxt}</td></tr>')
+
+    n_ch, n_t = len(changed), len(tactical)
+    lead = (f"<b>{n_ch} stratégie{'s' if n_ch > 1 else ''} sur {n_t}</b> change{'nt' if n_ch > 1 else ''} d'allocation pour {m_long(nm)}."
+            if n_ch else f"Aucune des {n_t} stratégies actives ne change d'allocation pour {m_long(nm)}.")
+    ch_html = (f'<section class="sig-sec"><h2>Ce qui change</h2><ul class="sig-cards">'
+               f'{"".join(card(s, p) for s, p in order(changed))}</ul></section>' if changed else "")
+    rebal = ("<b>C'est le mois du rééquilibrage annuel</b> : on revient aux poids cibles." if nm.endswith("-01")
+             else "Rééquilibrage une fois par an, fin décembre.")
+    fixed_li = "".join(f'<li><a href="/strategies/{s["id"]}/">{e(s["name"])}</a>'
+                       f'<span class="alloc-txt">{e(alloc_text(s["next_signal"]["weights"]))}</span></li>'
+                       for s in sorted(fixed, key=lambda s: s["name"]))
+    return f"""
+      <section class="doc">
+        <h1>Signaux des stratégies ETF pour {m_long(nm)}</h1>
+        <p class="lede">{lead} Signaux calculés sur les cours de clôture de fin {m_long(data['data_end'])}, à appliquer au début du mois.</p>
+      </section>
+      {ch_html}
+      <section class="sig-sec"><h2>{"Sans changement" if changed else "Allocations du mois"}</h2>
+        <div class="table-scroll"><table class="sig-table"><thead><tr><th scope="col">Stratégie</th><th scope="col">Allocation</th><th scope="col">Inchangée</th></tr></thead>
+        <tbody>{"".join(row(s) for s, _ in order(same))}</tbody></table></div></section>
+      <section class="sig-sec"><h2>Portefeuilles fixes</h2>
+        <p class="sub">Pas de signal : l'allocation ne change jamais. {rebal}</p>
+        <ul class="fixed-list">{fixed_li}</ul>
+      </section>
+      <p class="note-under">Les signaux sont calculés avec les ETF américains ; les <a href="/equivalents-ucits/">équivalents UCITS</a> permettent de les appliquer depuis l'Europe. Ils découlent de règles publiques appliquées mécaniquement : ce ne sont pas des conseils en investissement.</p>"""
+
+
+def family_html(slug, fam, data, ref) -> str:
+    members = sorted([s for s in data["strategies"] if s["family"] == fam["famille"]],
+                     key=lambda s: -(s["stats_common"]["sharpe"] or -9))
+    rs = ref["stats_common"]
+    nm = data["strategies"][0]["next_signal"]["for_month"]
+    fixed = fam["famille"] == "Statique"
+
+    def tr(s, is_ref=False):
+        st = s["stats_common"]
+        sig = "" if is_ref else ("Allocation fixe" if fixed else alloc_text(s["next_signal"]["weights"]))
+        return (f'<tr class="{"is-bench" if is_ref else ""}"><td><a class="s-link" href="/strategies/{s["id"]}/">{e(s["name"])}</a></td>'
+                f'<td class="num">{pct(st["cagr"])}</td><td class="num neg">{pct(st["max_dd"])}</td><td class="num">{uw(st)}</td>'
+                f'<td class="num">{dec(st["sharpe"])}</td><td class="alloc-txt">{e(sig)}</td></tr>')
+
+    c0, c1 = data["common_window"]
+    others = " · ".join(f'<a href="/{k}/">{e(f["titre"])}</a>' for k, f in FAMILLES.items() if k != slug)
+    return f"""
+      <a class="back" href="/">← Toutes les stratégies</a>
+      <section class="doc">
+        <h1>{e(fam["h1"])}</h1>
+        {"".join(f"<p>{rich(x)}</p>" for x in fam["intro"])}
+      </section>
+      <div class="table-scroll" style="margin-top:22px"><table class="fam-table">
+        <thead><tr><th scope="col">Stratégie</th><th scope="col">CAGR</th><th scope="col">Max DD</th><th scope="col">Récup.</th><th scope="col">Sharpe</th><th scope="col">Signal {e(m_label(nm))}</th></tr></thead>
+        <tbody>{"".join(tr(s) for s in members)}{tr(ref, True)}</tbody></table></div>
+      <p class="note-under">Période commune de {m_label(c0)} à {m_label(c1)}, frais inclus, du meilleur au moins bon Sharpe. Dernière ligne, pour comparaison : {"les actions mondiales" if ref["id"] == "acwi" else "le S&amp;P 500"} ({pct(rs["cagr"])} par an, pire baisse {pct(rs["max_dd"])}).</p>
+      <section class="doc">
+        <h2>Ce qu'il faut savoir</h2>
+        <ul>{"".join(f"<li>{rich(x)}</li>" for x in fam["a_savoir"])}</ul>
+        <h2>Les autres familles</h2>
+        <p>{others}</p>
+      </section>"""
 
 
 def ucits_html(data, uc) -> str:
@@ -382,6 +528,15 @@ def build(root: Path = ROOT) -> list[str]:
     fiches = json.loads((SITE / "fiches.json").read_text(encoding="utf-8")) if (SITE / "fiches.json").exists() else {}
     uc = json.loads((SITE / "ucits.json").read_text(encoding="utf-8")) if (SITE / "ucits.json").exists() else None
     head_tpl, body_tpl = split_template(TEMPLATE.read_text(encoding="utf-8"))
+    fam_file = SITE / "content" / "familles.json"
+    FAMILLES.clear()
+    FAM_SLUG.clear()
+    if fam_file.exists():
+        present = {s["family"] for s in data["strategies"]}
+        for slug, f in json.loads(fam_file.read_text(encoding="utf-8")).items():
+            if not slug.startswith("_") and f["famille"] in present:
+                FAMILLES[slug] = f
+                FAM_SLUG[f["famille"]] = slug
     by_id = {s["id"]: s for s in data["strategies"]}
     KNOWN_IDS.clear()
     KNOWN_IDS.update(by_id)
@@ -427,11 +582,26 @@ def build(root: Path = ROOT) -> list[str]:
                    title="Équivalents UCITS des ETF américains (ISIN, tickers, frais) | ETF Strategy Lab",
                    desc="Pour chaque ETF américain (SPY, TLT, GLD, QQQ…), l'équivalent UCITS accessible en Europe : "
                         "ISIN, cotations, frais et niveau de correspondance.", **common))
-    write("methode/index.html",
-          page(head_tpl, body_tpl, path="methode/", nav="methode", content=method_html(data),
-               title="Méthode et limites des backtests | ETF Strategy Lab",
-               desc="Données, conventions de calcul, période commune, mesures et limites des backtests "
-                    "d'ETF Strategy Lab.", **common))
+    nm = data["strategies"][0]["next_signal"]["for_month"]
+    write("signaux/index.html",
+          page(head_tpl, body_tpl, path="signaux/", nav="signaux", static=True, content=signals_html(data),
+               title=f"Signaux des stratégies ETF pour {m_long(nm)} (GEM, DAA, VAA…) | ETF Strategy Lab",
+               desc=clip(f"Les allocations de {m_long(nm)} de toutes les stratégies ETF du site : ce qui change, ce qui "
+                         "reste en place, calculé sur la dernière clôture mensuelle."), **common))
+    for slug, fam in FAMILLES.items():
+        write(f"{slug}/index.html",
+              page(head_tpl, body_tpl, path=f"{slug}/", nav="none", static=True,
+                   content=family_html(slug, fam, data, ref),
+                   title=f"{fam['titre']} : stratégies backtestées et comparées | ETF Strategy Lab",
+                   desc=clip(fam["description"]), **common))
+    if not (SITE / "content" / "methode.html").exists():
+        print("⚠️  site/content/methode.html introuvable : page Méthode non générée.")
+    else:
+        write("methode/index.html",
+              page(head_tpl, body_tpl, path="methode/", nav="methode", content=method_html(data),
+                   title="Méthode et limites des backtests | ETF Strategy Lab",
+                   desc="Données, conventions de calcul, période commune, mesures et limites des backtests "
+                        "d'ETF Strategy Lab.", **common))
     if not cfg.get("editeur", {}).get("contact"):
         print("⚠️  Mentions légales : ajoute un contact (e-mail ou lien) dans site_config.json, rubrique editeur.")
     write("mentions-legales/index.html",
@@ -446,11 +616,11 @@ def build(root: Path = ROOT) -> list[str]:
                    '<script>window.ESL_BASE = "/";</script>', '<script>window.ESL_BASE = "/"; window.ESL_404 = true;</script>'))
     try:
         import og_images
-        written += og_images.build(data, SITE)
+        written += og_images.build(data, SITE, cfg.get("site_name") or "ETF Strategy Lab")
     except ImportError as err:  # matplotlib absent : pages sans image
         print(f"⚠️  Images d'aperçu non générées ({err})")
     today = dt.date.today().isoformat()
-    urls = ["", "equivalents-ucits/", "methode/"] + [f"strategies/{s['id']}/" for s in data["strategies"]]
+    urls = ["", "signaux/", "equivalents-ucits/", "methode/"] + [f"{k}/" for k in FAMILLES] + [f"strategies/{s['id']}/" for s in data["strategies"]]
     write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
           + "".join(f"  <url><loc>{base_url}/{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls) + "</urlset>\n")
     write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {base_url}/sitemap.xml\n")

@@ -3,23 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Actions mondiales (référence) : backtest, règles et signal du mois | ETF Strategy Lab</title>
-<meta name="description" content="Référence principale : 100 % actions mondiales, pays développés et émergents. Depuis juil. 2008 : 8,8 % par an, pire baisse -45,8 %.">
-<link rel="canonical" href="https://etf-strategy-lab.netlify.app/strategies/acwi/">
+<title>Stratégies momentum : stratégies backtestées et comparées | ETF Strategy Lab</title>
+<meta name="description" content="Dual Momentum d&#x27;Antonacci (GEM), Accelerating Dual Momentum, Paired Switching… Les stratégies qui suivent l&#x27;actif le plus fort, backtestées et comparées.">
+<link rel="canonical" href="https://etf-strategy-lab.netlify.app/momentum/">
 <meta property="og:site_name" content="ETF Strategy Lab">
 <meta property="og:locale" content="fr_FR">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Actions mondiales (référence) : backtest, règles et signal du mois | ETF Strategy Lab">
-<meta property="og:description" content="Référence principale : 100 % actions mondiales, pays développés et émergents. Depuis juil. 2008 : 8,8 % par an, pire baisse -45,8 %.">
-<meta property="og:url" content="https://etf-strategy-lab.netlify.app/strategies/acwi/">
-<meta property="og:image" content="https://etf-strategy-lab.netlify.app/og/acwi.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Stratégies momentum : stratégies backtestées et comparées | ETF Strategy Lab">
+<meta property="og:description" content="Dual Momentum d&#x27;Antonacci (GEM), Accelerating Dual Momentum, Paired Switching… Les stratégies qui suivent l&#x27;actif le plus fort, backtestées et comparées.">
+<meta property="og:url" content="https://etf-strategy-lab.netlify.app/momentum/">
+<meta property="og:image" content="https://etf-strategy-lab.netlify.app/og/home.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Actions mondiales (référence) : backtest, règles et signal du mois | ETF Strategy Lab">
+<meta property="og:image:alt" content="Stratégies momentum : stratégies backtestées et comparées | ETF Strategy Lab">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script data-goatcounter="https://etf-strategy-lab.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Actions mondiales (référence)", "description": "Référence principale : 100 % actions mondiales, pays développés et émergents. Depuis juil. 2008 : 8,8 % par an, pire baisse -45,8 %.", "inLanguage": "fr", "isPartOf": {"@type": "WebSite", "name": "ETF Strategy Lab", "url": "https://etf-strategy-lab.netlify.app/"}}</script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -451,7 +450,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     </a>
     <div class="masthead-right">
       <nav class="nav" aria-label="Pages">
-        <a href="/" data-nav="" aria-current="page">Stratégies</a>
+        <a href="/" data-nav="">Stratégies</a>
         <a href="/signaux/" data-nav="signaux">Signaux du mois</a>
         <a href="/equivalents-ucits/" data-nav="ucits">Équivalents UCITS</a>
         <a href="/methode/" data-nav="methode">Méthode</a>
@@ -461,26 +460,20 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   </header>
   <main id="app" aria-live="polite">
       <a class="back" href="/">← Toutes les stratégies</a>
-      <section class="sheet-head">
-        <div class="byline"><span class="fam">Référence</span><span>—</span></div>
-        <h1>Actions mondiales (référence)</h1>
-        <p class="lede">Référence principale : 100 % actions mondiales, pays développés et émergents</p>
+      <section class="doc">
+        <h1>Stratégies momentum : Dual Momentum, GEM, ADM et variantes</h1>
+        <p>Le momentum part d&#x27;un constat observé sur presque tous les marchés : ce qui a monté ces derniers mois a tendance à continuer de monter un peu. Ces stratégies investissent chaque mois dans l&#x27;actif qui a le mieux performé récemment.</p><p>La plupart combinent deux filtres, d&#x27;où le nom de « double momentum » popularisé par Gary Antonacci avec <a href="/strategies/gem/">GEM</a> : le momentum relatif choisit le meilleur actif parmi plusieurs, le momentum absolu vérifie qu&#x27;il fait mieux que le cash. Si ce n&#x27;est pas le cas, le portefeuille se replie sur les obligations.</p>
       </section>
-      <div class="tiles">
-        <div class="tile"><span class="k">CAGR</span><span class="v">8,8 %</span></div>
-        <div class="tile"><span class="k">Temps de récupération</span><span class="v">28 mois</span></div>
-        <div class="tile"><span class="k">Max drawdown</span><span class="v neg">-45,8 %</span></div>
-        <div class="tile"><span class="k">Pire année</span><span class="v">-18,4 %</span></div>
-      </div>
-      <div class="grid-2"><div class="stack">
-        <section class="panel"><h2>L'essentiel</h2><div class="essentials"><p>La référence principale du site : un ETF qui détient les grandes et moyennes entreprises de 47 pays, développés et émergents. C&#x27;est le portefeuille passif le plus simple pour un investisseur qui ne veut parier sur aucune région.</p><h3>Points forts</h3><ul><li>Diversification mondiale maximale en une seule ligne.</li><li>Proche de ce que détient l&#x27;investisseur passif typique en Europe (ETF monde ou ACWI).</li></ul><h3>Points faibles</h3><ul><li>Aussi exposé aux krachs que les actions américaines.</li><li>Sur la période testée, les marchés hors États-Unis ont freiné son rendement par rapport au S&amp;P 500.</li></ul><h3>À savoir</h3><p>Les États-Unis représentent environ deux tiers de l&#x27;indice. Comparer une stratégie à cette référence plutôt qu&#x27;au seul S&amp;P 500 évite de la juger face au marché qui a été, a posteriori, le meilleur de la période.</p></div></section>
-        <section class="panel"><h2>Règles</h2><ol class="rules"><li>Allocation fixe : 100 % ACWI.</li><li>Rééquilibrage chaque fin de mois.</li></ol></section>
-      </div><div class="stack">
-        <section class="panel"><h2>Signal pour septembre 2026</h2><p class="sub">Calculé sur la clôture de fin août 2026.</p><div class="alloc"><div class="alloc-row"><span class="tk">ACWI</span><span class="bar"><i style="width:100.0%"></i></span><span class="pc num">100 %</span><span class="nm">iShares MSCI ACWI</span></div></div></section>
-        <section class="panel"><h2>Avec des ETF européens</h2><div class="ucits-list"><div class="ucits-item"><div class="top"><span class="us num">ACWI</span><span aria-hidden="true">→</span><b>SSAC</b><span class="match meme">même indice</span></div><div class="fmeta">iShares MSCI All Country World UCITS ETF USD (Acc) · <span class="isin">IE00B6R52259</span> · frais 0,20 %</div></div></div></section>
-        <section class="panel"><h2>Toutes les mesures</h2><table class="metrics"><thead><tr><th scope="col"></th><th scope="col">Commune</th><th scope="col">Complet</th></tr></thead><tbody><tr><td>Début</td><td class="num">juil. 2008</td><td class="num">avr. 2008</td></tr><tr><td>CAGR</td><td class="num">8,8 %</td><td class="num">8,6 %</td></tr><tr><td>Volatilité</td><td class="num">16,5 %</td><td class="num">16,6 %</td></tr><tr><td>Sharpe</td><td class="num">0,52</td><td class="num">0,51</td></tr><tr><td>Max drawdown</td><td class="num">-45,8 %</td><td class="num">-51,7 %</td></tr><tr><td>Plus longue période sous l'eau</td><td class="num">28 mois</td><td class="num">55 mois</td></tr><tr><td>Meilleure année</td><td class="num">+32,4 %</td><td class="num">+32,4 %</td></tr><tr><td>Pire année</td><td class="num">-18,4 %</td><td class="num">-18,4 %</td></tr><tr><td>Pire 5 ans (annualisé)</td><td class="num">+2,1 %</td><td class="num">+1,0 %</td></tr><tr><td>Pire 10 ans (annualisé)</td><td class="num">+5,8 %</td><td class="num">+5,0 %</td></tr></tbody></table></section>
-        <section class="panel"><h2>Même famille</h2><p class="sub">Rendement annuel et pire baisse sur la période commune.</p><ul class="kin"><li><a href="/strategies/spy/">S&amp;P 500 (référence)</a><span class="num">12,4 % /an · -41,8 %</span></li></ul></section>
-      </div></div></main>
+      <div class="table-scroll" style="margin-top:22px"><table class="fam-table">
+        <thead><tr><th scope="col">Stratégie</th><th scope="col">CAGR</th><th scope="col">Max DD</th><th scope="col">Récup.</th><th scope="col">Sharpe</th><th scope="col">Signal sept. 2026</th></tr></thead>
+        <tbody><tr class=""><td><a class="s-link" href="/strategies/adm_tip/">Accelerating Dual Momentum (variante TLT/TIP)</a></td><td class="num">13,2 %</td><td class="num neg">-25,8 %</td><td class="num">40 mois</td><td class="num">0,84</td><td class="alloc-txt">100 % SPY</td></tr><tr class=""><td><a class="s-link" href="/strategies/adm/">Accelerating Dual Momentum</a></td><td class="num">12,5 %</td><td class="num neg">-34,9 %</td><td class="num">43 mois</td><td class="num">0,77</td><td class="alloc-txt">100 % SPY</td></tr><tr class=""><td><a class="s-link" href="/strategies/gem/">Global Equities Momentum (GEM)</a></td><td class="num">8,3 %</td><td class="num neg">-21,6 %</td><td class="num">29 mois</td><td class="num">0,60</td><td class="alloc-txt">100 % EFA</td></tr><tr class=""><td><a class="s-link" href="/strategies/cdm/">Composite Dual Momentum</a></td><td class="num">5,7 %</td><td class="num neg">-14,3 %</td><td class="num">31 mois</td><td class="num">0,55</td><td class="alloc-txt">25 % chacun : EFA, HYG, VNQ, GLD</td></tr><tr class=""><td><a class="s-link" href="/strategies/paired_switching/">Paired Switching</a></td><td class="num">8,1 %</td><td class="num neg">-28,4 %</td><td class="num">33 mois</td><td class="num">0,50</td><td class="alloc-txt">100 % SPY</td></tr><tr class="is-bench"><td><a class="s-link" href="/strategies/acwi/">Actions mondiales (référence)</a></td><td class="num">8,8 %</td><td class="num neg">-45,8 %</td><td class="num">28 mois</td><td class="num">0,52</td><td class="alloc-txt"></td></tr></tbody></table></div>
+      <p class="note-under">Période commune de juil. 2008 à août 2026, frais inclus, du meilleur au moins bon Sharpe. Dernière ligne, pour comparaison : les actions mondiales (8,8 % par an, pire baisse -45,8 %).</p>
+      <section class="doc">
+        <h2>Ce qu'il faut savoir</h2>
+        <ul><li>Le portefeuille est souvent investi à 100 % dans un seul ETF : une erreur de signal pèse sur tout le capital.</li><li>Le signal réagit avec retard aux retournements brutaux. Dans les marchés qui hésitent, il peut entrer et sortir au mauvais moment plusieurs fois de suite.</li><li>La protection vient du repli sur les obligations. Quand les obligations baissent aussi, comme en 2022, cette protection fonctionne mal.</li><li>Beaucoup de variantes existent. Une petite modification des règles peut changer fortement les résultats passés : comparez <a href="/strategies/adm/">ADM</a> et sa <a href="/strategies/adm_tip/">variante TLT/TIP</a>.</li></ul>
+        <h2>Les autres familles</h2>
+        <p><a href="/portefeuilles-fixes/">Portefeuilles fixes</a> · <a href="/suivi-de-tendance/">Suivi de tendance</a> · <a href="/strategies-keller/">Stratégies de Keller</a> · <a href="/rotation-sectorielle/">Rotation sectorielle</a></p>
+      </section></main>
   <footer>
     <div class="support">
       <p><b>Un site gratuit, sans publicité ni produit à vendre.</b> Il est tenu par <a href="https://x.com/TransactionB" rel="noopener">Nathanaël Dumortier</a>, auteur de la newsletter <a href="https://investir.blog">investir.blog</a>.</p>
@@ -498,7 +491,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   <span>Offrir un café</span>
 </a>
 
-<script>window.ESL_BASE = "/";</script>
+<script>window.ESL_BASE = "/"; window.ESL_STATIC = true;</script>
 <script>
 (() => {
   "use strict";

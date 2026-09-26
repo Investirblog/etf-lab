@@ -1,0 +1,83 @@
+{
+  "_comment": "Textes des pages par famille. Liens : [texte](strategie:id) vers une fiche, [texte](https://…) vers un autre site. La clé 'famille' doit correspondre au champ family des stratégies.",
+  "portefeuilles-fixes": {
+    "famille": "Statique",
+    "titre": "Portefeuilles fixes",
+    "h1": "Portefeuilles fixes : les allocations permanentes backtestées",
+    "description": "60/40, Permanent Portfolio, All Weather, Golden Butterfly, portefeuille 3 fonds… Les grands portefeuilles à allocation fixe comparés sur les mêmes données.",
+    "intro": [
+      "Un portefeuille fixe garde toujours la même répartition entre ses actifs : par exemple 60 % d'actions et 40 % d'obligations. Il n'y a aucun signal à suivre. Une fois par an, on vend un peu de ce qui a monté et on rachète ce qui a baissé pour revenir aux poids de départ.",
+      "Toute la stratégie tient dans le choix des actifs et de leurs proportions. Le [Permanent Portfolio](strategie:permanent) mise sur quatre actifs censés réagir chacun à un climat économique différent, le [60/40](strategie:6040) sur le couple actions-obligations, le [portefeuille 3 fonds](strategie:three_fund) sur la simplicité et les frais minimaux."
+    ],
+    "a_savoir": [
+      "Aucun timing : le portefeuille subit toutes les baisses de ses actifs, mais ne rate jamais une reprise.",
+      "Très peu de transactions, donc peu de frais et, selon les pays, peu d'impôts sur les plus-values.",
+      "Le point faible commun apparaît quand actions et obligations baissent ensemble, comme en 2022 : la diversification entre les deux ne protège plus.",
+      "C'est la famille la plus facile à appliquer avec des ETF européens, et la plus facile à tenir psychologiquement."
+    ]
+  },
+  "momentum": {
+    "famille": "Momentum",
+    "titre": "Stratégies momentum",
+    "h1": "Stratégies momentum : Dual Momentum, GEM, ADM et variantes",
+    "description": "Dual Momentum d'Antonacci (GEM), Accelerating Dual Momentum, Paired Switching… Les stratégies qui suivent l'actif le plus fort, backtestées et comparées.",
+    "intro": [
+      "Le momentum part d'un constat observé sur presque tous les marchés : ce qui a monté ces derniers mois a tendance à continuer de monter un peu. Ces stratégies investissent chaque mois dans l'actif qui a le mieux performé récemment.",
+      "La plupart combinent deux filtres, d'où le nom de « double momentum » popularisé par Gary Antonacci avec [GEM](strategie:gem) : le momentum relatif choisit le meilleur actif parmi plusieurs, le momentum absolu vérifie qu'il fait mieux que le cash. Si ce n'est pas le cas, le portefeuille se replie sur les obligations."
+    ],
+    "a_savoir": [
+      "Le portefeuille est souvent investi à 100 % dans un seul ETF : une erreur de signal pèse sur tout le capital.",
+      "Le signal réagit avec retard aux retournements brutaux. Dans les marchés qui hésitent, il peut entrer et sortir au mauvais moment plusieurs fois de suite.",
+      "La protection vient du repli sur les obligations. Quand les obligations baissent aussi, comme en 2022, cette protection fonctionne mal.",
+      "Beaucoup de variantes existent. Une petite modification des règles peut changer fortement les résultats passés : comparez [ADM](strategie:adm) et sa [variante TLT/TIP](strategie:adm_tip)."
+    ]
+  },
+  "suivi-de-tendance": {
+    "famille": "Tendance",
+    "titre": "Suivi de tendance",
+    "h1": "Suivi de tendance : la moyenne mobile 10 mois de Faber",
+    "description": "GTAA 5 / Ivy Portfolio avec timing et S&P 500 avec moyenne mobile 10 mois : les stratégies de suivi de tendance de Mebane Faber, backtestées.",
+    "intro": [
+      "Le suivi de tendance applique une règle unique à chaque actif : on le garde tant que son cours est au-dessus de sa moyenne des 10 derniers mois, on le remplace par du cash quand il passe en dessous. La règle a été popularisée par Mebane Faber dans un article de 2007.",
+      "Contrairement au momentum, il ne s'agit pas de choisir le meilleur actif, mais de sortir de ceux qui baissent. [GTAA 5](strategie:gtaa5) applique ce filtre aux cinq classes d'actifs de l'[Ivy Portfolio](strategie:ivy), la version [S&P 500](strategie:spy_sma10) à un seul indice."
+    ],
+    "a_savoir": [
+      "L'objectif n'est pas de rapporter plus, mais d'éviter les baisses longues et profondes, comme en 2008.",
+      "Le prix à payer : des faux signaux quand le marché oscille autour de sa moyenne, avec des sorties suivies de rachats plus haut.",
+      "La règle est simple et publique depuis longtemps : ses résultats après publication sont un bon test de sa robustesse.",
+      "Comparer une stratégie avec et sans le filtre montre exactement ce que coûte, et ce que rapporte, l'assurance contre les krachs."
+    ]
+  },
+  "strategies-keller": {
+    "famille": "Keller",
+    "titre": "Stratégies de Keller",
+    "h1": "Stratégies de Keller : VAA, DAA, PAA, HAA et BAA",
+    "description": "Vigilant, Defensive, Protective, Hybrid et Bold Asset Allocation : les stratégies de Wouter Keller et leurs « canaris », backtestées et comparées.",
+    "intro": [
+      "Wouter Keller, chercheur néerlandais, a publié depuis 2016 une série de stratégies d'allocation, souvent avec Jan Willem Keuning. Elles combinent le momentum avec une idée propre : surveiller l'ensemble du marché pour décider quelle part du portefeuille mettre à l'abri.",
+      "Dans plusieurs d'entre elles, quelques actifs servent de « canaris » : quand leur momentum devient négatif, le portefeuille passe en défensif. Dans [DAA](strategie:daa), ce sont les actions émergentes et les obligations agrégées ; dans [HAA](strategie:haa), les obligations indexées sur l'inflation."
+    ],
+    "a_savoir": [
+      "[VAA](strategie:vaa) et [DAA](strategie:daa) mesurent le momentum avec le score 13612W, qui combine les rendements sur 1, 3, 6 et 12 mois en donnant plus de poids au plus récent. [HAA](strategie:haa) utilise la même combinaison sans pondération, [PAA](strategie:paa) l'écart à la moyenne sur 12 mois.",
+      "Ces stratégies passent souvent du temps en défensif, parfois des mois entiers pendant que les actions montent.",
+      "Elles ont beaucoup de paramètres (nombre d'actifs, canaris, seuils). Plus il y a de paramètres, plus le risque d'avoir optimisé le passé est grand.",
+      "Les dates de publication sont récentes : une grande partie des résultats affichés est antérieure à la publication. La zone ombrée des graphiques montre la partie hors échantillon."
+    ]
+  },
+  "rotation-sectorielle": {
+    "famille": "Secteurs",
+    "titre": "Rotation sectorielle",
+    "h1": "Rotation sectorielle : investir dans les secteurs les plus forts",
+    "description": "La rotation sectorielle de Faber entre les secteurs du S&P 500, avec et sans filtre de tendance, backtestée depuis 2008.",
+    "intro": [
+      "La rotation sectorielle applique le momentum aux grands secteurs de la bourse américaine : santé, énergie, finance, technologie… Chaque mois, le portefeuille se concentre sur les secteurs qui ont le mieux performé récemment.",
+      "La [version de base](strategie:sector_rot) reste toujours investie en actions. La [version avec filtre de tendance](strategie:sector_rot_trend) passe entièrement en cash quand le S&P 500 est sous sa moyenne des 10 derniers mois."
+    ],
+    "a_savoir": [
+      "Le portefeuille reste 100 % actions américaines : ce n'est pas une stratégie de diversification entre classes d'actifs.",
+      "Les secteurs d'un même marché sont très corrélés : dans un krach, ils baissent presque tous ensemble.",
+      "Les ETF sectoriels existent en version UCITS, mais leurs indices ne sont pas toujours identiques aux secteurs SPDR américains.",
+      "La comparaison des deux versions est un cas d'école du prix d'une assurance contre les krachs."
+    ]
+  }
+}
