@@ -314,6 +314,7 @@ table.hist { width: 100%; border-collapse: collapse; font-size: 13px; }
 .hist td:first-child { white-space: nowrap; color: var(--ink-2); width: 6.5em; }
 .hist tr:last-child td { border-bottom: 0; }
 .hist tr.chg td { font-weight: 600; }
+.th-sub { display: block; font-family: var(--f-body); font-weight: 400; font-size: 11px; letter-spacing: 0; text-transform: none; color: var(--ink-3); }
 .hist tr.chg td:first-child { color: var(--accent); }
 .sw { width: 9px; height: 9px; border-radius: 2px; display: inline-block; margin-right: 6px; vertical-align: 1px; }
 .cmp-sels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 18px 0 6px; }
@@ -1234,6 +1235,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     ] : []);
     const cmp = (label, v, fmt) => b ? `<span class="cmp">${esc(BN())}${refTag} : <span class="num">${fmt(v)}</span></span>` : `<span class="cmp">${label}</span>`;
     const [c0, c1] = DATA.common_window;
+    const sameStart = src(s).stats_common.start === src(s).stats_full.start;
 
     app.innerHTML = `
       ${crumbs([[href(""), "Stratégies"], ...(PATH_MODE && FAMILY_PAGES[s.family] ? [[BASE + FAMILY_PAGES[s.family][0], FAMILY_PAGES[s.family][1]]] : []), [null, s.name]])}
@@ -1320,7 +1322,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           <section class="panel">
             <h2>Toutes les mesures</h2>
             <table class="metrics">
-              <thead><tr><th scope="col"></th><th scope="col">Commune</th><th scope="col">Complet</th></tr></thead>
+              <thead><tr><th scope="col"></th>${sameStart ? `<th scope="col">Depuis ${mLabel(src(s).stats_common.start)}</th>` : `<th scope="col">Période commune<span class="th-sub">depuis ${mLabel(src(s).stats_common.start)}</span></th><th scope="col">Historique complet<span class="th-sub">depuis ${mLabel(src(s).stats_full.start)}</span></th>`}</tr></thead>
               <tbody>${[
                 ["Début", x => mLabel(x.start)],
                 ["CAGR", x => pct(x.cagr, 1)],
@@ -1337,8 +1339,9 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
                 ["Mois positifs", x => pct(x.pct_pos_months, 0)],
                 ["Pire 5 ans (annualisé)", x => pct(x.roll5_min, 1, true)],
                 ["Pire 10 ans (annualisé)", x => pct(x.roll10_min, 1, true)],
-              ].map(([l, f]) => `<tr><td>${l}</td><td class="num">${f(src(s).stats_common)}</td><td class="num">${f(src(s).stats_full)}</td></tr>`).join("")}</tbody>
+              ].filter(([l]) => l !== "Début").map(([l, f]) => `<tr><td>${l}</td><td class="num">${f(src(s).stats_common)}</td>${sameStart ? "" : `<td class="num">${f(src(s).stats_full)}</td>`}</tr>`).join("")}</tbody>
             </table>
+            ${sameStart ? `<p class="sub" style="margin:0">L'historique de cette stratégie commence avec la période commune : les deux périodes sont identiques.</p>` : `<p class="sub" style="margin:0">Période commune : la même pour toutes les stratégies, pour les comparer entre elles. Historique complet : depuis le premier mois où cette stratégie peut fonctionner.</p>`}
           </section>
         </div>
       </div>`;

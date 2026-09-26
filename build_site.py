@@ -285,7 +285,12 @@ def sheet_html(s, data, fiches, uc, ref) -> str:
         ("Pire 5 ans (annualisé)", lambda x: pct(x["roll5_min"], 1, True)),
         ("Pire 10 ans (annualisé)", lambda x: pct(x["roll10_min"], 1, True)),
     ]
-    mt = "".join(f'<tr><td>{l}</td><td class="num">{fn(st)}</td><td class="num">{fn(sf)}</td></tr>' for l, fn in metrics)
+    same = st["start"] == sf["start"]
+    mt = "".join(f'<tr><td>{l}</td><td class="num">{fn(st)}</td>' + ("" if same else f'<td class="num">{fn(sf)}</td>') + "</tr>"
+                 for l, fn in metrics if l != "Début")
+    mhead = (f'<th scope="col">Depuis {m_label(st["start"])}</th>' if same else
+             f'<th scope="col">Période commune<span class="th-sub">depuis {m_label(st["start"])}</span></th>'
+             f'<th scope="col">Historique complet<span class="th-sub">depuis {m_label(sf["start"])}</span></th>')
     return f"""
       {crumbs_html(sheet_crumbs(s))}
       <section class="sheet-head">
@@ -307,7 +312,7 @@ def sheet_html(s, data, fiches, uc, ref) -> str:
         <section class="panel"><h2>Signal pour {m_long(nm)}</h2><p class="sub">Calculé sur la clôture de fin {m_long(data['data_end'])}.</p><div class="alloc">{sig}</div></section>
         {history_html(s)}
         {f'<section class="panel"><h2>Avec des ETF européens</h2><div class="ucits-list">{ucits}</div></section>' if ucits else ''}
-        <section class="panel"><h2>Toutes les mesures</h2><table class="metrics"><thead><tr><th scope="col"></th><th scope="col">Commune</th><th scope="col">Complet</th></tr></thead><tbody>{mt}</tbody></table></section>
+        <section class="panel"><h2>Toutes les mesures</h2><table class="metrics"><thead><tr><th scope="col"></th>{mhead}</tr></thead><tbody>{mt}</tbody></table></section>
         {same_family_html(s, data)}
       </div></div>"""
 

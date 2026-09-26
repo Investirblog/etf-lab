@@ -314,6 +314,7 @@ table.hist { width: 100%; border-collapse: collapse; font-size: 13px; }
 .hist td:first-child { white-space: nowrap; color: var(--ink-2); width: 6.5em; }
 .hist tr:last-child td { border-bottom: 0; }
 .hist tr.chg td { font-weight: 600; }
+.th-sub { display: block; font-family: var(--f-body); font-weight: 400; font-size: 11px; letter-spacing: 0; text-transform: none; color: var(--ink-3); }
 .hist tr.chg td:first-child { color: var(--accent); }
 .sw { width: 9px; height: 9px; border-radius: 2px; display: inline-block; margin-right: 6px; vertical-align: 1px; }
 .cmp-sels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 18px 0 6px; }
@@ -526,7 +527,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
         <section class="panel"><h2>Signal pour septembre 2026</h2><p class="sub">Calculé sur la clôture de fin août 2026.</p><div class="alloc"><div class="alloc-row"><span class="tk">SPY</span><span class="bar"><i style="width:100.0%"></i></span><span class="pc num">100 %</span><span class="nm">SPDR S&amp;P 500</span></div></div></section>
         <section class="panel"><h2>Historique des signaux</h2><p class="sub">2 changements sur les 12 derniers mois. En gras : le mois où l'allocation a changé.</p><table class="hist"><thead><tr><th scope="col">Mois</th><th scope="col">Allocation</th></tr></thead><tbody><tr class=""><td>sept. 2026</td><td class="alloc-txt">100 % SPY</td></tr><tr class=""><td>août 2026</td><td class="alloc-txt">100 % SPY</td></tr><tr class=""><td>juil. 2026</td><td class="alloc-txt">100 % SPY</td></tr><tr class=""><td>juin 2026</td><td class="alloc-txt">100 % SPY</td></tr><tr class="chg"><td>mai 2026</td><td class="alloc-txt">100 % SPY</td></tr><tr class=""><td>avr. 2026</td><td class="alloc-txt">100 % TLT</td></tr><tr class="chg"><td>mars 2026</td><td class="alloc-txt">100 % TLT</td></tr><tr class=""><td>févr. 2026</td><td class="alloc-txt">100 % SPY</td></tr><tr class=""><td>janv. 2026</td><td class="alloc-txt">100 % SPY</td></tr><tr class=""><td>déc. 2025</td><td class="alloc-txt">100 % SPY</td></tr><tr class=""><td>nov. 2025</td><td class="alloc-txt">100 % SPY</td></tr><tr class=""><td>oct. 2025</td><td class="alloc-txt">100 % SPY</td></tr><tr class=""><td>sept. 2025</td><td class="alloc-txt">100 % SPY</td></tr></tbody></table></section>
         <section class="panel"><h2>Avec des ETF européens</h2><div class="ucits-list"><div class="ucits-item"><div class="top"><span class="us num">SPY</span><span aria-hidden="true">→</span><b>CSPX</b><span class="match meme">même indice</span></div><div class="fmeta">iShares Core S&amp;P 500 UCITS ETF USD (Acc) · <span class="isin">IE00B5BMR087</span> · frais 0,07 %</div></div><div class="ucits-item"><div class="top"><span class="us num">TLT</span><span aria-hidden="true">→</span><b>DTLA</b><span class="match meme">même indice</span></div><div class="fmeta">iShares USD Treasury Bond 20+yr UCITS ETF USD (Acc) · <span class="isin">IE00BFM6TC58</span> · frais 0,07 %</div></div></div></section>
-        <section class="panel"><h2>Toutes les mesures</h2><table class="metrics"><thead><tr><th scope="col"></th><th scope="col">Commune</th><th scope="col">Complet</th></tr></thead><tbody><tr><td>Début</td><td class="num">juil. 2008</td><td class="num">nov. 2002</td></tr><tr><td>CAGR</td><td class="num">8,1 %</td><td class="num">8,0 %</td></tr><tr><td>Volatilité</td><td class="num">15,3 %</td><td class="num">14,0 %</td></tr><tr><td>Sharpe</td><td class="num">0,50</td><td class="num">0,50</td></tr><tr><td>Max drawdown</td><td class="num">-28,4 %</td><td class="num">-28,4 %</td></tr><tr><td>Plus longue période sous l'eau</td><td class="num">33 mois</td><td class="num">33 mois</td></tr><tr><td>Meilleure année</td><td class="num">+39,1 %</td><td class="num">+39,1 %</td></tr><tr><td>Pire année</td><td class="num">-23,1 %</td><td class="num">-23,1 %</td></tr><tr><td>Pire 5 ans (annualisé)</td><td class="num">-1,5 %</td><td class="num">-1,5 %</td></tr><tr><td>Pire 10 ans (annualisé)</td><td class="num">+2,5 %</td><td class="num">+2,5 %</td></tr></tbody></table></section>
+        <section class="panel"><h2>Toutes les mesures</h2><table class="metrics"><thead><tr><th scope="col"></th><th scope="col">Période commune<span class="th-sub">depuis juil. 2008</span></th><th scope="col">Historique complet<span class="th-sub">depuis nov. 2002</span></th></tr></thead><tbody><tr><td>CAGR</td><td class="num">8,1 %</td><td class="num">8,0 %</td></tr><tr><td>Volatilité</td><td class="num">15,3 %</td><td class="num">14,0 %</td></tr><tr><td>Sharpe</td><td class="num">0,50</td><td class="num">0,50</td></tr><tr><td>Max drawdown</td><td class="num">-28,4 %</td><td class="num">-28,4 %</td></tr><tr><td>Plus longue période sous l'eau</td><td class="num">33 mois</td><td class="num">33 mois</td></tr><tr><td>Meilleure année</td><td class="num">+39,1 %</td><td class="num">+39,1 %</td></tr><tr><td>Pire année</td><td class="num">-23,1 %</td><td class="num">-23,1 %</td></tr><tr><td>Pire 5 ans (annualisé)</td><td class="num">-1,5 %</td><td class="num">-1,5 %</td></tr><tr><td>Pire 10 ans (annualisé)</td><td class="num">+2,5 %</td><td class="num">+2,5 %</td></tr></tbody></table></section>
         <section class="panel"><h2>Même famille</h2><p class="sub">Rendement annuel et pire baisse sur la période commune.</p><ul class="kin"><li><a href="/strategies/gem/">Global Equities Momentum (GEM)</a><span class="num">8,3 % /an · -21,6 %</span></li><li><a href="/strategies/adm/">Accelerating Dual Momentum</a><span class="num">12,5 % /an · -34,9 %</span></li><li><a href="/strategies/adm_tip/">Accelerating Dual Momentum (variante TLT/TIP)</a><span class="num">13,2 % /an · -25,8 %</span></li><li><a href="/strategies/cdm/">Composite Dual Momentum</a><span class="num">5,7 % /an · -14,3 %</span></li></ul><a href="/momentum/">Toute la famille « Stratégies momentum »</a></section>
       </div></div></main>
   <footer>
@@ -1237,6 +1238,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     ] : []);
     const cmp = (label, v, fmt) => b ? `<span class="cmp">${esc(BN())}${refTag} : <span class="num">${fmt(v)}</span></span>` : `<span class="cmp">${label}</span>`;
     const [c0, c1] = DATA.common_window;
+    const sameStart = src(s).stats_common.start === src(s).stats_full.start;
 
     app.innerHTML = `
       ${crumbs([[href(""), "Stratégies"], ...(PATH_MODE && FAMILY_PAGES[s.family] ? [[BASE + FAMILY_PAGES[s.family][0], FAMILY_PAGES[s.family][1]]] : []), [null, s.name]])}
@@ -1323,7 +1325,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           <section class="panel">
             <h2>Toutes les mesures</h2>
             <table class="metrics">
-              <thead><tr><th scope="col"></th><th scope="col">Commune</th><th scope="col">Complet</th></tr></thead>
+              <thead><tr><th scope="col"></th>${sameStart ? `<th scope="col">Depuis ${mLabel(src(s).stats_common.start)}</th>` : `<th scope="col">Période commune<span class="th-sub">depuis ${mLabel(src(s).stats_common.start)}</span></th><th scope="col">Historique complet<span class="th-sub">depuis ${mLabel(src(s).stats_full.start)}</span></th>`}</tr></thead>
               <tbody>${[
                 ["Début", x => mLabel(x.start)],
                 ["CAGR", x => pct(x.cagr, 1)],
@@ -1340,8 +1342,9 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
                 ["Mois positifs", x => pct(x.pct_pos_months, 0)],
                 ["Pire 5 ans (annualisé)", x => pct(x.roll5_min, 1, true)],
                 ["Pire 10 ans (annualisé)", x => pct(x.roll10_min, 1, true)],
-              ].map(([l, f]) => `<tr><td>${l}</td><td class="num">${f(src(s).stats_common)}</td><td class="num">${f(src(s).stats_full)}</td></tr>`).join("")}</tbody>
+              ].filter(([l]) => l !== "Début").map(([l, f]) => `<tr><td>${l}</td><td class="num">${f(src(s).stats_common)}</td>${sameStart ? "" : `<td class="num">${f(src(s).stats_full)}</td>`}</tr>`).join("")}</tbody>
             </table>
+            ${sameStart ? `<p class="sub" style="margin:0">L'historique de cette stratégie commence avec la période commune : les deux périodes sont identiques.</p>` : `<p class="sub" style="margin:0">Période commune : la même pour toutes les stratégies, pour les comparer entre elles. Historique complet : depuis le premier mois où cette stratégie peut fonctionner.</p>`}
           </section>
         </div>
       </div>`;
