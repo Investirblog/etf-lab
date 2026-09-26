@@ -256,7 +256,7 @@ def main(argv=None) -> int:
     previous = pd.read_csv(prev_path, index_col=0) if prev_path.exists() else None
 
     series, meta, report, errors = {}, {}, [], 0
-    for tk in tickers:
+    for tk in [t for t in tickers if t != "TBILL"]:   # TBILL vient de FRED, pas de yfinance
         cfg = universe.get(tk, {})
         cache = DAILY / f"{tk}.csv"
         notes = []
