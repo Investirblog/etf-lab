@@ -1,0 +1,135 @@
+{
+  "_comment": "Pages « X ou Y ? » (/comparer/<slug>/). a et b : identifiants des stratégies. Les chiffres sont ajoutés automatiquement ; les textes restent qualitatifs. Liens : [texte](strategie:id).",
+  "comparaisons": [
+    {
+      "slug": "gem-ou-adm",
+      "a": "gem",
+      "b": "adm",
+      "titre": "GEM ou Accelerating Dual Momentum ?",
+      "intro": [
+        "Les deux stratégies appliquent le double momentum : investir dans les actions les plus fortes, et se replier sur les obligations quand les actions faiblissent. Elles diffèrent par la vitesse de réaction.",
+        "[GEM](strategie:gem), la version originale de Gary Antonacci, regarde les 12 derniers mois. [ADM](strategie:adm) combine 1, 3 et 6 mois pour réagir plus vite, et choisit entre actions américaines et petites capitalisations internationales."
+      ],
+      "points": [
+        "Un signal rapide sort plus tôt d'un krach, mais se trompe plus souvent quand le marché hésite.",
+        "Les deux stratégies sont investies à 100 % dans un seul ETF : la différence entre elles tient souvent à quelques mois clés.",
+        "ADM a été publiée plus tard que GEM : une plus grande part de son historique a été vue par son auteur."
+      ]
+    },
+    {
+      "slug": "permanent-portfolio-ou-all-weather",
+      "a": "permanent",
+      "b": "all_weather",
+      "titre": "Permanent Portfolio ou All Weather ?",
+      "intro": [
+        "Deux portefeuilles fixes conçus pour traverser tous les climats économiques. Le [Permanent Portfolio](strategie:permanent) d'Harry Browne répartit à parts égales actions, obligations longues, or et cash.",
+        "L'[All Weather](strategie:all_weather), dans sa version grand public popularisée par Tony Robbins d'après Ray Dalio, met davantage d'obligations et un peu de matières premières pour équilibrer le risque de chaque bloc."
+      ],
+      "points": [
+        "Le Permanent Portfolio garde 25 % de cash, qui amortit les chocs mais freine le rendement.",
+        "L'All Weather dépend fortement des obligations : il souffre quand les taux montent vite.",
+        "Les deux ont eu leur pire année en 2022, quand actions et obligations ont baissé ensemble."
+      ]
+    },
+    {
+      "slug": "permanent-portfolio-ou-golden-butterfly",
+      "a": "permanent",
+      "b": "golden_butterfly",
+      "titre": "Permanent Portfolio ou Golden Butterfly ?",
+      "intro": [
+        "Le [Golden Butterfly](strategie:golden_butterfly) est une variante du [Permanent Portfolio](strategie:permanent) : il garde l'or, les obligations longues et courtes, mais double la part d'actions en ajoutant des petites capitalisations « value »."
+      ],
+      "points": [
+        "Plus d'actions : un rendement attendu plus élevé, et des baisses un peu plus fortes.",
+        "Les petites capitalisations « value » ont souvent fait moins bien que le S&P 500 depuis 2008 : le gain dépend de la période.",
+        "Même logique de fond : aucun signal, un rééquilibrage par an."
+      ]
+    },
+    {
+      "slug": "60-40-ou-all-weather",
+      "a": "6040",
+      "b": "all_weather",
+      "titre": "60/40 ou All Weather ?",
+      "intro": [
+        "Le [60/40](strategie:6040) est la référence des portefeuilles équilibrés : 60 % d'actions, 40 % d'obligations. L'[All Weather](strategie:all_weather) inverse presque la proportion, avec seulement 30 % d'actions, et ajoute de l'or et des matières premières."
+      ],
+      "points": [
+        "Le 60/40 dépend surtout des actions : il rapporte plus quand elles montent, et baisse davantage dans les krachs.",
+        "L'All Weather cherche à équilibrer le risque plutôt que les montants investis.",
+        "Comparez les pires années : c'est là que la différence de philosophie se voit le mieux."
+      ]
+    },
+    {
+      "slug": "daa-ou-vaa",
+      "a": "daa",
+      "b": "vaa",
+      "titre": "DAA ou VAA ?",
+      "intro": [
+        "Deux stratégies de Wouter Keller et Jan Willem Keuning, publiées à un an d'écart. [VAA](strategie:vaa) passe entièrement en défensif dès qu'un seul de ses 4 actifs offensifs faiblit.",
+        "[DAA](strategie:daa) confie cette décision à deux « canaris », les actions émergentes et les obligations, et peut ne mettre à l'abri que la moitié du portefeuille."
+      ],
+      "points": [
+        "VAA fonctionne en tout ou rien ; DAA peut se protéger à moitié.",
+        "VAA détient un seul actif à la fois, DAA jusqu'à six.",
+        "Les deux passent beaucoup de temps en défensif : c'est le prix de leur protection."
+      ]
+    },
+    {
+      "slug": "ivy-portfolio-avec-ou-sans-timing",
+      "a": "gtaa5",
+      "b": "ivy",
+      "titre": "Ivy Portfolio avec ou sans timing ?",
+      "intro": [
+        "Les mêmes cinq classes d'actifs, à 20 % chacune. L'[Ivy Portfolio](strategie:ivy) les garde en permanence. [GTAA 5](strategie:gtaa5) ajoute une seule règle de Mebane Faber : chaque classe passe en cash quand elle est sous sa moyenne des 10 derniers mois."
+      ],
+      "points": [
+        "C'est la comparaison la plus directe de ce que coûte et rapporte le suivi de tendance.",
+        "Le timing réduit surtout les baisses longues, comme en 2008.",
+        "En contrepartie, il y a des faux signaux et plus de transactions."
+      ]
+    },
+    {
+      "slug": "sp500-avec-ou-sans-moyenne-mobile",
+      "a": "spy_sma10",
+      "b": "spy",
+      "titre": "S&P 500 avec ou sans moyenne mobile 10 mois ?",
+      "intro": [
+        "La règle la plus simple du suivi de tendance : rester investi dans le S&P 500 tant qu'il est au-dessus de sa moyenne des 10 derniers mois, passer en cash sinon. Face au [S&P 500 acheté et conservé](strategie:spy), elle montre ce qu'apporte une sortie mécanique pendant les grandes baisses."
+      ],
+      "points": [
+        "La règle réduit fortement la pire baisse quand un krach dure plusieurs mois.",
+        "Dans les baisses brèves, elle sort souvent trop tard et rachète plus haut.",
+        "Sur une longue hausse, elle rapporte un peu moins que le marché : c'est le prix de l'assurance."
+      ]
+    },
+    {
+      "slug": "rotation-sectorielle-avec-ou-sans-filtre",
+      "a": "sector_rot",
+      "b": "sector_rot_trend",
+      "titre": "Rotation sectorielle avec ou sans filtre ?",
+      "intro": [
+        "La même stratégie de Mebane Faber : chaque mois, investir dans les 3 secteurs américains les plus forts. La [version avec filtre](strategie:sector_rot_trend) passe entièrement en cash quand le S&P 500 est sous sa moyenne des 10 derniers mois ; la [version de base](strategie:sector_rot) reste toujours investie."
+      ],
+      "points": [
+        "Le filtre protège des krachs longs, où tous les secteurs baissent ensemble.",
+        "Il coûte du rendement quand le marché rebondit vite après une baisse.",
+        "Les deux restent 100 % actions américaines quand elles sont investies."
+      ]
+    },
+    {
+      "slug": "portefeuille-3-fonds-ou-coffeehouse",
+      "a": "three_fund",
+      "b": "coffeehouse",
+      "titre": "Portefeuille 3 fonds ou Coffeehouse ?",
+      "intro": [
+        "Deux portefeuilles fixes avec 40 % d'obligations. Le [portefeuille 3 fonds](strategie:three_fund) des Bogleheads détient tout le marché américain et international en trois ETF.",
+        "Le [Coffeehouse](strategie:coffeehouse) de Bill Schultheis répartit ses actions en six blocs égaux, dont des petites capitalisations, des actions « value » et de l'immobilier coté."
+      ],
+      "points": [
+        "Le 3 fonds suit le marché tel qu'il est, dominé par les grandes capitalisations.",
+        "Le Coffeehouse surpondère les petites capitalisations et la « value », qui ont eu leurs périodes fastes et leurs longues traversées du désert.",
+        "Les deux se contentent d'un rééquilibrage par an."
+      ]
+    }
+  ]
+}

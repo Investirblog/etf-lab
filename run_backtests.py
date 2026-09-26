@@ -87,6 +87,14 @@ def main(argv=None) -> int:
                     else max(r.returns.index[0] for r in full.values()))
     common_end = min(r.returns.index[-1] for r in full.values())
 
+    # Vue d'un investisseur en euros : ETF achetés en dollars, sans couverture de change.
+    fx = returns["EURUSD"].dropna() if "EURUSD" in returns else None      # variation de l'euro en dollars
+    rf_eur = returns["EUR3M"] if "EUR3M" in returns else pd.Series(0.0, index=returns.index)
+
+    def to_eur(r: pd.Series) -> pd.Series:
+        f = fx.reindex(r.index)
+        return ((1 + r) / (1 + f) - 1).dropna()
+
     rows_full, rows_common, site = [], [], []
     for s in strategies:
         r = full[s.id]
@@ -111,6 +119,14 @@ def main(argv=None) -> int:
             # signaux des 13 derniers mois (mois de détention -> poids), pour la page « Signaux du mois »
             "signal_history": signal_history(s, returns, rf),
         })
+        if fx is not None:
+            re_ = to_eur(r.returns)
+            if len(re_) >= 12:
+                site[-1]["eur"] = {
+                    "stats_full": stats(re_, rf_eur),
+                    "stats_common": stats(re_.loc[common_start:common_end], rf_eur),
+                    "equity": {str(k): round(float(v), 5) for k, v in (1 + re_).cumprod().items()},
+                }
 
     out = ROOT / "results"
     out.mkdir(exist_ok=True)
@@ -122,6 +138,10 @@ def main(argv=None) -> int:
         "data_end": str(returns.index[-1]),
         "cash_cagr_common": float((1 + rf.loc[common_start:common_end].fillna(0)).prod()
                                   ** (12 / len(rf.loc[common_start:common_end])) - 1),
+        "eur": ({"from": str(fx.index[0]), "cash": "EUR3M" in returns,
+                 "cash_cagr_common": float((1 + rf_eur.loc[common_start:common_end].fillna(0)).prod()
+                                           ** (12 / len(rf_eur.loc[common_start:common_end])) - 1)}
+                if fx is not None else None),
         "etf_names": {k: v["name"] for k, v in json.loads(
             (ROOT / "universe.json").read_text(encoding="utf-8")).items() if not k.startswith("_")},
         "strategies": site,

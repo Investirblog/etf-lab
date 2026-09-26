@@ -112,6 +112,60 @@ def fetch_tbill(today: dt.date, retries: int = 3) -> pd.Series:
     raise RuntimeError(f"FRED : {last}")
 
 
+# Séries FRED complémentaires (colonne -> série, type, description)
+#   rate : taux annuel en % publié chaque mois -> rendement du mois suivant (comme TB3MS)
+#   fx   : cours quotidien -> variation de fin de mois à fin de mois
+FRED_EXTRA = {
+    "EURUSD": ("DEXUSEU", "fx", "Euro en dollars (FRED DEXUSEU) : variation mensuelle de l'euro face au dollar"),
+    "EUR3M": ("IR3TIB01EZM156N", "rate", "Taux interbancaire 3 mois zone euro (FRED) : cash en euros"),
+}
+FRED_ONLY = {"TBILL", *FRED_EXTRA}
+
+
+def fetch_fred(col: str, today: dt.date, retries: int = 3) -> pd.Series:
+    """Série FRED de FRED_EXTRA convertie en rendements mensuels (index : mois)."""
+    import io
+    import requests
+    sid, kind, _ = FRED_EXTRA[col]
+    last = None
+    for attempt in range(1, retries + 1):
+        try:
+            r = requests.get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}", timeout=60,
+                             headers={"User-Agent": "Mozilla/5.0 etf-lab"})
+            r.raise_for_status()
+            df = pd.read_csv(io.StringIO(r.text))
+            date_col = next(c for c in df.columns if "date" in c.lower())
+            val = pd.to_numeric(df[sid], errors="coerce")
+            dates = pd.to_datetime(df[date_col])
+            if kind == "fx":
+                # historique FRED (depuis 1999) ; les mois récents viennent de Yahoo (EURUSD=X),
+                # publié sans le décalage d'une semaine de FRED
+                s = pd.Series(val.values, index=dates).dropna()
+                m = s.groupby(s.index.to_period("M")).last()
+                ret = m[m.index < pd.Period(today, "M")].pct_change().dropna()
+                try:
+                    yx = fetch_yf("EURUSD=X")
+                    ym = yx.groupby(yx.index.to_period("M")).last()
+                    yret = ym[ym.index < pd.Period(today, "M")].pct_change().dropna()
+                    ret = yret.combine_first(ret)
+                except Exception:  # noqa: BLE001 — FRED seul
+                    pass
+            else:
+                # publié avec plusieurs mois de retard : le dernier taux connu est prolongé
+                s = pd.Series(val.values, index=pd.PeriodIndex(dates, freq="M")).dropna()
+                last_closed = pd.Period(today, "M") - 1
+                s = s.reindex(pd.period_range(s.index.min(), max(s.index.max(), last_closed), freq="M")).ffill()
+                ret = (s / 100 / 12).shift(1).dropna()
+                ret = ret[ret.index <= last_closed]
+            if len(ret) < 100:
+                raise ValueError(f"série trop courte ({len(ret)} mois)")
+            return ret.sort_index().rename(col)
+        except Exception as e:  # noqa: BLE001
+            last = e
+            time.sleep(3 * attempt)
+    raise RuntimeError(f"FRED {sid} : {last}")
+
+
 # --------------------------------------------------------------------------
 # 2. Quotidien → mensuel
 # --------------------------------------------------------------------------
@@ -256,7 +310,7 @@ def main(argv=None) -> int:
     previous = pd.read_csv(prev_path, index_col=0) if prev_path.exists() else None
 
     series, meta, report, errors = {}, {}, [], 0
-    for tk in [t for t in tickers if t != "TBILL"]:   # TBILL vient de FRED, pas de yfinance
+    for tk in [t for t in tickers if t not in FRED_ONLY]:   # séries FRED : pas de yfinance
         cfg = universe.get(tk, {})
         cache = DAILY / f"{tk}.csv"
         notes = []
@@ -335,6 +389,38 @@ def main(argv=None) -> int:
                           f"{tb.index.min()} → {tb.index.max()} ({len(tb)} mois)\n")
             print(f"[TBILL] {tb.index.min()} → {tb.index.max()}")
 
+    # Euro : change EUR/USD et taux court en euros (vue d'un investisseur européen)
+    for col, (sid, _, label) in FRED_EXTRA.items():
+        if a.only and col not in tickers:
+            continue
+        cache = DAILY / f"{col}.csv"
+        try:
+            if a.offline:
+                raise RuntimeError("mode hors-ligne")
+            fx = fetch_fred(col, today)
+            fx.to_frame().to_csv(cache)
+            src = f"FRED {sid}"
+        except Exception as e:  # noqa: BLE001
+            if cache.exists():
+                fx = pd.read_csv(cache, index_col=0)[col]
+                fx.index = pd.PeriodIndex(fx.index, freq="M")
+                src = "cache data/daily (non rafraîchi)"
+                if not a.offline:
+                    errors += 1
+                    print(f"[{col}] ⚠️ {e} → cache utilisé", file=sys.stderr)
+            else:
+                fx = None
+                errors += 1
+                report.append(f"### {col} — {label}\n- ❌ {e}\n")
+                print(f"[{col}] ❌ {e}", file=sys.stderr)
+        if fx is not None:
+            series[col] = fx
+            meta[col] = {"name": label, "class": "Euro", "first_month": str(fx.index.min()),
+                         "last_month": str(fx.index.max()), "months": int(len(fx)), "source": src}
+            report.append(f"### {col} — {label}\n- Source : {src} · couverture "
+                          f"{fx.index.min()} → {fx.index.max()} ({len(fx)} mois)\n")
+            print(f"[{col}] {fx.index.min()} → {fx.index.max()}")
+
     audit_lines = audit(a.audit, universe, series, today, a.offline) if a.audit else []
 
     common_start = "—"
@@ -350,7 +436,7 @@ def main(argv=None) -> int:
         tri = (1 + table.fillna(0)).cumprod() * 100
         tri = tri.where(table.notna().cumsum() > 0)
         tri.round(4).to_csv(DATA / "monthly_tr_index.csv")
-        common = table.drop(columns=["TBILL"], errors="ignore").dropna()
+        common = table.drop(columns=list(FRED_ONLY), errors="ignore").dropna()
         common_start = common.index.min() if len(common) else "—"
 
     (DATA / "meta.json").write_text(json.dumps({

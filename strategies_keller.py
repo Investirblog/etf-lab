@@ -135,6 +135,29 @@ def baa(hist, T_off=6, T_def=3):
     return w
 
 
+# --------------------------------------------------------------------------
+# GPM — Generalized Protective Momentum (Keuning & Keller, 2016)
+# --------------------------------------------------------------------------
+GPM_RISKY = ["SPY", "QQQ", "IWM", "VGK", "EWJ", "EEM", "VNQ", "DBC", "GLD", "HYG", "LQD", "TLT"]
+GPM_CP = ["IEF", "SHY"]
+
+
+def gpm(hist):
+    r = mom_13612u(hist)
+    rets = hist[GPM_RISKY].iloc[-12:]
+    ew = rets.mean(axis=1)                                   # indice équipondéré des 12 actifs
+    corr = rets.apply(lambda c: c.corr(ew))
+    z = r[GPM_RISKY] * (1 - corr)
+    n = int((z > 0).sum())
+    cp_asset = top(r[GPM_CP], 1)[0]
+    cp = 1.0 if n <= 6 else (12 - n) / 6
+    w: dict = {}
+    add(w, cp_asset, cp)
+    for a in top(z, 3):
+        add(w, a, (1 - cp) / 3)
+    return w
+
+
 def uniq(*groups):
     out = []
     for g in groups:
@@ -190,4 +213,13 @@ KELLER = [
                         "Tous positifs : les 6 meilleurs des 12 actifs offensifs, classés sur valeur / moyenne 13 mois, à parts égales.",
                         "Sinon : les 3 meilleurs de TIP, DBC, BIL, IEF, TLT, LQD et AGG ; tout actif moins bon que BIL est remplacé par BIL."],
               "variant_note": "Allocate Smartly signale un risque de sur-optimisation élevé : beaucoup de paramètres pour un historique limité."}),
+    Strategy(
+        id="gpm", name="Generalized Protective Momentum (GPM)",
+        assets=uniq(GPM_RISKY, GPM_CP), weights=gpm, lookback=12, family="Keller",
+        meta={"published": "2016-07", "author": "Jan Willem Keuning & Wouter Keller (2016)",
+              "note": "Le momentum de chaque actif est pénalisé quand il évolue comme tout le reste",
+              "rules": ["Fin de mois : r = moyenne des rendements sur 1, 3, 6 et 12 mois de chacun des 12 actifs.",
+                        "c = corrélation sur 12 mois avec l'indice équipondéré des 12 actifs ; score z = r × (1 − c).",
+                        "n = nombre d'actifs avec z positif. Si n ≤ 6 : 100 % en protection ; sinon (12 − n) / 6 du portefeuille.",
+                        "Protection : IEF ou SHY, celui dont r est le plus élevé. Le reste : les 3 meilleurs scores z, à parts égales."]}),
 ]

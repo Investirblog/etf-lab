@@ -39,4 +39,14 @@ STATIC = [
     fixed("swensen", "Portefeuille Swensen (Yale)",
           {"VTI": 30, "EFA": 15, "EEM": 5, "VNQ": 20, "IEF": 15, "TIP": 15},
           published="2005-08", author="David Swensen (2005)", note="Version pour particuliers du modèle Yale"),
+    fixed("coffeehouse", "Coffeehouse Portfolio",
+          {"SPY": 10, "IVE": 10, "IWM": 10, "IWN": 10, "EFA": 10, "VNQ": 10, "IEF": 40},
+          published="1998-01", author="Bill Schultheis (1998)",
+          note="60 % d'actions réparties en six blocs égaux, 40 % d'obligations"),
+    fixed("larry", "Larry Portfolio",
+          {"IWN": 15, "SCZ": 8, "EEM": 7, "IEF": 70},
+          published="2014-01", author="Larry Swedroe (2014)",
+          note="30 % d'actions choisies pour leur rendement élevé, 70 % d'obligations d'État",
+          variant_note="Swedroe vise des petites capitalisations « value » hors USA ; faute d'ETF américain "
+                       "ancien, on prend les petites capitalisations internationales (SCZ)."),
 ]

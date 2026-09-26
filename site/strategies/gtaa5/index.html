@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script data-goatcounter="https://etf-strategy-lab.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "GTAA 5 / Ivy Portfolio avec timing", "description": "5 classes à 20 % ; chacune passe en cash sous sa moyenne mobile 10 mois. Depuis juil. 2008 : 4,5 % par an, pire baisse -11,1 %.", "inLanguage": "fr", "isPartOf": {"@type": "WebSite", "name": "ETF Strategy Lab", "url": "https://etf-strategy-lab.netlify.app/"}}</script>
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "WebPage", "name": "GTAA 5 / Ivy Portfolio avec timing", "description": "5 classes à 20 % ; chacune passe en cash sous sa moyenne mobile 10 mois. Depuis juil. 2008 : 4,5 % par an, pire baisse -11,1 %.", "inLanguage": "fr", "isPartOf": {"@type": "WebSite", "name": "ETF Strategy Lab", "url": "https://etf-strategy-lab.netlify.app/"}}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Stratégies", "item": "https://etf-strategy-lab.netlify.app/"}, {"@type": "ListItem", "position": 2, "name": "Suivi de tendance", "item": "https://etf-strategy-lab.netlify.app/suivi-de-tendance/"}, {"@type": "ListItem", "position": 3, "name": "GTAA 5 / Ivy Portfolio avec timing"}]}]</script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -298,6 +298,51 @@ table.ucits { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .intro .key { font-size: 16.5px; color: var(--ink); max-width: 66ch; }
 .intro .key b { font-weight: 600; }
 
+/* Fil d'Ariane, devise, historique, comparateur */
+.crumbs { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; margin-block: 24px 8px; font-size: 13.5px; color: var(--ink-3); }
+.crumbs a { text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+.crumbs .sep { color: var(--ink-3); }
+.crumbs [aria-current] { color: var(--ink-2); }
+.cmp-cta { margin: 0; font-size: 14px; }
+.cmp-cta a { text-decoration: none; }
+.cmp-cta a:hover { text-decoration: underline; }
+.ccy-note { font-size: 13px; color: var(--ink-2); background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; margin: 0 0 12px; max-width: 90ch; }
+table.hist { width: 100%; border-collapse: collapse; font-size: 13px; }
+.hist th { font-family: var(--f-display); font-weight: 600; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); text-align: left; padding: 4px 6px 6px; border-bottom: 1px solid var(--rule); }
+.hist td { padding: 5px 6px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+.hist td:first-child { white-space: nowrap; color: var(--ink-2); width: 6.5em; }
+.hist tr:last-child td { border-bottom: 0; }
+.hist tr.chg td { font-weight: 600; }
+.hist tr.chg td:first-child { color: var(--accent); }
+.sw { width: 9px; height: 9px; border-radius: 2px; display: inline-block; margin-right: 6px; vertical-align: 1px; }
+.cmp-sels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 18px 0 6px; }
+.cmp-sel { display: grid; gap: 4px; font-size: 12.5px; color: var(--ink-3); }
+.cmp-sel span { display: inline-flex; align-items: center; gap: 6px; }
+.cmp-sel i { width: 12px; height: 3px; border-radius: 2px; display: inline-block; }
+.cmp-sel select { font: inherit; font-size: 14px; color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: 7px; padding: 7px 8px; min-width: 0; width: 100%; }
+.cmp-period { margin: 0 0 10px; color: var(--ink-3); font-size: 13px; }
+table.cmp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.cmp-table th, .cmp-table td { padding: 9px 12px; border-bottom: 1px solid var(--rule-soft); text-align: right; vertical-align: top; }
+.cmp-table thead th { font-weight: 600; font-size: 13.5px; border-bottom: 1px solid var(--rule); }
+.cmp-table thead th a { color: var(--ink); text-decoration: none; }
+.cmp-table thead th a:hover { text-decoration: underline; }
+.cmp-table th[scope="row"] { text-align: left; font-weight: 400; color: var(--ink-2); white-space: nowrap; }
+.cmp-table tr:last-child td, .cmp-table tr:last-child th { border-bottom: 0; }
+.cmp-table .alloc-txt { font-size: 12px; }
+.cmp-grid { margin-top: 18px; }
+.cmp-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.cmp-list a { display: block; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px; color: var(--ink); text-decoration: none; font-weight: 600; }
+.cmp-list a:hover { border-color: var(--accent); }
+.cmp-list span { display: block; font-weight: 400; font-size: 13px; color: var(--ink-3); margin-top: 2px; }
+.static-chart svg { display: block; width: 100%; height: auto; }
+.doc-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; }
+@media (max-width: 640px) {
+  .cmp-sels { grid-template-columns: 1fr; }
+  .cmp-table th, .cmp-table td { padding: 8px 6px; font-size: 12.5px; }
+  .cmp-table th[scope="row"] { white-space: normal; }
+}
+
 /* Liens de famille, « même famille » */
 a.fam { text-decoration: none; }
 a.fam:hover { background: var(--accent-soft); color: var(--accent); }
@@ -453,18 +498,20 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       <nav class="nav" aria-label="Pages">
         <a href="/" data-nav="" aria-current="page">Stratégies</a>
         <a href="/signaux/" data-nav="signaux">Signaux du mois</a>
+        <a href="/comparer/" data-nav="comparer">Comparer</a>
         <a href="/equivalents-ucits/" data-nav="ucits">Équivalents UCITS</a>
         <a href="/methode/" data-nav="methode">Méthode</a>
       </nav>
-      <span class="stamp" id="stamp">Données à fin août 2026 · 24 stratégies</span>
+      <span class="stamp" id="stamp">Données à fin août 2026 · 27 stratégies</span>
     </div>
   </header>
   <main id="app" aria-live="polite">
-      <a class="back" href="/">← Toutes les stratégies</a>
+      <nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Stratégies</a><span class="sep" aria-hidden="true">›</span><a href="/suivi-de-tendance/">Suivi de tendance</a><span class="sep" aria-hidden="true">›</span><span aria-current="page">GTAA 5 / Ivy Portfolio avec timing</span></nav>
       <section class="sheet-head">
         <div class="byline"><a class="fam" href="/suivi-de-tendance/">Tendance</a><span>Mebane Faber (2007), Faber &amp; Richardson (2009)</span></div>
         <h1>GTAA 5 / Ivy Portfolio avec timing</h1>
         <p class="lede">5 classes à 20 % ; chacune passe en cash sous sa moyenne mobile 10 mois</p>
+        <p class="cmp-cta"><a href="/comparer/?s=gtaa5,spy_sma10">Comparer avec une autre stratégie →</a></p>
       </section>
       <div class="tiles">
         <div class="tile"><span class="k">CAGR</span><span class="v">4,5 %</span><span class="cmp">Actions mondiales : <span class="num">8,8 %</span></span></div>
@@ -477,6 +524,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
         <section class="panel"><h2>Règles</h2><ol class="rules"><li>Fin de mois : pour chaque actif, comparer la valeur à sa moyenne des 10 derniers mois.</li><li>Au-dessus : garder sa part de 20 %. En dessous : cette part va en cash (T-bills).</li></ol><div class="callout"><b>Publiée en janvier 2007.</b></div></section>
       </div><div class="stack">
         <section class="panel"><h2>Signal pour septembre 2026</h2><p class="sub">Calculé sur la clôture de fin août 2026.</p><div class="alloc"><div class="alloc-row"><span class="tk">SPY</span><span class="bar"><i style="width:20.0%"></i></span><span class="pc num">20 %</span><span class="nm">SPDR S&amp;P 500</span></div><div class="alloc-row"><span class="tk">EFA</span><span class="bar"><i style="width:20.0%"></i></span><span class="pc num">20 %</span><span class="nm">iShares MSCI EAFE</span></div><div class="alloc-row"><span class="tk">VNQ</span><span class="bar"><i style="width:20.0%"></i></span><span class="pc num">20 %</span><span class="nm">Vanguard Real Estate</span></div><div class="alloc-row"><span class="tk">GSG</span><span class="bar"><i style="width:20.0%"></i></span><span class="pc num">20 %</span><span class="nm">iShares S&amp;P GSCI Commodity-Indexed</span></div><div class="alloc-row"><span class="tk">Cash</span><span class="bar"><i style="width:20.0%"></i></span><span class="pc num">20 %</span><span class="nm">T-bills (BIL)</span></div></div></section>
+        <section class="panel"><h2>Historique des signaux</h2><p class="sub">3 changements sur les 12 derniers mois. En gras : le mois où l'allocation a changé.</p><table class="hist"><thead><tr><th scope="col">Mois</th><th scope="col">Allocation</th></tr></thead><tbody><tr class=""><td>sept. 2026</td><td class="alloc-txt">20 % chacun : SPY, EFA, VNQ, GSG, Cash</td></tr><tr class=""><td>août 2026</td><td class="alloc-txt">20 % chacun : SPY, EFA, VNQ, GSG, Cash</td></tr><tr class=""><td>juil. 2026</td><td class="alloc-txt">20 % chacun : SPY, EFA, VNQ, GSG, Cash</td></tr><tr class="chg"><td>juin 2026</td><td class="alloc-txt">20 % chacun : SPY, EFA, VNQ, GSG, Cash</td></tr><tr class="chg"><td>mai 2026</td><td class="alloc-txt">20 % chacun : SPY, EFA, IEF, VNQ, GSG</td></tr><tr class="chg"><td>avr. 2026</td><td class="alloc-txt">40 % Cash · 20 % chacun : EFA, IEF, GSG</td></tr><tr class=""><td>mars 2026</td><td class="alloc-txt">20 % chacun : SPY, EFA, IEF, VNQ, GSG</td></tr><tr class=""><td>févr. 2026</td><td class="alloc-txt">20 % chacun : SPY, EFA, IEF, VNQ, GSG</td></tr><tr class=""><td>janv. 2026</td><td class="alloc-txt">20 % chacun : SPY, EFA, IEF, VNQ, GSG</td></tr><tr class=""><td>déc. 2025</td><td class="alloc-txt">20 % chacun : SPY, EFA, IEF, VNQ, GSG</td></tr><tr class=""><td>nov. 2025</td><td class="alloc-txt">20 % chacun : SPY, EFA, IEF, VNQ, GSG</td></tr><tr class=""><td>oct. 2025</td><td class="alloc-txt">20 % chacun : SPY, EFA, IEF, VNQ, GSG</td></tr><tr class=""><td>sept. 2025</td><td class="alloc-txt">20 % chacun : SPY, EFA, IEF, VNQ, GSG</td></tr></tbody></table></section>
         <section class="panel"><h2>Avec des ETF européens</h2><div class="ucits-list"><div class="ucits-item"><div class="top"><span class="us num">SPY</span><span aria-hidden="true">→</span><b>CSPX</b><span class="match meme">même indice</span></div><div class="fmeta">iShares Core S&amp;P 500 UCITS ETF USD (Acc) · <span class="isin">IE00B5BMR087</span> · frais 0,07 %</div></div><div class="ucits-item"><div class="top"><span class="us num">EFA</span><span aria-hidden="true">→</span><b>XUSE</b><span class="match proche">proche</span></div><div class="fmeta">iShares MSCI World ex-USA UCITS ETF USD (Acc) · <span class="isin">IE000R4ZNTN3</span> · frais 0,15 %</div><div class="unote">MSCI World ex USA inclut le Canada, absent de l&#x27;EAFE. Fonds lancé en janvier 2025.</div></div><div class="ucits-item"><div class="top"><span class="us num">IEF</span><span aria-hidden="true">→</span><b>CBU0</b><span class="match meme">même indice</span></div><div class="fmeta">iShares USD Treasury Bond 7-10yr UCITS ETF (Acc) · <span class="isin">IE00B3VWN518</span> · frais 0,07 %</div></div><div class="ucits-item"><div class="top"><span class="us num">VNQ</span><span aria-hidden="true">→</span><b>IUSP</b><span class="match proche">proche</span></div><div class="fmeta">iShares US Property Yield UCITS ETF · <span class="isin">IE00B1FZSF77</span> · frais 0,40 %</div><div class="unote">Sélection de REIT américains à rendement élevé, pas l&#x27;ensemble du secteur.</div></div><div class="ucits-item"><div class="top"><span class="us num">GSG</span><span aria-hidden="true">→</span><b>ICOM</b><span class="match proche">proche</span></div><div class="fmeta">iShares Diversified Commodity Swap UCITS ETF · <span class="isin">IE00BDFL4P12</span> · frais 0,19 %</div><div class="unote">Indice Bloomberg Commodity : nettement moins d&#x27;énergie que le S&amp;P GSCI.</div></div><div class="ucits-item"><div class="top"><span class="us num">Cash</span><span aria-hidden="true">→</span><b>IB01</b><span class="match meme">même indice</span></div><div class="fmeta">iShares USD Treasury Bond 0-1yr UCITS ETF (Acc) · <span class="isin">IE00BGSF1X88</span> · frais 0,07 %</div><div class="unote">Le cash des stratégies correspond aux T-bills américains.</div></div></div></section>
         <section class="panel"><h2>Toutes les mesures</h2><table class="metrics"><thead><tr><th scope="col"></th><th scope="col">Commune</th><th scope="col">Complet</th></tr></thead><tbody><tr><td>Début</td><td class="num">juil. 2008</td><td class="num">juin 2007</td></tr><tr><td>CAGR</td><td class="num">4,5 %</td><td class="num">4,8 %</td></tr><tr><td>Volatilité</td><td class="num">6,8 %</td><td class="num">6,7 %</td></tr><tr><td>Sharpe</td><td class="num">0,50</td><td class="num">0,53</td></tr><tr><td>Max drawdown</td><td class="num">-11,1 %</td><td class="num">-11,1 %</td></tr><tr><td>Plus longue période sous l'eau</td><td class="num">35 mois</td><td class="num">35 mois</td></tr><tr><td>Meilleure année</td><td class="num">+21,6 %</td><td class="num">+21,6 %</td></tr><tr><td>Pire année</td><td class="num">-4,4 %</td><td class="num">-4,4 %</td></tr><tr><td>Pire 5 ans (annualisé)</td><td class="num">+0,4 %</td><td class="num">+0,4 %</td></tr><tr><td>Pire 10 ans (annualisé)</td><td class="num">+1,7 %</td><td class="num">+1,7 %</td></tr></tbody></table></section>
         <section class="panel"><h2>Même famille</h2><p class="sub">Rendement annuel et pire baisse sur la période commune.</p><ul class="kin"><li><a href="/strategies/spy_sma10/">S&amp;P 500 avec timing (moyenne 10 mois)</a><span class="num">8,5 % /an · -22,9 %</span></li></ul><a href="/suivi-de-tendance/">Toute la famille « Suivi de tendance »</a></section>
@@ -489,7 +537,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
         <a class="btn ghost" href="https://ko-fi.com/nathanaeldumortier" rel="noopener">Offrir un café sur Ko-fi</a>
       </div>
     </div>
-    <div>Backtests en dollars US sur des ETF américains, dividendes réinvestis, frais de transaction inclus, avant impôts. Les performances passées ne préjugent pas des performances futures. Ceci n'est pas un conseil en investissement.</div>
+    <div>Backtests sur des ETF américains, calculés en dollars US (vue en euros disponible), dividendes réinvestis, frais de transaction inclus, avant impôts. Les performances passées ne préjugent pas des performances futures. Ceci n'est pas un conseil en investissement.</div>
     <div>Données : cours ajustés yfinance, contrôlés contre les NAV officielles iShares. <a href="/methode/">Méthode et limites</a> · <a href="/equivalents-ucits/">Équivalents UCITS</a> · <a href="/mentions-legales/">Mentions légales</a></div>
   </footer>
 </div>
@@ -508,7 +556,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   const BASE = typeof window.ESL_BASE === "string" ? window.ESL_BASE : null;
   const PATH_MODE = BASE !== null;
   const asset = f => (BASE || "") + f;
-  const PAGE_PATH = { "": "", ucits: "equivalents-ucits/", methode: "methode/" };
+  const PAGE_PATH = { "": "", ucits: "equivalents-ucits/", methode: "methode/", comparer: "comparer/" };
   const href = id => PATH_MODE ? BASE + (id in PAGE_PATH ? PAGE_PATH[id] : `strategies/${id}/`) : (id ? `#${id}` : "#");
   const go = id => { if (PATH_MODE) location.href = href(id); else location.hash = id; };
   function currentId() {
@@ -519,15 +567,17 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     if (path.startsWith("strategies/")) return path.split("/")[1] || "";
     if (path.startsWith("equivalents-ucits")) return "ucits";
     if (path.startsWith("methode")) return "methode";
+    if (path.startsWith("comparer")) return "comparer";
     return "";
   }
   const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
   const MOIS_LONG = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
   const FAMILIES = ["Toutes", "Statique", "Momentum", "Tendance", "Keller", "Secteurs"];
-  const state = { window: "common", family: "Toutes", sort: { key: "sharpe", dir: -1 }, roll: 5, bench: "acwi" };
+  const state = { window: "common", family: "Toutes", sort: { key: "sharpe", dir: -1 }, roll: 5, bench: "acwi", ccy: "usd", cmp: null };
   let FICHES = {}, UCITS = null;
   try { const w = localStorage.getItem("esl-window"); if (w === "common" || w === "full") state.window = w;
-    const b = localStorage.getItem("esl-bench"); if (b === "acwi" || b === "spy") state.bench = b; } catch (e) {}
+    const b = localStorage.getItem("esl-bench"); if (b === "acwi" || b === "spy") state.bench = b;
+    if (localStorage.getItem("esl-ccy") === "eur") state.ccy = "eur"; } catch (e) {}
   let DATA = null, BY_ID = {}, SPY = null;
   const REF_IDS = ["acwi", "spy"];
   const REF_NAMES = { acwi: "Actions mondiales", spy: "S&P 500" };
@@ -557,7 +607,8 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
 
   // série d'équité -> points {i, v} avec la base 1 le mois précédant le 1er mois détenu
   function equityPoints(s) {
-    const keys = Object.keys(s.equity);
+    const eq = src(s).equity;
+    const keys = Object.keys(eq);
     const pts = [{ i: mIdx(keys[0]) - 1, v: 1 }];
     for (const k of keys) pts.push({ i: mIdx(k), v: s.equity[k] });
     return pts;
@@ -609,7 +660,32 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     if (state.window === "common") return [mIdx(DATA.common_window[0]) - 1, mIdx(DATA.common_window[1])];
     return [pts[0].i, pts[pts.length - 1].i];
   }
-  const statsFor = s => state.window === "common" ? s.stats_common : s.stats_full;
+  // Devise : en euros, on lit les séries converties (ETF achetés en dollars, change non couvert)
+  const EUR = () => state.ccy === "eur" && !!(DATA && DATA.eur);
+  const src = s => (EUR() && s.eur ? s.eur : s);
+  const CUR = () => (EUR() ? "€" : "$");
+  const statsFor = s => state.window === "common" ? src(s).stats_common : src(s).stats_full;
+  function ccySeg() {
+    if (!DATA.eur) return "";
+    return `<div class="seg" role="group" aria-label="Devise"><button type="button" data-ccy="usd" aria-pressed="${!EUR()}">En dollars</button><button type="button" data-ccy="eur" aria-pressed="${EUR()}">En euros</button></div>`;
+  }
+  function ccyNote() {
+    return EUR() ? `<p class="ccy-note">Vue d'un investisseur de la zone euro qui achète ces ETF en dollars, sans couvrir le change : chaque résultat inclut la variation de l'euro face au dollar.${DATA.eur.cash ? " Le Sharpe est calculé avec le taux à 3 mois en euros." : ""}</p>` : "";
+  }
+  function bindCcy(rerender) {
+    app.querySelectorAll("[data-ccy]").forEach(b => b.onclick = () => {
+      state.ccy = b.dataset.ccy; try { localStorage.setItem("esl-ccy", state.ccy); } catch (e) {}
+      const y = window.scrollY; rerender(); window.scrollTo(0, y);
+      app.querySelector(`[data-ccy="${state.ccy}"]`)?.focus({ preventScroll: true });
+    });
+  }
+  const wtxt = v => nf(Math.abs(v * 100 - Math.round(v * 100)) < 1e-9 ? 0 : 1).format(v * 100) + "\u00a0%";
+  function allocText(w) {
+    const g = new Map();
+    Object.entries(w).forEach(([k, v]) => { const r = Math.round(v * 1000) / 1000; if (!g.has(r)) g.set(r, []); g.get(r).push(k === "CASH" ? "Cash" : k); });
+    return [...g.entries()].sort((a, b) => b[0] - a[0]).map(([v, ks]) => `${wtxt(v)} ${ks.length > 1 ? "chacun : " + ks.join(", ") : ks[0]}`).join(" · ");
+  }
+  const sameW = (a, b) => [...new Set([...Object.keys(a), ...Object.keys(b)])].every(k => Math.abs((a[k] || 0) - (b[k] || 0)) < 0.005);
   function signalText(s) {
     if (s.family === "Statique" && s.id !== "spy") return "Allocation fixe";
     const w = Object.entries(s.next_signal.weights).sort((a, b) => b[1] - a[1]);
@@ -790,7 +866,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           <li>Période commune <b>${mLabel(c0)} → ${mLabel(c1)}</b></li>
           <li>Frais <b>${nf(2).format(DATA.cost_per_trade * 100)} %</b> par transaction</li>
           <li>Rééquilibrage <b>fin de mois</b></li>
-          <li>Devise <b>USD</b></li>
+          <li>Devise <b>${EUR() ? "EUR" : "USD"}</b></li>
         </ul>
         ${famLinks()}
       </section>
@@ -799,10 +875,12 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           <button type="button" data-win="common" aria-pressed="${state.window === "common"}">Période commune<span class="sub">${c0.slice(0, 4)}–${c1.slice(0, 4)}</span></button>
           <button type="button" data-win="full" aria-pressed="${state.window === "full"}">Historique complet</button>
         </div>
+        ${ccySeg()}
         <div class="chips" role="group" aria-label="Famille">
           ${FAMILIES.map(f => `<button type="button" data-fam="${f}" aria-pressed="${state.family === f}">${f}</button>`).join("")}
         </div>
       </div>
+      ${ccyNote()}
       <div class="table-scroll">
         <table class="board">
           <thead><tr>${COLS.map(c => {
@@ -844,6 +922,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     renderRobust(list);
     renderScatter(list);
     bindBench(renderBoard);
+    bindCcy(renderBoard);
 
     app.querySelectorAll("[data-win]").forEach(b => b.onclick = () => { state.window = b.dataset.win;
       try { localStorage.setItem("esl-window", state.window); } catch (e) {} renderBoard(); });
@@ -874,11 +953,11 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   }
 
   function introSentence() {
-    const ref = REF(), rs = ref.stats_common;
+    const ref = REF(), rs = src(ref).stats_common;
     const strats = DATA.strategies.filter(s => !isRef(s));
-    const better = strats.filter(s => s.stats_common.cagr > rs.cagr).length;
-    const sharper = strats.filter(s => s.stats_common.sharpe > rs.sharpe).length;
-    const shallower = strats.filter(s => s.stats_common.max_dd > rs.max_dd).length;
+    const better = strats.filter(s => src(s).stats_common.cagr > rs.cagr).length;
+    const sharper = strats.filter(s => src(s).stats_common.sharpe > rs.sharpe).length;
+    const shallower = strats.filter(s => src(s).stats_common.max_dd > rs.max_dd).length;
     const n = strats.length, name = ref.id === "acwi" ? "les actions mondiales" : "le S&amp;P 500";
     return `Depuis ${mLabel(DATA.common_window[0])}, <b>${better} stratégie${better > 1 ? "s" : ""} sur ${n}</b> ${better > 1 ? "ont" : "a"} rapporté plus que ${name} (${pct(rs.cagr, 1)} par an). Mais <b>${shallower === n ? `toutes les ${n}` : shallower}</b> ${shallower > 1 ? "ont" : "a"} subi une pire baisse moins profonde que ses ${pct(rs.max_dd, 0)}, et <b>${sharper === n ? `toutes` : sharper}</b> ${sharper > 1 ? "ont" : "a"} mieux rémunéré chaque unité de risque. La vraie question n'est pas seulement combien une stratégie rapporte, mais ce qu'elle fait traverser pour y arriver.`;
   }
@@ -886,7 +965,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   function renderScatter(list) {
     const host = document.getElementById("scatter"), note = document.getElementById("scatter-note");
     const pts = list.map(s => ({ s, st: statsFor(s) })).filter(x => x.st && x.st.cagr != null);
-    const ref = REF(), refSt = statsFor(ref), cashC = state.window === "common" ? DATA.cash_cagr_common : null;
+    const ref = REF(), refSt = statsFor(ref), cashC = state.window === "common" ? (EUR() ? DATA.eur.cash_cagr_common : DATA.cash_cagr_common) : null;
     const W = Math.max(300, Math.round(host.clientWidth - 24) || 760), H = Math.round(Math.min(420, Math.max(260, W * .5)));
     const m = { t: 22, r: 16, b: 40, l: 46 };
     const xs = pts.map(p => -p.st.max_dd), ys = pts.map(p => p.st.cagr);
@@ -995,7 +1074,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   }
 
   function renderUcits() {
-    const order = ["SPY", "IVV", "VTI", "QQQ", "IWM", "IWN", "EFA", "VEA", "ACWX", "VGK", "EWJ", "SCZ", "EEM", "VWO", "VNQ", "RWX", "REM",
+    const order = ["ACWI", "SPY", "IVV", "IVE", "VTI", "QQQ", "IWM", "IWN", "EFA", "VEA", "ACWX", "VGK", "EWJ", "SCZ", "EEM", "VWO", "VNQ", "RWX", "REM",
       "GLD", "DBC", "GSG", "TLT", "IEF", "SHY", "SHV", "BIL", "TIP", "AGG", "BND", "LQD", "HYG", "BWX",
       "XLB", "XLE", "XLF", "XLI", "XLK", "XLP", "XLU", "XLV", "XLY"];
     const names = DATA.etf_names;
@@ -1027,6 +1106,112 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       .catch(() => { app.innerHTML = `<p class="err">Impossible de charger la page Méthode.</p>`; });
   }
 
+  // ---------- fil d'Ariane, historique, comparateur ----------
+  function crumbs(items) {
+    return `<nav class="crumbs" aria-label="Fil d'Ariane">${items.map(([u, t], k) =>
+      u ? `<a href="${u}">${esc(t)}</a>` : `<span aria-current="page">${esc(t)}</span>`).join('<span class="sep" aria-hidden="true">›</span>')}</nav>`;
+  }
+  const cmpHref = ids => PATH_MODE ? `${BASE}comparer/?s=${ids.join(",")}` : `#comparer=${ids.join(",")}`;
+  function compareDefault(s) {
+    const kin = DATA.strategies.find(x => x.family === s.family && x.id !== s.id && !isRef(x));
+    return kin ? kin.id : (s.id === REF().id ? (BY_ID.spy && s.id !== "spy" ? "spy" : "6040") : REF().id);
+  }
+  function historyPanel(s) {
+    if (s.family === "Statique" || isRef(s)) return "";
+    const h = s.signal_history || {}, ms = Object.keys(h).sort().reverse();
+    if (ms.length < 2) return "";
+    let n = 0;
+    const rows = ms.map((m, k) => {
+      const prev = h[ms[k + 1]], ch = prev && !sameW(h[m], prev);
+      if (ch) n++;
+      return `<tr class="${ch ? "chg" : ""}"><td>${mLabel(m)}</td><td class="alloc-txt">${esc(allocText(h[m]))}</td></tr>`;
+    }).join("");
+    return `<section class="panel"><h2>Historique des signaux</h2>
+      <p class="sub">${n ? `${n} changement${n > 1 ? "s" : ""}` : "Aucun changement"} sur les ${ms.length - 1} derniers mois. En gras : le mois où l'allocation a changé.</p>
+      <table class="hist"><thead><tr><th scope="col">Mois</th><th scope="col">Allocation</th></tr></thead><tbody>${rows}</tbody></table></section>`;
+  }
+
+  const CMP_COLORS = ["var(--accent)", "var(--pub)", "var(--pos)"];
+  function cmpIdsFromUrl() {
+    const raw = PATH_MODE ? new URLSearchParams(location.search).get("s") : (location.hash.split("=")[1] || "");
+    let ids = [...new Set((raw || "").split(",").filter(id => BY_ID[id]))].slice(0, 3);
+    for (const d of ["gem", "permanent", "6040", "spy"]) { if (ids.length >= 2) break; if (BY_ID[d] && !ids.includes(d)) ids.push(d); }
+    return ids;
+  }
+  function renderCompare() {
+    const host = document.getElementById("cmp-tool") || app;
+    const ids = state.cmp || (state.cmp = cmpIdsFromUrl());
+    const ss = ids.map(id => BY_ID[id]);
+    const P = ss.map(s => equityPoints(s));
+    let i0 = Math.max(...P.map(p => p[0].i)), i1 = Math.min(...P.map(p => p[p.length - 1].i));
+    if (state.window === "common") i0 = Math.max(i0, mIdx(DATA.common_window[0]) - 1);
+    const series = ss.map((s, k) => ({ name: s.name, color: CMP_COLORS[k], pts: rebase(slice(P[k], i0, i1)), width: 2 }));
+    const ms = series.map(x => miniStats(x.pts));
+    const R = series.map(x => monthlyReturns(x.pts).map(q => q.r));
+    const corr = (a, b) => { const n = a.length, ma = a.reduce((x, y) => x + y, 0) / n, mb = b.reduce((x, y) => x + y, 0) / n;
+      let c = 0, va = 0, vb = 0; for (let k = 0; k < n; k++) { c += (a[k] - ma) * (b[k] - mb); va += (a[k] - ma) ** 2; vb += (b[k] - mb) ** 2; }
+      return c / Math.sqrt(va * vb); };
+    const pairs = []; for (let a = 0; a < ss.length; a++) for (let b = a + 1; b < ss.length; b++) pairs.push(`${esc(ss[a].name)} et ${esc(ss[b].name)} : <b>${nf(2).format(corr(R[a], R[b]))}</b>`);
+    const byName = DATA.strategies.slice().sort((a, b) => a.name.localeCompare(b.name, "fr"));
+    const sel = k => `<label class="cmp-sel"><span><i style="background:${CMP_COLORS[k]}"></i>Stratégie ${"ABC"[k]}</span>
+      <select data-k="${k}">${k === 2 ? `<option value="">— aucune —</option>` : ""}${byName.map(s => `<option value="${s.id}"${s.id === ids[k] ? " selected" : ""}>${esc(s.name)}</option>`).join("")}</select></label>`;
+    const years = new Map();
+    series.forEach((x, k) => annual(x.pts).forEach(y => { if (!years.has(y.y)) years.set(y.y, []); years.get(y.y)[k] = y; }));
+    const yrows = [...years.entries()].sort((a, b) => b[0] - a[0]).map(([y, arr]) =>
+      `<tr><td>${y}${arr.some(v => v && !v.full) ? "*" : ""}</td>${series.map((_, k) => `<td class="num ${cls(arr[k]?.r)}">${arr[k] ? pct(arr[k].r, 1, true) : "—"}</td>`).join("")}</tr>`).join("");
+    const nm = DATA.strategies[0].next_signal.for_month;
+    const row = (label, f) => `<tr><th scope="row">${label}</th>${ss.map((s, k) => `<td class="num">${f(ms[k], s)}</td>`).join("")}</tr>`;
+    const [c0, c1] = DATA.common_window;
+    host.innerHTML = `
+      ${host === app ? `<section class="doc"><h1>Comparer des stratégies</h1><p class="lede">Choisissez deux ou trois stratégies : courbes, pires baisses et années côte à côte, sur la période où toutes sont disponibles.</p></section>` : ""}
+      <div class="cmp-sels">${sel(0)}${sel(1)}${sel(2)}</div>
+      <div class="controls" style="border-top:0">
+        <div class="seg" role="group" aria-label="Période">
+          <button type="button" data-win="common" aria-pressed="${state.window === "common"}">Période commune<span class="sub">${c0.slice(0, 4)}–${c1.slice(0, 4)}</span></button>
+          <button type="button" data-win="full" aria-pressed="${state.window === "full"}">Le plus long possible</button>
+        </div>
+        ${ccySeg()}
+      </div>
+      ${ccyNote()}
+      <p class="sub cmp-period">De ${mLabel(mStr(i0 + 1))} à ${mLabel(mStr(i1))}, frais inclus.</p>
+      <div class="table-scroll"><table class="cmp-table">
+        <thead><tr><th scope="col"></th>${ss.map((s, k) => `<th scope="col"><i class="sw" style="background:${CMP_COLORS[k]}"></i><a href="${href(s.id)}">${esc(s.name)}</a></th>`).join("")}</tr></thead>
+        <tbody>
+          ${row("Rendement annuel", m => pct(m.cagr, 1))}
+          ${row("Volatilité", m => pct(m.vol, 1))}
+          ${row("Pire baisse", m => `<span class="neg">${pct(m.max_dd, 1)}</span>`)}
+          ${row("Plus longue période sous l'eau", m => uwText(m))}
+          ${row("Pire année", m => pct(m.worst_year, 1, true))}
+          ${row(`Signal ${mLabel(nm)}`, (m, s) => `<span class="alloc-txt">${esc(s.family === "Statique" ? "Allocation fixe" : allocText(s.next_signal.weights))}</span>`)}
+        </tbody></table></div>
+      <p class="sub">Corrélation des rendements mensuels (1 : évoluent ensemble, 0 : sans lien) : ${pairs.join(" · ")}.</p>
+      <div class="grid-2 cmp-grid"><div class="stack">
+        <section class="panel"><h2>Croissance de 1 ${CUR()}</h2>
+          <div class="legend">${series.map(x => `<span><i style="background:${x.color}"></i>${esc(x.name)}</span>`).join("")}</div>
+          <div id="cmp-eq"></div></section>
+        <section class="panel"><h2>Baisses depuis le sommet</h2><div id="cmp-dd"></div></section>
+      </div><div class="stack">
+        <section class="panel"><h2>Rendement par année</h2>
+          <table class="metrics cmp-years"><thead><tr><th scope="col"></th>${series.map(x => `<th scope="col"><i class="sw" style="background:${x.color}"></i></th>`).join("")}</tr></thead><tbody>${yrows}</tbody></table>
+          <p class="sub" style="margin:0">* année incomplète.</p></section>
+      </div></div>`;
+    timeChart(document.getElementById("cmp-eq"), { series, log: true, height: 300,
+      yfmt: v => nf(v < 1 ? 2 : v % 1 ? 1 : 0).format(v) + " " + CUR(), tipFmt: v => nf(2).format(v) + " " + CUR() });
+    const dd = pts => { let p = -Infinity; return pts.map(q => { p = Math.max(p, q.v); return { i: q.i, v: q.v / p - 1 }; }); };
+    timeChart(document.getElementById("cmp-dd"), { series: series.map(x => ({ ...x, pts: dd(x.pts), width: 1.5 })), area: true, height: 200,
+      yfmt: v => nf(0).format(v * 100) + " %", tipFmt: v => pct(v, 1) });
+    host.querySelectorAll("select[data-k]").forEach(el => el.onchange = () => {
+      const next = [...host.querySelectorAll("select[data-k]")].map(x => x.value).filter(Boolean);
+      state.cmp = [...new Set(next)];
+      if (state.cmp.length < 2) state.cmp.push(compareDefault(BY_ID[state.cmp[0]]));
+      try { history.replaceState(null, "", cmpHref(state.cmp)); } catch (e) {}
+      renderCompare();
+    });
+    host.querySelectorAll("[data-win]").forEach(b => b.onclick = () => { state.window = b.dataset.win;
+      try { localStorage.setItem("esl-window", state.window); } catch (e) {} renderCompare(); });
+    bindCcy(renderCompare);
+  }
+
   // ---------- vue fiche ----------
   function renderSheet(s) {
     const pts = equityPoints(s);
@@ -1054,19 +1239,22 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     const [c0, c1] = DATA.common_window;
 
     app.innerHTML = `
-      <a class="back" href="${href("")}">← Toutes les stratégies</a>
+      ${crumbs([[href(""), "Stratégies"], ...(PATH_MODE && FAMILY_PAGES[s.family] ? [[BASE + FAMILY_PAGES[s.family][0], FAMILY_PAGES[s.family][1]]] : []), [null, s.name]])}
       <section class="sheet-head">
         <div class="byline">${famChip(s.family)}<span>${esc(s.author || "")}</span></div>
         <h1>${esc(s.name)}</h1>
         <p class="lede">${esc(s.note || "")}</p>
+        <p class="cmp-cta"><a href="${cmpHref([s.id, compareDefault(s)])}">Comparer avec une autre stratégie →</a></p>
       </section>
       <div class="controls" style="border-top:0">
         <div class="seg" role="group" aria-label="Période">
           <button type="button" data-win="common" aria-pressed="${state.window === "common"}">Période commune<span class="sub">${c0.slice(0, 4)}–${c1.slice(0, 4)}</span></button>
           <button type="button" data-win="full" aria-pressed="${state.window === "full"}">Historique complet<span class="sub">depuis ${pts[1] ? mStr(pts[1].i).slice(0, 4) : ""}</span></button>
         </div>
+        ${ccySeg()}
         <div class="bench-pick"><span>Comparer à :</span>${benchSeg()}</div>
       </div>
+      ${ccyNote()}
       <div class="tiles">
         <div class="tile"><span class="k">CAGR</span><span class="v">${pct(st.cagr, 1)}</span>${cmp("Rendement annualisé", b?.cagr, v => pct(v, 1))}</div>
         <div class="tile"><span class="k">Temps de récupération</span><span class="v">${uwText(st)}</span>${b ? `<span class="cmp">${esc(BN())}${refTag} : <span class="num">${uwText(b)}</span></span>` : `<span class="cmp">Plus longue période sous un sommet</span>`}</div>
@@ -1076,7 +1264,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       <div class="grid-2">
         <div class="stack">
           <section class="panel">
-            <h2>Croissance de 1 $</h2>
+            <h2>Croissance de 1 ${CUR()}</h2>
             <p class="sub">Échelle logarithmique : une même pente correspond au même rendement, quelle que soit l'année.</p>
             <div class="legend"><span><i style="background:var(--accent)"></i>${esc(s.name)}</span>${spyPts ? `<span><i style="background:var(--bench)"></i>${esc(BN())}</span>` : ""}${pubI && pubI > base[0].i && pubI < base[base.length - 1].i ? `<span><i class="box" style="background:var(--pub-soft);outline:1px dashed var(--pub)"></i>Après publication</span>` : ""}</div>
             <div id="c-eq"></div>
@@ -1117,6 +1305,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
               <span class="nm">${k === "CASH" ? "T-bills (BIL)" : esc(names[k] || "")}</span></div>`).join("")}
             </div>
           </section>
+          ${historyPanel(s)}
           <section class="panel">
             <h2>Règles</h2>
             <ol class="rules">${rules.map(r => `<li>${rich(r)}</li>`).join("")}</ol>
@@ -1151,7 +1340,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
                 ["Mois positifs", x => pct(x.pct_pos_months, 0)],
                 ["Pire 5 ans (annualisé)", x => pct(x.roll5_min, 1, true)],
                 ["Pire 10 ans (annualisé)", x => pct(x.roll10_min, 1, true)],
-              ].map(([l, f]) => `<tr><td>${l}</td><td class="num">${f(s.stats_common)}</td><td class="num">${f(s.stats_full)}</td></tr>`).join("")}</tbody>
+              ].map(([l, f]) => `<tr><td>${l}</td><td class="num">${f(src(s).stats_common)}</td><td class="num">${f(src(s).stats_full)}</td></tr>`).join("")}</tbody>
             </table>
           </section>
         </div>
@@ -1161,8 +1350,8 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     if (spyPts) series.push({ name: BN(), color: "var(--bench)", pts: spyPts, width: 1.6 });
     timeChart(document.getElementById("c-eq"), {
       series, log: true, height: 300,
-      yfmt: v => nf(v < 1 ? 2 : v % 1 ? 1 : 0).format(v) + " $",
-      tipFmt: v => nf(2).format(v) + " $",
+      yfmt: v => nf(v < 1 ? 2 : v % 1 ? 1 : 0).format(v) + " " + CUR(),
+      tipFmt: v => nf(2).format(v) + " " + CUR(),
       marker: pubI ? { i: pubI, label: `Publication ${published.slice(0, 4)}` } : null,
     });
     const dd = pts => { let p = -Infinity; return pts.map(q => { p = Math.max(p, q.v); return { i: q.i, v: q.v / p - 1 }; }); };
@@ -1175,6 +1364,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     annualBars(document.getElementById("c-yr"), annual(base), spyPts ? annual(spyPts) : [], s.name, BN());
     drawRolling(s, base, spyPts);
     bindBench(() => renderSheet(s));
+    bindCcy(() => renderSheet(s));
 
     app.querySelectorAll("[data-win]").forEach(b => b.onclick = () => { state.window = b.dataset.win;
       try { localStorage.setItem("esl-window", state.window); } catch (e) {} renderSheet(s); });
@@ -1214,9 +1404,10 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     if (id === "methode") { renderMethod(); setTitle("Méthode · ETF Strategy Lab"); top(); }
     else if (id === "ucits" && UCITS) { renderUcits(); setTitle("Équivalents UCITS · ETF Strategy Lab"); top(); }
     else if (id === "signaux") { app.innerHTML = `<section class="doc"><h1>Signaux du mois</h1><p class="lede">Cette page est générée avec le site publié : <a href="/signaux/">voir les signaux du mois</a>.</p></section>`; top(); }
+    else if (id.startsWith("comparer")) { if (id.includes("=")) state.cmp = null; renderCompare(); setTitle("Comparer des stratégies · ETF Strategy Lab"); top(); }
     else if (id && BY_ID[id]) { renderSheet(BY_ID[id]); setTitle(`${BY_ID[id].name} · ETF Strategy Lab`); top(); }
     else { renderBoard(); if (!PATH_MODE) document.title = "ETF Strategy Lab"; }
-    document.querySelectorAll("[data-nav]").forEach(a => a.toggleAttribute("aria-current", a.dataset.nav === (["methode", "ucits", "signaux"].includes(id) ? id : "")));
+    document.querySelectorAll("[data-nav]").forEach(a => a.toggleAttribute("aria-current", a.dataset.nav === (["methode", "ucits", "signaux"].includes(id) ? id : id.startsWith("comparer") ? "comparer" : "")));
     document.querySelectorAll("[data-nav]").forEach(a => { if (a.hasAttribute("aria-current")) a.setAttribute("aria-current", "page"); });
   }
 

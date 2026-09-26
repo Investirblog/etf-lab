@@ -7,6 +7,7 @@
   "VTI":  {"class": "Actions US",            "name": "Vanguard Total Stock Market"},
   "QQQ":  {"class": "Actions US",            "name": "Invesco QQQ (Nasdaq-100)"},
   "IWM":  {"class": "Actions US",            "name": "iShares Russell 2000",               "ishares": "iShares Russell 2000 ETF"},
+  "IVE":  {"class": "Actions US",            "name": "iShares S&P 500 Value",              "ishares": "iShares S&P 500 Value ETF"},
   "IWN":  {"class": "Actions US",            "name": "iShares Russell 2000 Value",         "ishares": "iShares Russell 2000 Value ETF"},
 
   "EFA":  {"class": "Actions internationales","name": "iShares MSCI EAFE",                 "ishares": "iShares MSCI EAFE ETF"},

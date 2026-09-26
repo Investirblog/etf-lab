@@ -57,13 +57,15 @@ python3 run_backtests.py --cost 0     # sans frais
 - `strategies_static.py` : les portefeuilles fixes. Chaque nouvelle famille aura son fichier.
 - `results/` : `summary_common.csv` (fenêtre commune), `summary_full.csv` (historique complet) et `strategies.json` (tout ce qu'il faut au site).
 
+La vue en euros utilise le cours EUR/USD (colonne `EURUSD` : FRED DEXUSEU, complété par Yahoo `EURUSD=X` pour les mois récents) et le taux 3 mois de la zone euro (colonne `EUR3M`, FRED), téléchargés par `fetch_data.py`.
+
 Le cash (`CASH`) correspond à BIL ; avant son lancement (2007), au taux des T-bills à 3 mois de la Fed (série FRED TB3MS, colonne `TBILL`, téléchargée par `fetch_data.py`). Les références du site sont les actions mondiales (ACWI) et le S&P 500 (SPY).
 
 ## Site
 
 Le site interactif est dans `templates/app.html`. À chaque `run_backtests.py`, le générateur `build_site.py` produit dans `site/` une vraie page HTML par adresse :
 
-- `/` (accueil), `/strategies/<id>/` (une page par stratégie), `/signaux/` (signaux du mois, ce qui change), une page par famille (`/momentum/`, `/strategies-keller/`…), `/equivalents-ucits/`, `/methode/`, `/mentions-legales/`, `404.html` ;
+- `/` (accueil), `/strategies/<id>/` (une page par stratégie, avec l'historique des signaux), `/signaux/` (signaux du mois, ce qui change), une page par famille (`/momentum/`, `/strategies-keller/`…), `/comparer/` (comparateur interactif) et les pages « X ou Y ? » (`/comparer/gem-ou-adm/`…), `/equivalents-ucits/`, `/methode/`, `/mentions-legales/`, `404.html` ;
 - `og/*.png` : une image d'aperçu par page pour les réseaux sociaux (`og_images.py`, via matplotlib) ;
 - `sitemap.xml` et `robots.txt`.
 
@@ -74,6 +76,7 @@ Fichiers à modifier à la main :
 - `site/ucits.json` : les équivalents UCITS ;
 - `site/content/methode.html` : la page Méthode ;
 - `site/content/familles.json` : les textes des pages par famille ;
+- `site/content/comparaisons.json` : les pages « X ou Y ? » (paires de stratégies et textes) ;
 - `site_config.json` : le nom du site (`site_name`), l'adresse publique du site (à changer si tu prends un nom de domaine), l'éditeur affiché dans les mentions légales et l'adresse GoatCounter.
 
 Dans les textes des fiches et des règles, `[ADM](strategie:adm)` crée un lien vers une autre fiche et `[RotationShield](https://rotationshield.be)` un lien externe.

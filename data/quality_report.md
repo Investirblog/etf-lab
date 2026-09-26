@@ -1,16 +1,16 @@
 # Rapport qualité — 2026-09-26
 
-- ETF traités : 2/2 · erreurs : 1 · alertes : 0
+- ETF traités : 3/3 · erreurs : 0 · alertes : 0
 - Fenêtre commune (tous les ETF traités disponibles) : à partir de 2008-05
 
 ## Détail par ETF
 
-### ACWI — iShares MSCI ACWI
-- Source : yfinance · couverture 2008-04 → 2026-08 (221 mois)
+### IVE — iShares S&P 500 Value
+- Source : yfinance · couverture 2000-06 → 2026-08 (315 mois)
 - ✅ aucun problème détecté
 
-### TBILL — 
-- ❌ yfinance : historique vide ou trop court (0 lignes)
+### EURUSD — Euro en dollars (FRED DEXUSEU) : variation mensuelle de l'euro face au dollar
+- Source : FRED DEXUSEU · couverture 1999-02 → 2026-08 (331 mois)
 
-### TBILL — T-bills 3 mois (FRED)
-- Source : FRED TB3MS · couverture 1990-01 → 2026-08 (440 mois)
+### EUR3M — Taux interbancaire 3 mois zone euro (FRED) : cash en euros
+- Source : FRED IR3TIB01EZM156N · couverture 1994-02 → 2026-08 (391 mois)

@@ -40,6 +40,7 @@ REF_NAMES = {"acwi": "Actions mondiales", "spy": "S&P 500"}
 MATCH = {"meme": "même indice", "proche": "proche", "aucun": "aucun"}
 FAMILLES: dict = {}          # slug -> textes (site/content/familles.json)
 FAM_SLUG: dict = {}          # famille -> slug
+COMPARAISONS: list = []      # pages « X ou Y ? » (site/content/comparaisons.json)
 
 
 # --------------------------------------------------------------------------
@@ -156,7 +157,7 @@ def page(head_tpl: str, body_tpl: str, *, cfg: dict, path: str, title: str, desc
                 .replace('href="apple-touch-icon', 'href="/apple-touch-icon'))
     body = body_tpl
     body = body.replace('href="https://etf-strategy-lab.netlify.app/', 'href="/')  # liens du gabarit vers le site publié
-    body = body.replace('href="#signaux"', 'href="/signaux/"')
+    body = body.replace('href="#signaux"', 'href="/signaux/"').replace('href="#comparer"', 'href="/comparer/"')
     # liens de navigation réels
     body = body.replace('class="brand" href="#"', 'class="brand" href="/"')
     body = body.replace('<a href="#" data-nav="">', '<a href="/" data-nav="">')
@@ -286,11 +287,12 @@ def sheet_html(s, data, fiches, uc, ref) -> str:
     ]
     mt = "".join(f'<tr><td>{l}</td><td class="num">{fn(st)}</td><td class="num">{fn(sf)}</td></tr>' for l, fn in metrics)
     return f"""
-      <a class="back" href="/">← Toutes les stratégies</a>
+      {crumbs_html(sheet_crumbs(s))}
       <section class="sheet-head">
         <div class="byline">{fam_chip(s['family'])}<span>{e(s.get('author', ''))}</span></div>
         <h1>{e(s['name'])}</h1>
         <p class="lede">{e(s.get('note', ''))}</p>
+        <p class="cmp-cta"><a href="/comparer/?s={s['id']},{compare_default(s, data)}">Comparer avec une autre stratégie →</a></p>
       </section>
       <div class="tiles">
         <div class="tile"><span class="k">CAGR</span><span class="v">{pct(st['cagr'])}</span>{cmp(pct(rst['cagr']))}</div>
@@ -303,6 +305,7 @@ def sheet_html(s, data, fiches, uc, ref) -> str:
         <section class="panel"><h2>Règles</h2><ol class="rules">{''.join(f'<li>{rich(r)}</li>' for r in rules_for(s))}</ol>{extra}</section>
       </div><div class="stack">
         <section class="panel"><h2>Signal pour {m_long(nm)}</h2><p class="sub">Calculé sur la clôture de fin {m_long(data['data_end'])}.</p><div class="alloc">{sig}</div></section>
+        {history_html(s)}
         {f'<section class="panel"><h2>Avec des ETF européens</h2><div class="ucits-list">{ucits}</div></section>' if ucits else ''}
         <section class="panel"><h2>Toutes les mesures</h2><table class="metrics"><thead><tr><th scope="col"></th><th scope="col">Commune</th><th scope="col">Complet</th></tr></thead><tbody>{mt}</tbody></table></section>
         {same_family_html(s, data)}
@@ -431,7 +434,7 @@ def family_html(slug, fam, data, ref) -> str:
     c0, c1 = data["common_window"]
     others = " · ".join(f'<a href="/{k}/">{e(f["titre"])}</a>' for k, f in FAMILLES.items() if k != slug)
     return f"""
-      <a class="back" href="/">← Toutes les stratégies</a>
+      {crumbs_html([("/", "Stratégies"), (None, fam["titre"])])}
       <section class="doc">
         <h1>{e(fam["h1"])}</h1>
         {"".join(f"<p>{rich(x)}</p>" for x in fam["intro"])}
@@ -448,8 +451,199 @@ def family_html(slug, fam, data, ref) -> str:
       </section>"""
 
 
+def compare_default(s, data) -> str:
+    kin = [x for x in data["strategies"] if x["family"] == s["family"] and x["id"] != s["id"]]
+    if kin:
+        return kin[0]["id"]
+    return "acwi" if s["id"] != "acwi" and any(x["id"] == "acwi" for x in data["strategies"]) else "spy" if s["id"] != "spy" else "6040"
+
+
+def crumbs_html(items) -> str:
+    """items : [(url ou None, texte)] ; le dernier est la page courante."""
+    parts = [f'<a href="{u}">{e(t)}</a>' if u else f'<span aria-current="page">{e(t)}</span>' for u, t in items]
+    return ('<nav class="crumbs" aria-label="Fil d\'Ariane">'
+            + '<span class="sep" aria-hidden="true">›</span>'.join(parts) + "</nav>")
+
+
+def crumbs_ld(items, base_url) -> dict:
+    return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": k + 1, "name": t, **({"item": base_url + u} if u else {})}
+        for k, (u, t) in enumerate(items)]}
+
+
+def sheet_crumbs(s) -> list:
+    slug = FAM_SLUG.get(s["family"])
+    return [("/", "Stratégies")] + ([(f"/{slug}/", FAMILLES[slug]["titre"])] if slug else []) + [(None, s["name"])]
+
+
+def history_html(s) -> str:
+    if s["family"] in ("Statique", "Référence"):
+        return ""
+    h = s.get("signal_history") or {}
+    ms = sorted(h, reverse=True)
+    if len(ms) < 2:
+        return ""
+    rows, n = [], 0
+    for k, m in enumerate(ms):
+        prev = h[ms[k + 1]] if k + 1 < len(ms) else None
+        ch = prev is not None and not same_weights(h[m], prev)
+        n += ch
+        rows.append(f'<tr class="{"chg" if ch else ""}"><td>{m_label(m)}</td><td class="alloc-txt">{e(alloc_text(h[m]))}</td></tr>')
+    lead = f"{n} changement{'s' if n > 1 else ''}" if n else "Aucun changement"
+    return (f'<section class="panel"><h2>Historique des signaux</h2><p class="sub">{lead} sur les {len(ms) - 1} derniers mois. '
+            f"En gras : le mois où l'allocation a changé.</p><table class=\"hist\"><thead><tr><th scope=\"col\">Mois</th>"
+            f'<th scope="col">Allocation</th></tr></thead><tbody>{"".join(rows)}</tbody></table></section>')
+
+
+# --------------------------------------------------------------------------
+# Comparaisons
+# --------------------------------------------------------------------------
+CMP_COLORS = ["var(--accent)", "var(--pub)", "var(--pos)"]
+
+
+def pair_slug(c) -> str:
+    return c.get("slug") or f'{c["a"]}-ou-{c["b"]}'.replace("_", "-")
+
+
+def aligned(ss, start):
+    """Séries d'équité des stratégies ss, base 1 juste avant le premier mois où toutes existent."""
+    keys = sorted(set.intersection(*[set(s["equity"]) for s in ss]))
+    keys = [k for k in keys if k >= start]
+    out = []
+    for s in ss:
+        base = s["equity"].get(prev_month(keys[0]), 1.0)   # absent : premier mois de la stratégie
+        out.append([(k, s["equity"][k] / base) for k in keys])
+    return keys, out
+
+
+def prev_month(p: str) -> str:
+    y, m = map(int, p.split("-"))
+    return f"{y - (m == 1)}-{12 if m == 1 else m - 1:02d}"
+
+
+def svg_equity(series, names, width=760, height=280) -> str:
+    """Graphique statique (échelle log) : croissance de 1 $ pour chaque série."""
+    import math
+    m = {"t": 12, "r": 14, "b": 26, "l": 48}
+    allv = [v for s in series for _, v in s] + [1.0]
+    lo, hi = math.log(min(allv)), math.log(max(allv))
+    pad = (hi - lo) * 0.06 or 0.1
+    lo, hi = lo - pad, hi + pad
+    months = [k for k, _ in series[0]]
+    n = len(months)
+    X = lambda i: m["l"] + i / max(n - 1, 1) * (width - m["l"] - m["r"])
+    Y = lambda v: m["t"] + (1 - (math.log(v) - lo) / (hi - lo)) * (height - m["t"] - m["b"])
+    out = [f'<svg viewBox="0 0 {width} {height}" role="img" aria-label="Croissance de 1 $ : {e(" / ".join(names))}">']
+    for v in [0.5, 0.75, 1, 1.5, 2, 3, 4, 5, 6, 8, 10, 15, 20]:
+        if lo <= math.log(v) <= hi:
+            y = Y(v)
+            out.append(f'<line x1="{m["l"]}" x2="{width - m["r"]}" y1="{y:.1f}" y2="{y:.1f}" stroke="var(--rule{"" if v == 1 else "-soft"})"/>'
+                       f'<text x="{m["l"] - 8}" y="{y + 3.5:.1f}" text-anchor="end" class="ax">{num(v, 2 if v < 1 else 1 if v % 1 else 0)} $</text>')
+    years = sorted({k[:4] for k in months})
+    step = 5 if len(years) > 24 else 2 if len(years) > 12 else 1
+    for i, k in enumerate(months):
+        if k.endswith("-01") and int(k[:4]) % step == 0 and 10 < X(i) < width - 10:
+            out.append(f'<text x="{X(i):.1f}" y="{height - 8}" text-anchor="middle" class="ax">{k[:4]}</text>')
+    for s, color in reversed(list(zip(series, CMP_COLORS))):
+        d = "".join(f'{"L" if i else "M"}{X(i):.1f},{Y(v):.1f}' for i, (_, v) in enumerate(s))
+        out.append(f'<path d="{d}" fill="none" stroke="{color}" stroke-width="2" stroke-linejoin="round"/>')
+    out.append("</svg>")
+    return "".join(out)
+
+
+def mini(series):
+    """Statistiques d'une série (mois, valeur base 1) : CAGR, volatilité, pire baisse, pire année."""
+    import statistics
+    vals = [v for _, v in series]
+    rets = [vals[0] - 1] + [vals[i] / vals[i - 1] - 1 for i in range(1, len(vals))]
+    n = len(rets)
+    cagr = vals[-1] ** (12 / n) - 1
+    vol = statistics.stdev(rets) * 12 ** 0.5 if n > 2 else None
+    peak, mdd, run, best, ongoing = 1.0, 0.0, 0, 0, False
+    for v in vals:
+        if v >= peak - 1e-12:
+            best, peak, run = max(best, run), v, 0
+        else:
+            run += 1
+        mdd = min(mdd, v / peak - 1)
+    if run > best:
+        best, ongoing = run, True
+    years: dict = {}
+    for (k, _), r in zip(series, rets):
+        g = years.setdefault(k[:4], [1.0, 0])
+        g[0] *= 1 + r
+        g[1] += 1
+    full = {y: g[0] - 1 for y, g in years.items() if g[1] == 12}
+    return {"cagr": cagr, "vol": vol, "max_dd": mdd, "uw": best, "uw_ongoing": ongoing, "worst_year": min(full.values()) if full else None,
+            "years": {y: (g[0] - 1, g[1] == 12) for y, g in years.items()}}
+
+
+def pair_html(c, data, by_id) -> str:
+    ss = [by_id[c["a"]], by_id[c["b"]]]
+    c0 = data["common_window"][0]
+    months, series = aligned(ss, c0)
+    st = [mini(s) for s in series]
+    nm = data["strategies"][0]["next_signal"]["for_month"]
+    head = "".join(f'<th scope="col"><i class="sw" style="background:{CMP_COLORS[k]}"></i>'
+                   f'<a href="/strategies/{s["id"]}/">{e(s["name"])}</a></th>' for k, s in enumerate(ss))
+
+    def row(label, f):
+        return f'<tr><th scope="row">{label}</th>{"".join(f"<td class=num>{f(x, s)}</td>" for x, s in zip(st, ss))}</tr>'
+
+    sig = lambda x, s: (f'<span class="alloc-txt">{e("Allocation fixe" if s["family"] == "Statique" else alloc_text(s["next_signal"]["weights"]))}</span>')
+    rows = (row("Rendement annuel", lambda x, s: pct(x["cagr"]))
+            + row("Volatilité", lambda x, s: pct(x["vol"]))
+            + row("Pire baisse", lambda x, s: f'<span class="neg">{pct(x["max_dd"])}</span>')
+            + row("Plus longue période sous l'eau", lambda x, s: f'{x["uw"]}{"+" if x["uw_ongoing"] else ""}{NBSP}mois')
+            + row("Pire année", lambda x, s: pct(x["worst_year"], 1, True))
+            + row(f"Signal {m_label(nm)}", sig))
+    yrs = sorted(st[0]["years"], reverse=True)
+    yrows = "".join(
+        f'<tr><td>{y}{"*" if not all(x["years"][y][1] for x in st) else ""}</td>'
+        + "".join(f'<td class="num{" neg" if x["years"][y][0] < 0 else ""}">{pct(x["years"][y][0], 1, True)}</td>' for x in st)
+        + "</tr>" for y in yrs)
+    others = [x for x in COMPARAISONS if x is not c][:4]
+    return f"""
+      {crumbs_html([("/", "Stratégies"), ("/comparer/", "Comparer"), (None, c["titre"])])}
+      <section class="doc">
+        <h1>{e(c["titre"])}</h1>
+        {"".join(f"<p>{rich(x)}</p>" for x in c["intro"])}
+      </section>
+      <p class="sub cmp-period" style="margin-top:18px">De {m_label(months[0])} à {m_label(months[-1])}, frais inclus, en dollars.</p>
+      <div class="table-scroll"><table class="cmp-table"><thead><tr><th scope="col"></th>{head}</tr></thead><tbody>{rows}</tbody></table></div>
+      <div class="grid-2 cmp-grid"><div class="stack">
+        <section class="panel"><h2>Croissance de 1 $</h2>
+          <div class="legend">{"".join(f'<span><i style="background:{CMP_COLORS[k]}"></i>{e(s["name"])}</span>' for k, s in enumerate(ss))}</div>
+          <div class="chart static-chart">{svg_equity(series, [s["name"] for s in ss])}</div></section>
+        <section class="panel"><h2>Ce qui les distingue</h2><ul class="doc-list">{"".join(f"<li>{rich(x)}</li>" for x in c["points"])}</ul>
+          <p style="margin:0"><a href="/comparer/?s={c["a"]},{c["b"]}">Ouvrir dans le comparateur</a> (en euros, sur d'autres périodes ou avec une troisième stratégie)</p></section>
+      </div><div class="stack">
+        <section class="panel"><h2>Rendement par année</h2>
+          <table class="metrics cmp-years"><thead><tr><th scope="col"></th>{"".join(f'<th scope="col"><i class="sw" style="background:{CMP_COLORS[k]}"></i></th>' for k in range(2))}</tr></thead><tbody>{yrows}</tbody></table>
+          <p class="sub" style="margin:0">* année incomplète.</p></section>
+      </div></div>
+      <section class="doc"><h2>Autres comparaisons</h2><p>{" · ".join(f'<a href="/comparer/{pair_slug(x)}/">{e(x["titre"])}</a>' for x in others)}</p></section>
+      <p class="note-under">Backtests sur des ETF américains, dividendes réinvestis, avant impôts. Les performances passées ne préjugent pas des performances futures.</p>"""
+
+
+def compare_index_html(data) -> str:
+    items = "".join(f'<li><a href="/comparer/{pair_slug(c)}/">{e(c["titre"])}</a></li>' for c in COMPARAISONS)
+    return f"""
+      {crumbs_html([("/", "Stratégies"), (None, "Comparer")])}
+      <section class="doc">
+        <h1>Comparer des stratégies</h1>
+        <p class="lede">Choisissez deux ou trois stratégies : courbes, pires baisses et années côte à côte, sur la période où toutes sont disponibles.</p>
+      </section>
+      <div id="cmp-tool"><noscript><p>Le comparateur a besoin de JavaScript. Les comparaisons ci-dessous restent lisibles sans.</p></noscript></div>
+      <section class="sig-sec"><h2>Comparaisons détaillées</h2><ul class="cmp-list">{items}</ul></section>"""
+
+
+def strip_tags(h: str) -> str:
+    return re.sub(r"<[^>]+>", "", h)
+
+
 def ucits_html(data, uc) -> str:
-    order = [t for t in ["ACWI", "SPY", "IVV", "VTI", "QQQ", "IWM", "IWN", "EFA", "VEA", "ACWX", "VGK", "EWJ", "SCZ",
+    order = [t for t in ["ACWI", "SPY", "IVV", "IVE", "VTI", "QQQ", "IWM", "IWN", "EFA", "VEA", "ACWX", "VGK", "EWJ", "SCZ",
                          "EEM", "VWO", "VNQ", "RWX", "REM", "GLD", "DBC", "GSG", "TLT", "IEF", "SHY", "SHV", "BIL",
                          "TIP", "AGG", "BND", "LQD", "HYG", "BWX", "XLB", "XLE", "XLF", "XLI", "XLK", "XLP", "XLU",
                          "XLV", "XLY"] if t in uc["map"]]
@@ -537,6 +731,12 @@ def build(root: Path = ROOT) -> list[str]:
             if not slug.startswith("_") and f["famille"] in present:
                 FAMILLES[slug] = f
                 FAM_SLUG[f["famille"]] = slug
+    cmp_file = SITE / "content" / "comparaisons.json"
+    COMPARAISONS.clear()
+    if cmp_file.exists():
+        ids = {s["id"] for s in data["strategies"]}
+        COMPARAISONS.extend(c for c in json.loads(cmp_file.read_text(encoding="utf-8"))["comparaisons"]
+                            if c["a"] in ids and c["b"] in ids)
     by_id = {s["id"]: s for s in data["strategies"]}
     KNOWN_IDS.clear()
     KNOWN_IDS.update(by_id)
@@ -572,9 +772,10 @@ def build(root: Path = ROOT) -> list[str]:
               page(head_tpl, body_tpl, path=f"strategies/{s['id']}/", nav="", og_type="article",
                    content=sheet_html(s, data, fiches, uc, ref), image=s["id"],
                    title=f"{s['name']} : backtest, règles et signal du mois | ETF Strategy Lab", desc=desc,
-                   jsonld={"@context": "https://schema.org", "@type": "WebPage", "name": s["name"],
-                           "description": desc, "inLanguage": "fr",
-                           "isPartOf": {"@type": "WebSite", "name": "ETF Strategy Lab", "url": base_url + "/"}},
+                   jsonld=[{"@context": "https://schema.org", "@type": "WebPage", "name": s["name"],
+                            "description": desc, "inLanguage": "fr",
+                            "isPartOf": {"@type": "WebSite", "name": "ETF Strategy Lab", "url": base_url + "/"}},
+                           crumbs_ld(sheet_crumbs(s), base_url)],
                    **common))
     if uc:
         write("equivalents-ucits/index.html",
@@ -593,7 +794,26 @@ def build(root: Path = ROOT) -> list[str]:
               page(head_tpl, body_tpl, path=f"{slug}/", nav="none", static=True,
                    content=family_html(slug, fam, data, ref),
                    title=f"{fam['titre']} : stratégies backtestées et comparées | ETF Strategy Lab",
-                   desc=clip(fam["description"]), **common))
+                   desc=clip(fam["description"]),
+                   jsonld=crumbs_ld([("/", "Stratégies"), (None, fam["titre"])], base_url), **common))
+    # comparateur et pages « X ou Y ? »
+    write("comparer/index.html",
+          page(head_tpl, body_tpl, path="comparer/", nav="comparer", content=compare_index_html(data),
+               title="Comparer des stratégies ETF : courbes, baisses et années côte à côte | ETF Strategy Lab",
+               desc="Comparez deux ou trois stratégies ETF (GEM, Permanent Portfolio, DAA…) : rendement, pire baisse, "
+                    "années, en dollars ou en euros.",
+               jsonld=crumbs_ld([("/", "Stratégies"), (None, "Comparer")], base_url), **common))
+    for c in COMPARAISONS:
+        slug = pair_slug(c)
+        sa, sb = by_id[c["a"]], by_id[c["b"]]
+        write(f"comparer/{slug}/index.html",
+              page(head_tpl, body_tpl, path=f"comparer/{slug}/", nav="none", static=True,
+                   content=pair_html(c, data, by_id),
+                   title=f"{c['titre']} Backtest et comparaison | ETF Strategy Lab",
+                   desc=clip(f"{sa['name']} ou {sb['name']} : rendement, pire baisse, années et règles comparés "
+                             "sur les mêmes données."),
+                   jsonld=crumbs_ld([("/", "Stratégies"), ("/comparer/", "Comparer"), (None, c["titre"])], base_url),
+                   **common))
     if not (SITE / "content" / "methode.html").exists():
         print("⚠️  site/content/methode.html introuvable : page Méthode non générée.")
     else:
@@ -620,7 +840,7 @@ def build(root: Path = ROOT) -> list[str]:
     except ImportError as err:  # matplotlib absent : pages sans image
         print(f"⚠️  Images d'aperçu non générées ({err})")
     today = dt.date.today().isoformat()
-    urls = ["", "signaux/", "equivalents-ucits/", "methode/"] + [f"{k}/" for k in FAMILLES] + [f"strategies/{s['id']}/" for s in data["strategies"]]
+    urls = ["", "signaux/", "equivalents-ucits/", "methode/"] + [f"{k}/" for k in FAMILLES] + ["comparer/"] + [f"comparer/{pair_slug(c)}/" for c in COMPARAISONS] + [f"strategies/{s['id']}/" for s in data["strategies"]]
     write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
           + "".join(f"  <url><loc>{base_url}/{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls) + "</urlset>\n")
     write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {base_url}/sitemap.xml\n")

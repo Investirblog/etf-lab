@@ -1,0 +1,1437 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Permanent Portfolio ou All Weather ? Backtest et comparaison | ETF Strategy Lab</title>
+<meta name="description" content="Permanent Portfolio ou All Weather (version Robbins) : rendement, pire baisse, années et règles comparés sur les mêmes données.">
+<link rel="canonical" href="https://etf-strategy-lab.netlify.app/comparer/permanent-portfolio-ou-all-weather/">
+<meta property="og:site_name" content="ETF Strategy Lab">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Permanent Portfolio ou All Weather ? Backtest et comparaison | ETF Strategy Lab">
+<meta property="og:description" content="Permanent Portfolio ou All Weather (version Robbins) : rendement, pire baisse, années et règles comparés sur les mêmes données.">
+<meta property="og:url" content="https://etf-strategy-lab.netlify.app/comparer/permanent-portfolio-ou-all-weather/">
+<meta property="og:image" content="https://etf-strategy-lab.netlify.app/og/home.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Permanent Portfolio ou All Weather ? Backtest et comparaison | ETF Strategy Lab">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script data-goatcounter="https://etf-strategy-lab.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Stratégies", "item": "https://etf-strategy-lab.netlify.app/"}, {"@type": "ListItem", "position": 2, "name": "Comparer", "item": "https://etf-strategy-lab.netlify.app/comparer/"}, {"@type": "ListItem", "position": 3, "name": "Permanent Portfolio ou All Weather ?"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+/* Polices IBM Plex hébergées sur le site (licence OFL, aucune requête vers Google) */
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: italic; font-weight: 400; font-display: swap; src: url("/fonts/ibm-plex-sans-latin-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans Condensed"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/ibm-plex-sans-condensed-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans Condensed"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/ibm-plex-sans-condensed-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans Condensed"; font-style: normal; font-weight: 700; font-display: swap; src: url("/fonts/ibm-plex-sans-condensed-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+:root {
+  --bg: #f3f5f1;
+  --surface: #fbfcfa;
+  --ink: #17201b;
+  --ink-2: #4f5a54;
+  --ink-3: #7a847e;
+  --rule: #d8ddd5;
+  --rule-soft: #e7eae4;
+  --accent: #2a78d6;
+  --accent-soft: rgba(42, 120, 214, .12);
+  --bench: #8e9791;
+  --pos: #1b7a44;
+  --neg: #b6402e;
+  --pub: #9a6b00;
+  --pub-soft: rgba(154, 107, 0, .07);
+  --chip: #e6eae3;
+  --focus: #2a78d6;
+  --f-display: "IBM Plex Sans Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #111513; --surface: #171c19; --ink: #ecefea; --ink-2: #b2bab4; --ink-3: #858f89;
+    --rule: #2b322e; --rule-soft: #212723; --accent: #3987e5; --accent-soft: rgba(57, 135, 229, .16);
+    --bench: #737c76; --pos: #4cb97a; --neg: #e6735f; --pub: #d9a53a; --pub-soft: rgba(217, 165, 58, .08);
+    --chip: #232a26; --focus: #3987e5;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111513; --surface: #171c19; --ink: #ecefea; --ink-2: #b2bab4; --ink-3: #858f89;
+  --rule: #2b322e; --rule-soft: #212723; --accent: #3987e5; --accent-soft: rgba(57, 135, 229, .16);
+  --bench: #737c76; --pos: #4cb97a; --neg: #e6735f; --pub: #d9a53a; --pub-soft: rgba(217, 165, 58, .08);
+  --chip: #232a26; --focus: #3987e5;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+.wrap > *, .intro > *, .grid-2 > *, .stack > *, .panel > * { min-width: 0; }
+body { overflow-wrap: break-word; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-body); font-size: 15px; line-height: 1.55;
+  padding-inline: 20px; padding-block: 0 64px;
+}
+.wrap { max-width: 1140px; margin: 0 auto; }
+a { color: var(--accent); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; font-size: 13.5px; }
+.pos { color: var(--pos); } .neg { color: var(--neg); }
+
+/* En-tête */
+.masthead { display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+  padding-block: 22px 14px; border-bottom: 1px solid var(--rule); flex-wrap: wrap; }
+.brand { font-family: var(--f-display); font-weight: 700; font-size: 17px; letter-spacing: .02em;
+  text-transform: uppercase; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.brand svg { flex: none; }
+.stamp { font-family: var(--f-mono); font-size: 12px; color: var(--ink-3); }
+
+.intro { padding-block: 40px 28px; display: grid; gap: 14px; max-width: 760px; }
+.intro h1 { font-family: var(--f-display); font-weight: 600; font-size: clamp(30px, 4.6vw, 46px);
+  line-height: 1.06; letter-spacing: -.01em; margin: 0; text-wrap: balance; }
+.intro p { margin: 0; color: var(--ink-2); font-size: 16px; max-width: 64ch; }
+.method { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 6px; padding: 0; list-style: none; }
+.method li { font-size: 13px; color: var(--ink-2); display: flex; gap: 7px; align-items: baseline; }
+.method b { font-family: var(--f-mono); font-weight: 500; color: var(--ink); font-size: 12.5px; }
+
+/* Contrôles */
+.controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between;
+  padding-block: 14px; border-top: 1px solid var(--rule); }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 7px; overflow: hidden; background: var(--surface); }
+.seg button { border: 0; background: transparent; padding: 7px 13px; cursor: pointer; font-size: 13px; color: var(--ink-2); }
+.seg button + button { border-left: 1px solid var(--rule); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg .sub { font-family: var(--f-mono); font-size: 11.5px; opacity: .75; margin-left: 6px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chips button { border: 1px solid var(--rule); background: transparent; border-radius: 99px; padding: 5px 12px;
+  font-size: 13px; cursor: pointer; color: var(--ink-2); }
+.chips button[aria-pressed="true"] { background: var(--chip); color: var(--ink); border-color: var(--ink-3); }
+
+/* Tableau */
+.table-scroll { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
+table.board { width: 100%; border-collapse: collapse; min-width: 880px; }
+.board th { font-family: var(--f-display); font-weight: 600; font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink-3); text-align: right; padding: 12px 12px 10px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+.board th:first-child, .board td:first-child { text-align: left; padding-left: 16px; min-width: 210px; }
+.board th button { all: unset; cursor: pointer; display: inline-flex; gap: 4px; align-items: center; }
+.board th button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.board th[aria-sort] { color: var(--ink); }
+.board th .arrow { font-size: 10px; width: 8px; display: inline-block; }
+.board td { padding: 11px 10px; border-bottom: 1px solid var(--rule-soft); text-align: right; vertical-align: middle; }
+.board tr:last-child td { border-bottom: 0; }
+.board tbody tr { cursor: pointer; transition: background .12s; }
+.board tbody tr:hover, .board tbody tr:focus-visible { background: var(--accent-soft); outline: none; }
+.board tr.is-bench td { background: color-mix(in srgb, var(--chip) 55%, transparent); }
+.s-name { font-weight: 600; font-size: 14.5px; line-height: 1.3; }
+.s-link { color: inherit; text-decoration: none; }
+.s-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.s-meta { font-size: 12px; color: var(--ink-3); display: flex; gap: 8px; align-items: center; margin-top: 2px; }
+.fam { font-family: var(--f-display); font-weight: 600; font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase;
+  padding: 1px 7px; border-radius: 4px; background: var(--chip); color: var(--ink-2); }
+.signal { font-family: var(--f-mono); font-size: 12px; color: var(--ink-2); text-align: left !important; white-space: normal; max-width: 140px; }
+.spark { display: block; }
+.note-under { font-size: 12.5px; color: var(--ink-3); margin-top: 10px; max-width: 90ch; }
+
+/* Fiche */
+.back { display: inline-flex; gap: 6px; align-items: center; margin-block: 24px 8px; font-size: 14px; text-decoration: none; }
+.back:hover { text-decoration: underline; }
+.sheet-head { display: grid; gap: 8px; padding-block: 6px 22px; border-bottom: 1px solid var(--rule); }
+.sheet-head h1 { font-family: var(--f-display); font-weight: 600; font-size: clamp(28px, 4vw, 40px); margin: 0; line-height: 1.08; text-wrap: balance; }
+.sheet-head .lede { margin: 0; color: var(--ink-2); font-size: 16px; max-width: 70ch; }
+.byline { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-3); align-items: center; }
+
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--rule);
+  border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin-block: 22px; }
+.tile { background: var(--surface); padding: 14px 16px; display: grid; gap: 2px; }
+.tile .k { font-family: var(--f-display); font-weight: 600; font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); }
+.tile .v { font-family: var(--f-mono); font-size: 26px; font-weight: 500; letter-spacing: -.01em; }
+.tile .cmp { font-size: 12.5px; color: var(--ink-3); }
+.tile .cmp .num { font-size: 12px; }
+
+.grid-2 { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px 14px; display: grid; gap: 10px; }
+.panel h2 { font-family: var(--f-display); font-weight: 600; font-size: 17px; margin: 0; }
+.panel .sub { font-size: 12.5px; color: var(--ink-3); margin: -6px 0 0; }
+.stack { display: grid; gap: 20px; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 14px; height: 2px; border-radius: 1px; display: inline-block; }
+.legend i.box { height: 10px; width: 10px; border-radius: 2px; }
+
+.chart { position: relative; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart .ax { font-family: var(--f-mono); font-size: 10.5px; fill: var(--ink-3); }
+.chart .grid { stroke: var(--rule-soft); stroke-width: 1; }
+.chart .zero { stroke: var(--rule); stroke-width: 1; }
+.tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 12px; line-height: 1.4;
+  padding: 7px 9px; border-radius: 6px; white-space: nowrap; transform: translate(-50%, calc(-100% - 10px)); z-index: 2; }
+.tip b { font-family: var(--f-mono); font-weight: 500; }
+.tip .row { display: flex; gap: 10px; justify-content: space-between; align-items: center; }
+.tip .sw { width: 8px; height: 8px; border-radius: 2px; display: inline-block; margin-right: 5px; }
+
+.alloc { display: grid; gap: 9px; }
+.alloc-row { display: grid; grid-template-columns: 52px 1fr 52px; gap: 10px; align-items: center; font-size: 13px; }
+.alloc-row .tk { font-family: var(--f-mono); font-weight: 500; }
+.alloc-row .bar { height: 8px; background: var(--rule-soft); border-radius: 4px; overflow: hidden; }
+.alloc-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+.alloc-row .pc { text-align: right; }
+.alloc-row .nm { grid-column: 2 / 4; font-size: 12px; color: var(--ink-3); margin-top: -6px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 3px 9px; border-radius: 99px;
+  background: var(--chip); color: var(--ink-2); width: fit-content; }
+.rules { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 14px; }
+.callout { border-left: 3px solid var(--pub); background: var(--pub-soft); padding: 10px 12px; font-size: 13.5px; border-radius: 0 6px 6px 0; }
+.callout b { color: var(--ink); }
+table.metrics { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.metrics td, .metrics th { padding: 7px 4px; border-bottom: 1px solid var(--rule-soft); text-align: right; }
+.metrics th { font-family: var(--f-display); font-weight: 600; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.metrics td:first-child, .metrics th:first-child { text-align: left; color: var(--ink-2); }
+.metrics tr:last-child td { border-bottom: 0; }
+
+/* Fenêtres glissantes (fiche) */
+.roll-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.roll-stats div { display: grid; gap: 1px; }
+.roll-stats .k { font-size: 11.5px; color: var(--ink-3); }
+.roll-stats .v { font-family: var(--f-mono); font-size: 16px; font-weight: 500; }
+.roll-stats .c { font-size: 11.5px; color: var(--ink-3); }
+.seg.small button { padding: 4px 10px; font-size: 12.5px; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* Robustesse (page d'accueil) */
+.robust { margin-top: 34px; display: grid; gap: 12px; }
+.robust h2 { font-family: var(--f-display); font-weight: 600; font-size: 22px; margin: 0; text-wrap: balance; }
+.robust .seg { justify-self: start; }
+.robust .sub { color: var(--ink-2); font-size: 14px; margin: 0; max-width: 75ch; }
+.rb { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 12px 14px; display: grid; gap: 2px; }
+.rb-row, .rb-axis { display: grid; grid-template-columns: minmax(0, 230px) minmax(0, 1fr) 62px; gap: 12px; align-items: center; padding-inline: 4px; }
+.rb-row { min-height: 28px; cursor: pointer; border-radius: 5px; }
+.rb-row:hover, .rb-row:focus-visible { background: var(--accent-soft); outline: none; }
+.rb-row.is-bench .rb-name { font-weight: 600; }
+.rb-name { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rb-track { position: relative; height: 18px; }
+.rb-track .line { position: absolute; top: 8.5px; height: 1px; background: var(--ink-3); }
+.rb-track .box { position: absolute; top: 3px; height: 12px; border-radius: 3px; background: var(--accent-soft); border: 1px solid var(--accent); }
+.rb-row.is-bench .rb-track .box { background: var(--chip); border-color: var(--bench); }
+.rb-track .med { position: absolute; top: 0; width: 3px; height: 18px; margin-left: -1.5px; border-radius: 2px; background: var(--accent); }
+.rb-row.is-bench .rb-track .med { background: var(--ink-2); }
+.rb-track .zero { position: absolute; top: -5px; bottom: -5px; width: 1px; background: var(--ink-3); opacity: .5; }
+.rb-med { font-family: var(--f-mono); font-size: 12px; text-align: right; }
+.rb-axis .ticks { position: relative; height: 16px; }
+.rb-axis .ticks span { position: absolute; transform: translateX(-50%); font-family: var(--f-mono); font-size: 10.5px; color: var(--ink-3); white-space: nowrap; }
+.rb-axis .lbl { font-size: 11px; color: var(--ink-3); text-align: right; }
+.rb-key { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: var(--ink-3); }
+.rb-key span { display: inline-flex; align-items: center; gap: 6px; }
+
+/* L'essentiel (fiche) */
+.essentials { display: grid; gap: 10px; font-size: 14px; }
+.essentials p { margin: 0; }
+.essentials h3 { font-family: var(--f-display); font-weight: 600; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); margin: 4px 0 0; }
+.essentials ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
+
+/* Navigation */
+.nav { display: flex; gap: 18px; align-items: baseline; flex-wrap: wrap; }
+.nav a { font-size: 13.5px; color: var(--ink-2); text-decoration: none; }
+.nav a:hover, .nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.masthead-right { display: flex; gap: 6px 20px; align-items: baseline; flex-wrap: wrap; justify-content: flex-end; }
+
+/* Pages de texte */
+.doc { max-width: 760px; display: grid; gap: 14px; padding-block: 28px 8px; }
+.doc h1 { font-family: var(--f-display); font-weight: 600; font-size: clamp(28px, 4vw, 40px); line-height: 1.08; margin: 0; text-wrap: balance; }
+.doc h2 { font-family: var(--f-display); font-weight: 600; font-size: 20px; margin: 18px 0 0; }
+.doc p, .doc li { font-size: 15px; color: var(--ink); }
+.doc p { margin: 0; }
+.doc ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.doc .lede { color: var(--ink-2); font-size: 16px; }
+.doc dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; font-size: 14.5px; }
+.doc dt { font-weight: 600; }
+.doc dd { margin: 0; color: var(--ink-2); }
+
+/* Équivalents UCITS */
+.match { font-family: var(--f-display); font-weight: 600; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+.match.meme { background: color-mix(in srgb, var(--pos) 14%, transparent); color: var(--pos); }
+.match.proche { background: var(--pub-soft); color: var(--pub); outline: 1px solid color-mix(in srgb, var(--pub) 30%, transparent); }
+.match.aucun { background: color-mix(in srgb, var(--neg) 12%, transparent); color: var(--neg); }
+table.ucits { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.ucits th { font-family: var(--f-display); font-weight: 600; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3);
+  text-align: left; padding: 10px 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+.ucits td { padding: 10px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+.ucits tr:last-child td { border-bottom: 0; }
+.ucits .us { font-family: var(--f-mono); font-weight: 500; white-space: nowrap; }
+.ucits .fund + .fund { margin-top: 8px; }
+.ucits .fname { font-weight: 500; }
+.ucits .fmeta { font-size: 12px; color: var(--ink-3); }
+.ucits .fmeta .num { font-size: 12px; }
+.ucits .unote { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; }
+.ucits .fmeta .lab { display: none; }
+.isin { font-family: var(--f-mono); font-size: 12px; user-select: all; }
+.ucits-list { display: grid; gap: 12px; }
+.ucits-item { display: grid; gap: 4px; font-size: 13.5px; padding-bottom: 10px; border-bottom: 1px solid var(--rule-soft); }
+.ucits-item:last-child { border-bottom: 0; padding-bottom: 0; }
+.ucits-item .top { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* Nuage rendement / pire baisse */
+.scatter-wrap { display: grid; gap: 12px; margin-top: 34px; }
+.scatter-wrap h2 { font-family: var(--f-display); font-weight: 600; font-size: 22px; margin: 0; text-wrap: balance; }
+.scatter-wrap .sub { color: var(--ink-2); font-size: 14px; margin: 0; max-width: 75ch; }
+.scatter { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 12px 6px; }
+.scatter .ax { font-family: var(--f-mono); font-size: 10.5px; fill: var(--ink-3); }
+.scatter .grid { stroke: var(--rule-soft); stroke-width: 1; }
+.scatter .zero { stroke: var(--rule); stroke-width: 1; }
+.board td.num { white-space: nowrap; }
+.scatter .dot { cursor: pointer; }
+.scatter .dot:focus-visible { outline: none; stroke: var(--focus); stroke-width: 3; }
+.scatter .lbl { font-family: var(--f-body); font-size: 11.5px; fill: var(--ink-2); }
+.scatter .lbl.ref { font-weight: 600; fill: var(--ink); }
+.scatter-note { font-size: 13px; color: var(--ink-2); }
+.scatter-note b { color: var(--ink); font-weight: 600; }
+.bench-pick { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--ink-3); }
+.intro .key { font-size: 16.5px; color: var(--ink); max-width: 66ch; }
+.intro .key b { font-weight: 600; }
+
+/* Fil d'Ariane, devise, historique, comparateur */
+.crumbs { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; margin-block: 24px 8px; font-size: 13.5px; color: var(--ink-3); }
+.crumbs a { text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+.crumbs .sep { color: var(--ink-3); }
+.crumbs [aria-current] { color: var(--ink-2); }
+.cmp-cta { margin: 0; font-size: 14px; }
+.cmp-cta a { text-decoration: none; }
+.cmp-cta a:hover { text-decoration: underline; }
+.ccy-note { font-size: 13px; color: var(--ink-2); background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; margin: 0 0 12px; max-width: 90ch; }
+table.hist { width: 100%; border-collapse: collapse; font-size: 13px; }
+.hist th { font-family: var(--f-display); font-weight: 600; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); text-align: left; padding: 4px 6px 6px; border-bottom: 1px solid var(--rule); }
+.hist td { padding: 5px 6px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+.hist td:first-child { white-space: nowrap; color: var(--ink-2); width: 6.5em; }
+.hist tr:last-child td { border-bottom: 0; }
+.hist tr.chg td { font-weight: 600; }
+.hist tr.chg td:first-child { color: var(--accent); }
+.sw { width: 9px; height: 9px; border-radius: 2px; display: inline-block; margin-right: 6px; vertical-align: 1px; }
+.cmp-sels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 18px 0 6px; }
+.cmp-sel { display: grid; gap: 4px; font-size: 12.5px; color: var(--ink-3); }
+.cmp-sel span { display: inline-flex; align-items: center; gap: 6px; }
+.cmp-sel i { width: 12px; height: 3px; border-radius: 2px; display: inline-block; }
+.cmp-sel select { font: inherit; font-size: 14px; color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: 7px; padding: 7px 8px; min-width: 0; width: 100%; }
+.cmp-period { margin: 0 0 10px; color: var(--ink-3); font-size: 13px; }
+table.cmp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.cmp-table th, .cmp-table td { padding: 9px 12px; border-bottom: 1px solid var(--rule-soft); text-align: right; vertical-align: top; }
+.cmp-table thead th { font-weight: 600; font-size: 13.5px; border-bottom: 1px solid var(--rule); }
+.cmp-table thead th a { color: var(--ink); text-decoration: none; }
+.cmp-table thead th a:hover { text-decoration: underline; }
+.cmp-table th[scope="row"] { text-align: left; font-weight: 400; color: var(--ink-2); white-space: nowrap; }
+.cmp-table tr:last-child td, .cmp-table tr:last-child th { border-bottom: 0; }
+.cmp-table .alloc-txt { font-size: 12px; }
+.cmp-grid { margin-top: 18px; }
+.cmp-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.cmp-list a { display: block; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px; color: var(--ink); text-decoration: none; font-weight: 600; }
+.cmp-list a:hover { border-color: var(--accent); }
+.cmp-list span { display: block; font-weight: 400; font-size: 13px; color: var(--ink-3); margin-top: 2px; }
+.static-chart svg { display: block; width: 100%; height: auto; }
+.doc-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; }
+@media (max-width: 640px) {
+  .cmp-sels { grid-template-columns: 1fr; }
+  .cmp-table th, .cmp-table td { padding: 8px 6px; font-size: 12.5px; }
+  .cmp-table th[scope="row"] { white-space: normal; }
+}
+
+/* Liens de famille, « même famille » */
+a.fam { text-decoration: none; }
+a.fam:hover { background: var(--accent-soft); color: var(--accent); }
+.fam-links { font-size: 13.5px; color: var(--ink-3); margin: 0; }
+.fam-links span { margin-right: 4px; }
+.kin { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; font-size: 13.5px; }
+.kin li { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.kin .num { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+
+/* Signaux du mois, pages de famille */
+.sig-sec { margin-top: 26px; display: grid; gap: 12px; }
+.sig-sec h2 { font-family: var(--f-display); font-weight: 600; font-size: 22px; margin: 0; }
+.sig-sec .sub { color: var(--ink-2); font-size: 14px; margin: 0; }
+.sig-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.sig-card { background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; }
+.sig-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; font-weight: 600; }
+.sig-head a:not(.fam) { color: var(--ink); text-decoration: none; }
+.sig-head a:not(.fam):hover { text-decoration: underline; }
+.sig-row { display: grid; grid-template-columns: 78px 1fr; gap: 8px; font-size: 13.5px; align-items: baseline; }
+.sig-row .lab { font-size: 12px; color: var(--ink-3); }
+.sig-row.before .alloc-txt { color: var(--ink-3); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--ink-3) 50%, transparent); }
+.sig-row.now .alloc-txt { font-weight: 500; }
+.alloc-txt { font-family: var(--f-mono); font-size: 12.5px; }
+table.sig-table, table.fam-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.sig-table th, .fam-table th { font-family: var(--f-display); font-weight: 600; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3);
+  text-align: left; padding: 11px 12px 9px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+.sig-table td, .fam-table td { padding: 10px 12px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+.sig-table tr:last-child td, .fam-table tr:last-child td { border-bottom: 0; }
+.sig-table td:first-child a, .fam-table td:first-child a { font-weight: 600; color: var(--ink); text-decoration: none; }
+.sig-table td:first-child a:hover, .fam-table td:first-child a:hover { text-decoration: underline; }
+.sig-table .since { font-size: 12.5px; color: var(--ink-3); white-space: nowrap; }
+.fam-table td.num, .fam-table th:nth-child(n+2):nth-child(-n+5) { text-align: right; }
+.fam-table td.num { white-space: nowrap; }
+.fam-table tr.is-bench td { background: color-mix(in srgb, var(--chip) 55%, transparent); }
+.fixed-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+.fixed-list li { background: var(--surface); padding: 9px 14px; display: flex; justify-content: space-between; gap: 6px 14px; flex-wrap: wrap; font-size: 14px; }
+.fixed-list a { color: var(--ink); text-decoration: none; font-weight: 500; }
+.fixed-list a:hover { text-decoration: underline; }
+@media (max-width: 640px) {
+  .sig-table thead, .fam-table thead { display: none; }
+  .sig-table, .sig-table tbody, .fam-table, .fam-table tbody { display: block; }
+  .sig-table tr { display: grid; gap: 4px; padding: 12px 14px; border-bottom: 1px solid var(--rule-soft); }
+  .sig-table td { padding: 0; border: 0; }
+  .fam-table tr { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px 8px; padding: 12px 14px; border-bottom: 1px solid var(--rule-soft); }
+  .fam-table td { padding: 0; border: 0; text-align: left !important; }
+  .fam-table td:first-child, .fam-table td:last-child { grid-column: 1 / -1; }
+  .fam-table tr.is-bench { background: color-mix(in srgb, var(--chip) 55%, transparent); }
+  .fam-table tr.is-bench td { background: transparent; }
+  .fam-table td:last-child:empty { display: none; }
+  .fam-table td.num::before { display: block; font-family: var(--f-display); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+  .fam-table td:nth-child(2)::before { content: "CAGR"; }
+  .fam-table td:nth-child(3)::before { content: "Max DD"; }
+  .fam-table td:nth-child(4)::before { content: "Récup."; }
+  .fam-table td:nth-child(5)::before { content: "Sharpe"; }
+  .sig-row { grid-template-columns: 64px 1fr; }
+}
+
+.support { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; display: grid; gap: 10px; color: var(--ink-2); font-size: 13.5px; margin-bottom: 8px; }
+.support p { margin: 0; }
+.support b { color: var(--ink); }
+.support-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 8px; background: var(--accent); color: #fff; font-weight: 500; font-size: 13.5px; text-decoration: none; }
+.btn:hover { filter: brightness(1.08); }
+.btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+.kofi-float { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 20;
+  display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px 9px 12px; border-radius: 99px;
+  background: var(--accent); color: #fff; font-size: 13.5px; font-weight: 500; text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .18); }
+.kofi-float:hover { filter: brightness(1.08); }
+body { padding-bottom: 88px; }
+@media (max-width: 640px) {
+  .kofi-float { padding: 11px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+  .kofi-float span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+@media print { .kofi-float { display: none; } }
+footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--ink-3); display: grid; gap: 6px; max-width: 90ch; }
+.err { padding: 40px 0; color: var(--neg); }
+
+@media (max-width: 860px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 1180px) and (min-width: 641px) {
+  .board th:nth-child(2), .board td:nth-child(2) { display: none; }
+  table.board { min-width: 0; }
+}
+@media (max-width: 1080px) and (min-width: 641px) {
+  /* tablette : stratégie, CAGR, Sharpe, Max DD, Récup., Pire année */
+  .board th:nth-child(4), .board td:nth-child(4),
+  .board th:nth-child(9), .board td:nth-child(9),
+  .board th:nth-child(10), .board td:nth-child(10) { display: none; }
+  .board th:first-child, .board td:first-child { min-width: 0; }
+}
+@media (max-width: 720px) and (min-width: 641px) {
+  .board th:nth-child(8), .board td:nth-child(8) { display: none; }
+}
+@media (max-width: 640px) {
+  .ucits thead { display: none; }
+  .ucits, .ucits tbody { display: block; }
+  .ucits tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; padding: 14px 16px; border-bottom: 1px solid var(--rule); }
+  .ucits tr:last-child { border-bottom: 0; }
+  .ucits td { padding: 0; border: 0; }
+  .ucits td:nth-child(2) { justify-self: end; }
+  .ucits td:nth-child(3) { grid-column: 1 / -1; padding-top: 8px; border-top: 1px dashed var(--rule-soft); }
+  .ucits .us { font-size: 16px; }
+  .ucits .fname { font-size: 14px; }
+  .ucits .fmeta .sep { display: none; }
+  .ucits .fmeta .part { display: block; margin-top: 3px; }
+  .ucits .fmeta .lab { display: inline-block; min-width: 72px; color: var(--ink-3); }
+  .ucits .unote { margin-top: 8px; }
+  .doc dl { grid-template-columns: 1fr; gap: 2px; }
+  .doc dd { margin-bottom: 8px; }
+  .rb-row, .rb-axis { grid-template-columns: minmax(0, 1fr) 46px; gap: 2px 8px; padding-inline: 2px; }
+  .rb-row { padding-block: 5px; }
+  .rb-name { grid-column: 1 / -1; font-size: 12.5px; white-space: normal; }
+  .rb-axis > span:first-child { display: none; }
+  .rb-med { font-size: 11px; }
+  .roll-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* tableau compact : stratégie, CAGR, Sharpe, Max DD */
+  table.board { min-width: 0; }
+  .board th:first-child, .board td:first-child { min-width: 0; padding-left: 12px; }
+  .board th:nth-child(2), .board td:nth-child(2),
+  .board th:nth-child(4), .board td:nth-child(4),
+  .board th:nth-child(7), .board td:nth-child(7),
+  .board th:nth-child(8), .board td:nth-child(8),
+  .board th:nth-child(9), .board td:nth-child(9),
+  .board th:nth-child(10), .board td:nth-child(10) { display: none; }
+  .board th, .board td { padding-inline: 5px; }
+  .board th { letter-spacing: .02em; font-size: 11px; }
+  .board td.num { font-size: 12px; white-space: nowrap; }
+  .s-name { font-size: 13.5px; hyphens: auto; overflow-wrap: anywhere; }
+  .s-meta .fam { font-size: 9.5px; }
+  .intro { padding-block: 28px 20px; }
+}
+@media (max-width: 480px) {
+  body { padding-inline: 16px; }
+  .tile .v { font-size: 22px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <a class="brand" href="/" aria-label="ETF Strategy Lab, accueil">
+      <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+        <rect x="1" y="1" width="18" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <polyline points="4,14 8,10 11,12 16,5" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      ETF Strategy Lab
+    </a>
+    <div class="masthead-right">
+      <nav class="nav" aria-label="Pages">
+        <a href="/" data-nav="">Stratégies</a>
+        <a href="/signaux/" data-nav="signaux">Signaux du mois</a>
+        <a href="/comparer/" data-nav="comparer">Comparer</a>
+        <a href="/equivalents-ucits/" data-nav="ucits">Équivalents UCITS</a>
+        <a href="/methode/" data-nav="methode">Méthode</a>
+      </nav>
+      <span class="stamp" id="stamp">Données à fin août 2026 · 27 stratégies</span>
+    </div>
+  </header>
+  <main id="app" aria-live="polite">
+      <nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Stratégies</a><span class="sep" aria-hidden="true">›</span><a href="/comparer/">Comparer</a><span class="sep" aria-hidden="true">›</span><span aria-current="page">Permanent Portfolio ou All Weather ?</span></nav>
+      <section class="doc">
+        <h1>Permanent Portfolio ou All Weather ?</h1>
+        <p>Deux portefeuilles fixes conçus pour traverser tous les climats économiques. Le <a href="/strategies/permanent/">Permanent Portfolio</a> d&#x27;Harry Browne répartit à parts égales actions, obligations longues, or et cash.</p><p>L&#x27;<a href="/strategies/all_weather/">All Weather</a>, dans sa version grand public popularisée par Tony Robbins d&#x27;après Ray Dalio, met davantage d&#x27;obligations et un peu de matières premières pour équilibrer le risque de chaque bloc.</p>
+      </section>
+      <p class="sub cmp-period" style="margin-top:18px">De juil. 2008 à août 2026, frais inclus, en dollars.</p>
+      <div class="table-scroll"><table class="cmp-table"><thead><tr><th scope="col"></th><th scope="col"><i class="sw" style="background:var(--accent)"></i><a href="/strategies/permanent/">Permanent Portfolio</a></th><th scope="col"><i class="sw" style="background:var(--pub)"></i><a href="/strategies/all_weather/">All Weather (version Robbins)</a></th></tr></thead><tbody><tr><th scope="row">Rendement annuel</th><td class=num>7,0 %</td><td class=num>6,6 %</td></tr><tr><th scope="row">Volatilité</th><td class=num>7,8 %</td><td class=num>8,6 %</td></tr><tr><th scope="row">Pire baisse</th><td class=num><span class="neg">-17,0 %</span></td><td class=num><span class="neg">-21,1 %</span></td></tr><tr><th scope="row">Plus longue période sous l'eau</th><td class=num>28 mois</td><td class=num>41 mois</td></tr><tr><th scope="row">Pire année</th><td class=num>-13,5 %</td><td class=num>-18,8 %</td></tr><tr><th scope="row">Signal sept. 2026</th><td class=num><span class="alloc-txt">Allocation fixe</span></td><td class=num><span class="alloc-txt">Allocation fixe</span></td></tr></tbody></table></div>
+      <div class="grid-2 cmp-grid"><div class="stack">
+        <section class="panel"><h2>Croissance de 1 $</h2>
+          <div class="legend"><span><i style="background:var(--accent)"></i>Permanent Portfolio</span><span><i style="background:var(--pub)"></i>All Weather (version Robbins)</span></div>
+          <div class="chart static-chart"><svg viewBox="0 0 760 280" role="img" aria-label="Croissance de 1 $ : Permanent Portfolio / All Weather (version Robbins)"><line x1="48" x2="746" y1="221.8" y2="221.8" stroke="var(--rule)"/><text x="40" y="225.3" text-anchor="end" class="ax">1 $</text><line x1="48" x2="746" y1="158.8" y2="158.8" stroke="var(--rule-soft)"/><text x="40" y="162.3" text-anchor="end" class="ax">1,5 $</text><line x1="48" x2="746" y1="114.1" y2="114.1" stroke="var(--rule-soft)"/><text x="40" y="117.6" text-anchor="end" class="ax">2 $</text><line x1="48" x2="746" y1="51.1" y2="51.1" stroke="var(--rule-soft)"/><text x="40" y="54.6" text-anchor="end" class="ax">3 $</text><text x="105.9" y="272" text-anchor="middle" class="ax">2010</text><text x="183.1" y="272" text-anchor="middle" class="ax">2012</text><text x="260.3" y="272" text-anchor="middle" class="ax">2014</text><text x="337.5" y="272" text-anchor="middle" class="ax">2016</text><text x="414.7" y="272" text-anchor="middle" class="ax">2018</text><text x="491.9" y="272" text-anchor="middle" class="ax">2020</text><text x="569.1" y="272" text-anchor="middle" class="ax">2022</text><text x="646.3" y="272" text-anchor="middle" class="ax">2024</text><text x="723.5" y="272" text-anchor="middle" class="ax">2026</text><path d="M48.0,224.0L51.2,223.5L54.4,227.5L57.6,241.0L60.9,231.3L64.1,219.0L67.3,232.3L70.5,239.0L73.7,232.1L76.9,232.9L80.2,229.4L83.4,230.2L86.6,225.4L89.8,222.6L93.0,218.4L96.2,219.6L99.5,212.9L102.7,217.1L105.9,217.7L109.1,215.6L112.3,214.5L115.5,210.3L118.8,211.0L122.0,208.7L125.2,206.4L128.4,201.7L131.6,198.5L134.8,198.9L138.1,199.9L141.3,198.7L144.5,199.9L147.7,196.1L150.9,195.6L154.1,190.9L157.4,189.7L160.6,192.9L163.8,188.9L167.0,183.0L170.2,179.9L173.4,177.4L176.7,175.9L179.9,174.3L183.1,170.4L186.3,169.9L189.5,171.6L192.7,168.8L196.0,168.0L199.2,166.8L202.4,162.8L205.6,161.3L208.8,161.2L212.0,163.3L215.3,162.0L218.5,163.7L221.7,163.3L224.9,162.9L228.1,161.0L231.3,158.2L234.6,162.7L237.8,167.3L241.0,165.0L244.2,166.9L247.4,165.3L250.6,161.8L253.9,162.4L257.1,162.6L260.3,159.6L263.5,155.9L266.7,155.6L269.9,153.6L273.2,150.8L276.4,149.1L279.6,150.3L282.8,145.2L286.0,148.9L289.2,146.3L292.5,143.6L295.7,142.2L298.9,136.2L302.1,138.6L305.3,139.4L308.5,140.6L311.8,141.8L315.0,145.7L318.2,143.8L321.4,146.8L324.6,147.0L327.8,143.3L331.1,145.1L334.3,146.9L337.5,144.9L340.7,141.3L343.9,138.2L347.1,136.8L350.4,136.3L353.6,129.5L356.8,127.1L360.0,128.3L363.2,128.7L366.4,133.1L369.7,138.5L372.9,137.5L376.1,135.6L379.3,132.3L382.5,133.0L385.7,131.4L389.0,129.5L392.2,129.2L395.4,127.9L398.6,124.8L401.8,125.8L405.0,124.4L408.3,122.3L411.5,120.1L414.7,119.3L417.9,123.7L421.1,122.7L424.3,123.8L427.6,121.0L430.8,121.0L434.0,120.7L437.2,118.3L440.4,119.6L443.6,125.6L446.9,124.5L450.1,124.6L453.3,119.4L456.5,118.5L459.7,114.0L462.9,113.3L466.2,112.3L469.4,106.9L472.6,106.1L475.8,99.1L479.0,100.5L482.2,99.6L485.5,98.6L488.7,98.3L491.9,93.3L495.1,92.7L498.3,94.3L501.5,88.2L504.8,86.5L508.0,84.9L511.2,77.6L514.4,78.0L517.6,80.0L520.8,84.1L524.1,78.1L527.3,75.9L530.5,78.9L533.7,81.1L536.9,82.8L540.1,77.0L543.4,75.2L546.6,71.8L549.8,67.6L553.0,66.6L556.2,70.6L559.4,64.8L562.7,64.9L565.9,62.4L569.1,67.2L572.3,68.0L575.5,69.2L578.7,79.4L582.0,80.1L585.2,86.5L588.4,81.1L591.6,87.2L594.8,99.2L598.0,98.6L601.3,90.2L604.5,94.8L607.7,85.8L610.9,92.1L614.1,85.7L617.3,84.5L620.6,87.3L623.8,84.3L627.0,83.2L630.2,86.3L633.4,94.7L636.6,98.8L639.9,87.8L643.1,80.1L646.3,80.7L649.5,80.2L652.7,76.5L655.9,82.6L659.2,77.9L662.4,74.8L665.6,71.2L668.8,68.5L672.0,65.2L675.2,68.9L678.5,65.1L681.7,70.6L684.9,67.8L688.1,64.1L691.3,65.9L694.5,67.2L697.8,66.6L701.0,61.8L704.2,61.3L707.4,59.4L710.6,53.7L713.8,50.9L717.1,49.5L720.3,50.8L723.5,47.7L726.7,43.3L729.9,48.3L733.1,43.4L736.4,41.6L739.6,44.2L742.8,45.7L746.0,42.0" fill="none" stroke="var(--pub)" stroke-width="2" stroke-linejoin="round"/><path d="M48.0,222.7L51.2,224.9L54.4,225.7L57.6,238.3L60.9,229.1L64.1,219.4L67.3,225.8L70.5,229.8L73.7,226.5L76.9,226.9L80.2,221.7L83.4,223.9L86.6,219.6L89.8,217.1L93.0,212.4L96.2,212.4L99.5,203.8L102.7,208.6L105.9,209.1L109.1,206.8L112.3,205.6L115.5,201.3L118.8,201.1L122.0,199.6L125.2,199.7L128.4,195.5L131.6,191.7L134.8,190.5L138.1,190.4L141.3,188.4L144.5,191.1L147.7,187.0L150.9,186.4L154.1,180.8L157.4,180.5L160.6,183.1L163.8,178.8L167.0,172.0L170.2,174.0L173.4,170.0L176.7,168.5L179.9,171.1L183.1,165.1L186.3,165.7L189.5,166.5L192.7,165.1L196.0,166.8L199.2,165.0L202.4,162.7L205.6,160.3L208.8,158.4L212.0,160.6L215.3,160.1L218.5,161.6L221.7,161.1L224.9,162.0L228.1,160.3L231.3,160.4L234.6,164.3L237.8,169.9L241.0,166.1L244.2,166.4L247.4,166.2L250.6,163.6L253.9,164.7L257.1,165.3L260.3,162.8L263.5,158.5L266.7,159.2L269.9,157.9L273.2,156.9L276.4,153.9L279.6,155.6L282.8,152.0L286.0,155.8L289.2,154.7L292.5,152.5L295.7,150.8L298.9,144.7L302.1,147.7L305.3,148.6L308.5,149.7L311.8,149.8L315.0,152.8L318.2,152.8L321.4,154.2L324.6,155.0L327.8,151.2L331.1,154.0L334.3,155.1L337.5,152.5L340.7,147.0L343.9,145.0L347.1,143.0L350.4,144.8L353.6,138.1L356.8,135.1L360.0,137.0L363.2,137.3L366.4,141.0L369.7,146.7L372.9,146.8L376.1,143.6L379.3,140.3L382.5,140.6L385.7,138.9L389.0,137.6L392.2,137.9L395.4,136.4L398.6,133.3L401.8,134.8L405.0,134.2L408.3,132.6L411.5,130.6L414.7,128.5L417.9,132.0L421.1,131.7L424.3,132.8L427.6,131.4L430.8,132.3L434.0,132.3L437.2,131.1L440.4,132.2L443.6,135.5L446.9,133.8L450.1,133.2L453.3,128.8L456.5,128.2L459.7,125.7L462.9,125.0L466.2,124.3L469.4,118.0L472.6,117.3L475.8,110.5L479.0,112.3L482.2,110.7L485.5,110.7L488.7,109.3L491.9,104.4L495.1,104.6L498.3,105.8L501.5,98.6L504.8,96.8L508.0,94.9L511.2,86.7L514.4,86.6L517.6,89.5L520.8,92.1L524.1,89.8L527.3,86.1L530.5,89.2L533.7,92.7L536.9,93.2L540.1,88.8L543.4,85.7L546.6,86.1L549.8,82.7L553.0,81.5L556.2,86.0L559.4,81.6L562.7,81.3L565.9,78.8L569.1,83.4L572.3,82.9L575.5,83.6L578.7,91.6L582.0,93.5L585.2,97.9L588.4,94.8L591.6,99.6L594.8,107.7L598.0,107.6L601.3,99.6L604.5,101.4L607.7,93.6L610.9,99.0L614.1,92.2L617.3,91.0L620.6,92.7L623.8,91.0L627.0,89.6L630.2,91.9L633.4,98.8L636.6,98.7L639.9,90.3L643.1,84.5L646.3,85.2L649.5,84.0L652.7,79.0L655.9,82.0L659.2,78.0L662.4,75.8L665.6,71.5L668.8,68.6L672.0,64.6L675.2,65.2L678.5,63.4L681.7,67.2L684.9,63.2L688.1,60.5L691.3,59.1L694.5,57.3L697.8,56.5L701.0,53.2L704.2,53.1L707.4,49.8L710.6,41.9L713.8,38.7L717.1,35.8L720.3,35.5L723.5,30.2L726.7,25.0L729.9,33.7L733.1,30.7L736.4,29.1L739.6,33.7L742.8,35.0L746.0,30.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/></svg></div></section>
+        <section class="panel"><h2>Ce qui les distingue</h2><ul class="doc-list"><li>Le Permanent Portfolio garde 25 % de cash, qui amortit les chocs mais freine le rendement.</li><li>L&#x27;All Weather dépend fortement des obligations : il souffre quand les taux montent vite.</li><li>Les deux ont eu leur pire année en 2022, quand actions et obligations ont baissé ensemble.</li></ul>
+          <p style="margin:0"><a href="/comparer/?s=permanent,all_weather">Ouvrir dans le comparateur</a> (en euros, sur d'autres périodes ou avec une troisième stratégie)</p></section>
+      </div><div class="stack">
+        <section class="panel"><h2>Rendement par année</h2>
+          <table class="metrics cmp-years"><thead><tr><th scope="col"></th><th scope="col"><i class="sw" style="background:var(--accent)"></i></th><th scope="col"><i class="sw" style="background:var(--pub)"></i></th></tr></thead><tbody><tr><td>2026*</td><td class="num">+3,6 %</td><td class="num">+5,8 %</td></tr><tr><td>2025</td><td class="num">+22,6 %</td><td class="num">+13,6 %</td></tr><tr><td>2024</td><td class="num">+11,8 %</td><td class="num">+6,3 %</td></tr><tr><td>2023</td><td class="num">+11,4 %</td><td class="num">+10,0 %</td></tr><tr><td>2022</td><td class="num neg">-13,5 %</td><td class="num neg">-18,8 %</td></tr><tr><td>2021</td><td class="num">+4,8 %</td><td class="num">+9,1 %</td></tr><tr><td>2020</td><td class="num">+16,1 %</td><td class="num">+15,5 %</td></tr><tr><td>2019</td><td class="num">+16,6 %</td><td class="num">+18,4 %</td></tr><tr><td>2018</td><td class="num neg">-1,7 %</td><td class="num neg">-2,9 %</td></tr><tr><td>2017</td><td class="num">+11,0 %</td><td class="num">+11,9 %</td></tr><tr><td>2016</td><td class="num">+5,5 %</td><td class="num">+6,2 %</td></tr><tr><td>2015</td><td class="num neg">-2,7 %</td><td class="num neg">-3,0 %</td></tr><tr><td>2014</td><td class="num">+9,7 %</td><td class="num">+14,0 %</td></tr><tr><td>2013</td><td class="num neg">-2,3 %</td><td class="num">+0,7 %</td></tr><tr><td>2012</td><td class="num">+6,3 %</td><td class="num">+7,1 %</td></tr><tr><td>2011</td><td class="num">+11,7 %</td><td class="num">+17,0 %</td></tr><tr><td>2010</td><td class="num">+13,9 %</td><td class="num">+12,6 %</td></tr><tr><td>2009</td><td class="num">+7,2 %</td><td class="num">+1,2 %</td></tr><tr><td>2008*</td><td class="num">+1,6 %</td><td class="num">+1,8 %</td></tr></tbody></table>
+          <p class="sub" style="margin:0">* année incomplète.</p></section>
+      </div></div>
+      <section class="doc"><h2>Autres comparaisons</h2><p><a href="/comparer/gem-ou-adm/">GEM ou Accelerating Dual Momentum ?</a> · <a href="/comparer/permanent-portfolio-ou-golden-butterfly/">Permanent Portfolio ou Golden Butterfly ?</a> · <a href="/comparer/60-40-ou-all-weather/">60/40 ou All Weather ?</a> · <a href="/comparer/daa-ou-vaa/">DAA ou VAA ?</a></p></section>
+      <p class="note-under">Backtests sur des ETF américains, dividendes réinvestis, avant impôts. Les performances passées ne préjugent pas des performances futures.</p></main>
+  <footer>
+    <div class="support">
+      <p><b>Un site gratuit, sans publicité ni produit à vendre.</b> Il est tenu par <a href="https://x.com/TransactionB" rel="noopener">Nathanaël Dumortier</a>, auteur de la newsletter <a href="https://investir.blog">investir.blog</a>.</p>
+      <div class="support-links">
+        <a class="btn" href="https://investir.blog/subscribe">Recevoir la newsletter</a>
+        <a class="btn ghost" href="https://ko-fi.com/nathanaeldumortier" rel="noopener">Offrir un café sur Ko-fi</a>
+      </div>
+    </div>
+    <div>Backtests sur des ETF américains, calculés en dollars US (vue en euros disponible), dividendes réinvestis, frais de transaction inclus, avant impôts. Les performances passées ne préjugent pas des performances futures. Ceci n'est pas un conseil en investissement.</div>
+    <div>Données : cours ajustés yfinance, contrôlés contre les NAV officielles iShares. <a href="/methode/">Méthode et limites</a> · <a href="/equivalents-ucits/">Équivalents UCITS</a> · <a href="/mentions-legales/">Mentions légales</a></div>
+  </footer>
+</div>
+<a class="kofi-float" href="https://ko-fi.com/nathanaeldumortier" rel="noopener" aria-label="Soutenir le site : offrir un café sur Ko-fi">
+  <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 11.2c-.9-.9-2.4-.2-2.1 1 .3 1.1 2.1 2.3 2.1 2.3s1.8-1.2 2.1-2.3c.3-1.2-1.2-1.9-2.1-1Z" fill="currentColor"/></svg>
+  <span>Offrir un café</span>
+</a>
+
+<script>window.ESL_BASE = "/"; window.ESL_STATIC = true;</script>
+<script>
+(() => {
+  "use strict";
+  const app = document.getElementById("app");
+  // Site publié : window.ESL_BASE = "/" (vraies adresses /strategies/gem/).
+  // Prototype sans générateur : pas de base, navigation par #.
+  const BASE = typeof window.ESL_BASE === "string" ? window.ESL_BASE : null;
+  const PATH_MODE = BASE !== null;
+  const asset = f => (BASE || "") + f;
+  const PAGE_PATH = { "": "", ucits: "equivalents-ucits/", methode: "methode/", comparer: "comparer/" };
+  const href = id => PATH_MODE ? BASE + (id in PAGE_PATH ? PAGE_PATH[id] : `strategies/${id}/`) : (id ? `#${id}` : "#");
+  const go = id => { if (PATH_MODE) location.href = href(id); else location.hash = id; };
+  function currentId() {
+    if (!PATH_MODE) return location.hash.replace(/^#/, "");
+    let path = location.pathname;
+    if (path.startsWith(BASE)) path = path.slice(BASE.length);
+    path = path.replace(/index\.html$/, "");
+    if (path.startsWith("strategies/")) return path.split("/")[1] || "";
+    if (path.startsWith("equivalents-ucits")) return "ucits";
+    if (path.startsWith("methode")) return "methode";
+    if (path.startsWith("comparer")) return "comparer";
+    return "";
+  }
+  const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+  const MOIS_LONG = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+  const FAMILIES = ["Toutes", "Statique", "Momentum", "Tendance", "Keller", "Secteurs"];
+  const state = { window: "common", family: "Toutes", sort: { key: "sharpe", dir: -1 }, roll: 5, bench: "acwi", ccy: "usd", cmp: null };
+  let FICHES = {}, UCITS = null;
+  try { const w = localStorage.getItem("esl-window"); if (w === "common" || w === "full") state.window = w;
+    const b = localStorage.getItem("esl-bench"); if (b === "acwi" || b === "spy") state.bench = b;
+    if (localStorage.getItem("esl-ccy") === "eur") state.ccy = "eur"; } catch (e) {}
+  let DATA = null, BY_ID = {}, SPY = null;
+  const REF_IDS = ["acwi", "spy"];
+  const REF_NAMES = { acwi: "Actions mondiales", spy: "S&P 500" };
+  const isRef = s => REF_IDS.includes(s.id);
+  const REF = () => BY_ID[state.bench] || BY_ID.spy;
+  const BN = () => REF_NAMES[REF().id];
+  const months = n => n == null ? "—" : `${n} mois`;
+  function uwText(st) { return st.underwater_months == null ? "—" : `${st.underwater_months}${st.underwater_ongoing ? "+" : ""} mois`; }
+
+  // ---------- utilitaires ----------
+  const mIdx = s => { const [y, m] = s.split("-").map(Number); return y * 12 + m - 1; };
+  const mStr = i => `${Math.floor(i / 12)}-${String(i % 12 + 1).padStart(2, "0")}`;
+  const mLabel = s => { const [y, m] = s.split("-").map(Number); return `${MOIS[m - 1]} ${y}`; };
+  const mLabelLong = s => { const [y, m] = s.split("-").map(Number); return `${MOIS_LONG[m - 1]} ${y}`; };
+  const nf = (d) => new Intl.NumberFormat("fr-BE", { minimumFractionDigits: d, maximumFractionDigits: d });
+  const pct = (v, d = 1, sign = false) => v == null || isNaN(v) ? "—" :
+    (sign && v > 0 ? "+" : "") + nf(d).format(v * 100) + "\u00a0%";
+  const dec = (v, d = 2) => v == null || isNaN(v) ? "—" : nf(d).format(v);
+  const cls = v => v == null ? "" : v < 0 ? "neg" : "";
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  // Textes des fiches : [texte](strategie:adm) = lien interne, [texte](https://…) = lien externe
+  const rich = s => esc(s).replace(/\[([^\]]+)\]\((?:strategie:([a-z0-9_]+)|(https?:\/\/[^)\s]+))\)/g,
+    (m, txt, id, url) => id ? (BY_ID[id] ? `<a href="${href(id)}">${txt}</a>` : txt)
+      : `<a href="${url}" target="_blank" rel="noopener">${txt}</a>`);
+  const svgEl = (tag, attrs = {}) => { const e = document.createElementNS("http://www.w3.org/2000/svg", tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+
+  // série d'équité -> points {i, v} avec la base 1 le mois précédant le 1er mois détenu
+  function equityPoints(s) {
+    const eq = src(s).equity;
+    const keys = Object.keys(eq);
+    const pts = [{ i: mIdx(keys[0]) - 1, v: 1 }];
+    for (const k of keys) pts.push({ i: mIdx(k), v: s.equity[k] });
+    return pts;
+  }
+  function slice(pts, i0, i1) { return pts.filter(p => p.i >= i0 && p.i <= i1); }
+  function rebase(pts) { const b = pts[0].v; return pts.map(p => ({ i: p.i, v: p.v / b })); }
+  function monthlyReturns(pts) { const r = []; for (let k = 1; k < pts.length; k++) r.push({ i: pts[k].i, r: pts[k].v / pts[k - 1].v - 1 }); return r; }
+  function miniStats(pts) {
+    const r = monthlyReturns(pts); const n = r.length;
+    const cagr = Math.pow(pts[pts.length - 1].v / pts[0].v, 12 / n) - 1;
+    const mean = r.reduce((a, b) => a + b.r, 0) / n;
+    const vol = Math.sqrt(r.reduce((a, b) => a + (b.r - mean) ** 2, 0) / (n - 1)) * Math.sqrt(12);
+    let peak = -Infinity, mdd = 0;
+    for (const p of pts) { peak = Math.max(peak, p.v); mdd = Math.min(mdd, p.v / peak - 1); }
+    const years = annual(pts).filter(y => y.full).map(y => y.r);
+    let pk = -Infinity, run = 0, best = 0;
+    for (const p of pts) { if (p.v >= pk - 1e-12) { best = Math.max(best, run); pk = p.v; run = 0; } else run++; }
+    const ongoing = run > best; best = Math.max(best, run);
+    return { cagr, vol, max_dd: mdd, worst_year: years.length ? Math.min(...years) : null, underwater_months: best, underwater_ongoing: ongoing };
+  }
+  function annual(pts) {
+    const out = new Map();
+    for (const x of monthlyReturns(pts)) {
+      const y = Math.floor(x.i / 12);
+      const o = out.get(y) || { y, g: 1, n: 0 }; o.g *= 1 + x.r; o.n++; out.set(y, o);
+    }
+    return [...out.values()].map(o => ({ y: o.y, r: o.g - 1, full: o.n === 12 }));
+  }
+  // rendement annualisé sur `years` ans glissants, indexé par le mois de fin
+  function rolling(pts, years) {
+    const n = years * 12, out = [];
+    for (let k = n; k < pts.length; k++) out.push({ i: pts[k].i, v: Math.pow(pts[k].v / pts[k - n].v, 1 / years) - 1 });
+    return out;
+  }
+  function quantile(arr, q) {
+    const a = [...arr].sort((x, y) => x - y), p = (a.length - 1) * q, lo = Math.floor(p), hi = Math.ceil(p);
+    return a[lo] + (a[hi] - a[lo]) * (p - lo);
+  }
+  function rollSummary(r) {
+    if (!r.length) return null;
+    const v = r.map(x => x.v);
+    return { min: Math.min(...v), p25: quantile(v, .25), med: quantile(v, .5), p75: quantile(v, .75),
+             max: Math.max(...v), pos: v.filter(x => x > 0).length / v.length, n: v.length };
+  }
+  const windowPts = s => { const [i0, i1] = windowRange(s); return slice(equityPoints(s), i0, i1); };
+
+  function windowRange(s) {
+    const pts = equityPoints(s);
+    if (state.window === "common") return [mIdx(DATA.common_window[0]) - 1, mIdx(DATA.common_window[1])];
+    return [pts[0].i, pts[pts.length - 1].i];
+  }
+  // Devise : en euros, on lit les séries converties (ETF achetés en dollars, change non couvert)
+  const EUR = () => state.ccy === "eur" && !!(DATA && DATA.eur);
+  const src = s => (EUR() && s.eur ? s.eur : s);
+  const CUR = () => (EUR() ? "€" : "$");
+  const statsFor = s => state.window === "common" ? src(s).stats_common : src(s).stats_full;
+  function ccySeg() {
+    if (!DATA.eur) return "";
+    return `<div class="seg" role="group" aria-label="Devise"><button type="button" data-ccy="usd" aria-pressed="${!EUR()}">En dollars</button><button type="button" data-ccy="eur" aria-pressed="${EUR()}">En euros</button></div>`;
+  }
+  function ccyNote() {
+    return EUR() ? `<p class="ccy-note">Vue d'un investisseur de la zone euro qui achète ces ETF en dollars, sans couvrir le change : chaque résultat inclut la variation de l'euro face au dollar.${DATA.eur.cash ? " Le Sharpe est calculé avec le taux à 3 mois en euros." : ""}</p>` : "";
+  }
+  function bindCcy(rerender) {
+    app.querySelectorAll("[data-ccy]").forEach(b => b.onclick = () => {
+      state.ccy = b.dataset.ccy; try { localStorage.setItem("esl-ccy", state.ccy); } catch (e) {}
+      const y = window.scrollY; rerender(); window.scrollTo(0, y);
+      app.querySelector(`[data-ccy="${state.ccy}"]`)?.focus({ preventScroll: true });
+    });
+  }
+  const wtxt = v => nf(Math.abs(v * 100 - Math.round(v * 100)) < 1e-9 ? 0 : 1).format(v * 100) + "\u00a0%";
+  function allocText(w) {
+    const g = new Map();
+    Object.entries(w).forEach(([k, v]) => { const r = Math.round(v * 1000) / 1000; if (!g.has(r)) g.set(r, []); g.get(r).push(k === "CASH" ? "Cash" : k); });
+    return [...g.entries()].sort((a, b) => b[0] - a[0]).map(([v, ks]) => `${wtxt(v)} ${ks.length > 1 ? "chacun : " + ks.join(", ") : ks[0]}`).join(" · ");
+  }
+  const sameW = (a, b) => [...new Set([...Object.keys(a), ...Object.keys(b)])].every(k => Math.abs((a[k] || 0) - (b[k] || 0)) < 0.005);
+  function signalText(s) {
+    if (s.family === "Statique" && s.id !== "spy") return "Allocation fixe";
+    const w = Object.entries(s.next_signal.weights).sort((a, b) => b[1] - a[1]);
+    if (w.length === 1) return `100 % ${w[0][0]}`;
+    const equal = w.every(([, v]) => Math.abs(v - w[0][1]) < 1e-6);
+    if (equal && w.length <= 3) return w.map(([k]) => k).join(" · ");
+    if (w.length <= 2) return w.map(([k, v]) => `${nf(0).format(v * 100)} % ${k}`).join(" · ");
+    return `${w.length} lignes`;
+  }
+
+  // ---------- graphiques ----------
+  function sparkline(s) {
+    const [i0, i1] = windowRange(s);
+    const pts = rebase(slice(equityPoints(s), i0, i1));
+    const W = 96, H = 28, lo = Math.log(Math.min(...pts.map(p => p.v))), hi = Math.log(Math.max(...pts.map(p => p.v)));
+    const x = i => (i - pts[0].i) / (pts[pts.length - 1].i - pts[0].i) * (W - 4) + 2;
+    const y = v => H - 3 - (Math.log(v) - lo) / (hi - lo || 1) * (H - 6);
+    const d = pts.map((p, k) => `${k ? "L" : "M"}${x(p.i).toFixed(1)},${y(p.v).toFixed(1)}`).join("");
+    const last = pts[pts.length - 1];
+    return `<svg class="spark" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">
+      <path d="${d}" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="${x(last.i).toFixed(1)}" cy="${y(last.v).toFixed(1)}" r="2.4" fill="var(--accent)"/></svg>`;
+  }
+
+  // graphique générique à axe temporel mensuel (lignes, aire ou barres annuelles)
+  function timeChart(host, { series, log = false, yfmt, height = 300, area = false, marker = null, zeroLine = false, tipFmt }) {
+    const W = 760, H = height, m = { t: 12, r: 14, b: 26, l: 52 };
+    const all = series.flatMap(s => s.pts);
+    const i0 = Math.min(...all.map(p => p.i)), i1 = Math.max(...all.map(p => p.i));
+    let lo = Math.min(...all.map(p => p.v)), hi = Math.max(...all.map(p => p.v));
+    if (area) { hi = 0; }
+    const f = log ? Math.log : (v => v);
+    let flo = f(lo), fhi = f(hi); const pad = (fhi - flo) * 0.06 || 0.1; flo -= area ? pad : pad; fhi += area ? 0 : pad;
+    const x = i => m.l + (i - i0) / (i1 - i0) * (W - m.l - m.r);
+    const y = v => m.t + (1 - (f(v) - flo) / (fhi - flo)) * (H - m.t - m.b);
+    const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+    // graduations Y
+    let ticks = [];
+    if (log) {
+      const cands = [0.5, 0.75, 1, 1.5, 2, 3, 4, 5, 6, 8, 10, 15, 20];
+      ticks = cands.filter(v => f(v) >= flo && f(v) <= fhi);
+    } else {
+      const span = fhi - flo, raw = span / 4, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+      const step = [1, 2, 2.5, 5, 10].map(k => k * mag).find(s => s >= raw) || raw;
+      for (let v = Math.ceil(flo / step) * step; v <= fhi + 1e-9; v += step) ticks.push(+v.toFixed(10));
+    }
+    for (const v of ticks) {
+      svg.append(svgEl("line", { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), class: (!log && Math.abs(v) < 1e-12) || (log && v === 1) ? "zero" : "grid" }));
+      const t = svgEl("text", { x: m.l - 8, y: y(v) + 3.5, "text-anchor": "end", class: "ax" }); t.textContent = yfmt(v); svg.append(t);
+    }
+    // graduations X (années)
+    const y0 = Math.ceil(i0 / 12), y1 = Math.floor(i1 / 12), nY = y1 - y0 + 1;
+    const stepY = nY > 24 ? 5 : nY > 12 ? 2 : 1;
+    for (let yr = y0; yr <= y1; yr++) {
+      if ((yr % stepY) !== 0 && stepY > 1) continue;
+      const xi = x(yr * 12); if (xi < m.l + 10 || xi > W - m.r - 10) continue;
+      const t = svgEl("text", { x: xi, y: H - 8, "text-anchor": "middle", class: "ax" }); t.textContent = yr; svg.append(t);
+      svg.append(svgEl("line", { x1: xi, x2: xi, y1: H - m.b, y2: H - m.b + 4, stroke: "var(--rule)" }));
+    }
+    // période hors échantillon
+    if (marker && marker.i > i0 && marker.i < i1) {
+      svg.append(svgEl("rect", { x: x(marker.i), y: m.t, width: W - m.r - x(marker.i), height: H - m.t - m.b, fill: "var(--pub-soft)" }));
+      svg.append(svgEl("line", { x1: x(marker.i), x2: x(marker.i), y1: m.t, y2: H - m.b, stroke: "var(--pub)", "stroke-width": 1.2, "stroke-dasharray": "4 3" }));
+      const t = svgEl("text", { x: x(marker.i) + 6, y: m.t + 12, class: "ax", fill: "var(--pub)", style: "fill: var(--pub)" });
+      t.textContent = marker.label; svg.append(t);
+    }
+    // séries
+    for (const s of [...series].reverse()) {
+      const d = s.pts.map((p, k) => `${k ? "L" : "M"}${x(p.i).toFixed(1)},${y(p.v).toFixed(1)}`).join("");
+      if (area && s.fill) {
+        const a = `${d}L${x(s.pts[s.pts.length - 1].i).toFixed(1)},${y(0)}L${x(s.pts[0].i).toFixed(1)},${y(0)}Z`;
+        svg.append(svgEl("path", { d: a, fill: s.fill || s.color, opacity: s.fillOpacity ?? 1 }));
+      }
+      svg.append(svgEl("path", { d, fill: "none", stroke: s.color, "stroke-width": s.width || 2, "stroke-linejoin": "round" }));
+    }
+    // survol
+    const cross = svgEl("line", { y1: m.t, y2: H - m.b, stroke: "var(--ink-3)", "stroke-width": 1, visibility: "hidden" });
+    svg.append(cross);
+    const dots = series.map(s => { const c = svgEl("circle", { r: 4, fill: s.color, stroke: "var(--surface)", "stroke-width": 2, visibility: "hidden" }); svg.append(c); return c; });
+    const hit = svgEl("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: "transparent" });
+    svg.append(hit);
+    host.innerHTML = ""; host.classList.add("chart"); host.append(svg);
+    const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; host.append(tip);
+    const maps = series.map(s => new Map(s.pts.map(p => [p.i, p.v])));
+    function move(ev) {
+      const r = svg.getBoundingClientRect();
+      const px = (ev.clientX - r.left) / r.width * W;
+      const i = Math.round(i0 + (px - m.l) / (W - m.l - m.r) * (i1 - i0));
+      if (i < i0 || i > i1) return hide();
+      cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible");
+      let rows = "";
+      series.forEach((s, k) => {
+        const v = maps[k].get(i);
+        if (v == null) { dots[k].setAttribute("visibility", "hidden"); return; }
+        dots[k].setAttribute("cx", x(i)); dots[k].setAttribute("cy", y(v)); dots[k].setAttribute("visibility", "visible");
+        rows += `<div class="row"><span><i class="sw" style="background:${s.color}"></i>${esc(s.name)}</span><b>${tipFmt(v)}</b></div>`;
+      });
+      tip.innerHTML = `<div style="margin-bottom:3px;opacity:.8">${mLabel(mStr(i))}</div>${rows}`;
+      tip.style.left = `${x(i) / W * r.width}px`; tip.style.top = `${m.t / H * r.height + 8}px`;
+      tip.hidden = false;
+    }
+    function hide() { cross.setAttribute("visibility", "hidden"); dots.forEach(d => d.setAttribute("visibility", "hidden")); tip.hidden = true; }
+    hit.addEventListener("pointermove", move); hit.addEventListener("pointerleave", hide);
+  }
+
+  function annualBars(host, a, b, nameA, nameB) {
+    const years = a.map(d => d.y);
+    const bm = new Map(b.map(d => [d.y, d.r]));
+    const W = 760, H = 240, m = { t: 12, r: 10, b: 26, l: 46 };
+    const vals = [...a.map(d => d.r), ...b.map(d => d.r)];
+    let lo = Math.min(0, ...vals), hi = Math.max(0, ...vals);
+    const pad = (hi - lo) * .08; lo -= pad; hi += pad;
+    const y = v => m.t + (1 - (v - lo) / (hi - lo)) * (H - m.t - m.b);
+    const band = (W - m.l - m.r) / years.length, bw = Math.max(2, Math.min(12, band * .34));
+    const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+    const span = hi - lo, raw = span / 4, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    const step = [1, 2, 2.5, 5, 10].map(k => k * mag).find(s => s >= raw);
+    for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) {
+      svg.append(svgEl("line", { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), class: Math.abs(v) < 1e-9 ? "zero" : "grid" }));
+      const t = svgEl("text", { x: m.l - 8, y: y(v) + 3.5, "text-anchor": "end", class: "ax" }); t.textContent = nf(0).format(v * 100) + "\u00a0%"; svg.append(t);
+    }
+    const stepL = years.length > 24 ? 5 : years.length > 12 ? 2 : 1;
+    const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true;
+    years.forEach((yr, k) => {
+      const cx = m.l + band * (k + .5);
+      const ra = a[k].r, rb = bm.get(yr);
+      const bar = (v, dx, color) => {
+        const y0 = y(0), y1 = y(v), top = Math.min(y0, y1), h = Math.max(1, Math.abs(y1 - y0));
+        svg.append(svgEl("rect", { x: cx + dx - bw / 2, y: top, width: bw, height: h, rx: 2, fill: color }));
+      };
+      if (rb != null) bar(rb, bw / 2 + 1, "var(--bench)");
+      bar(ra, rb != null ? -bw / 2 - 1 : 0, "var(--accent)");
+      if (yr % stepL === 0) { const t = svgEl("text", { x: cx, y: H - 8, "text-anchor": "middle", class: "ax" }); t.textContent = yr; svg.append(t); }
+      const hit = svgEl("rect", { x: cx - band / 2, y: m.t, width: band, height: H - m.t - m.b, fill: "transparent" });
+      hit.addEventListener("pointerenter", () => {
+        const r = svg.getBoundingClientRect();
+        tip.innerHTML = `<div style="margin-bottom:3px;opacity:.8">${yr}${a[k].full ? "" : " (partielle)"}</div>
+          <div class="row"><span><i class="sw" style="background:var(--accent)"></i>${esc(nameA)}</span><b>${pct(ra, 1, true)}</b></div>
+          ${rb != null ? `<div class="row"><span><i class="sw" style="background:var(--bench)"></i>${esc(nameB)}</span><b>${pct(rb, 1, true)}</b></div>` : ""}`;
+        tip.style.left = `${cx / W * r.width}px`; tip.style.top = `${m.t / H * r.height + 8}px`; tip.hidden = false;
+      });
+      hit.addEventListener("pointerleave", () => { tip.hidden = true; });
+      svg.append(hit);
+    });
+    host.innerHTML = ""; host.classList.add("chart"); host.append(svg, tip);
+  }
+
+  // ---------- vue tableau ----------
+  const COLS = [
+    { key: "name", label: "Stratégie" },
+    { key: "curve", label: "Courbe", nosort: true },
+    { key: "cagr", label: "CAGR" },
+    { key: "vol", label: "Volat." },
+    { key: "sharpe", label: "Sharpe" },
+    { key: "max_dd", label: "Max DD" },
+    { key: "underwater_months", label: "Récup." },
+    { key: "worst_year", label: "Pire année" },
+    { key: "roll10_min", label: "Pire 10 ans" },
+    { key: "signal", label: "", nosort: true },
+  ];
+  function sortVal(s, key) { return key === "name" ? s.name.toLowerCase() : statsFor(s)[key]; }
+  const ASC_KEYS = ["name", "vol", "underwater_months"];
+
+  function renderBoard() {
+    const nextMonth = DATA.strategies[0].next_signal.for_month;
+    COLS[COLS.length - 1].label = `Signal ${mLabel(nextMonth)}`;
+    const list = DATA.strategies.filter(s => state.family === "Toutes" || s.family === state.family || isRef(s));
+    const { key, dir } = state.sort;
+    list.sort((a, b) => { const va = sortVal(a, key), vb = sortVal(b, key);
+      if (va == null) return 1; if (vb == null) return -1; return (va > vb ? 1 : va < vb ? -1 : 0) * dir; });
+    const [c0, c1] = DATA.common_window;
+    app.innerHTML = `
+      <section class="intro">
+        <h1>Les stratégies ETF connues, testées sur les mêmes données et avec les mêmes règles</h1>
+        <p class="key">${introSentence()}</p>
+        <p>Portefeuilles permanents, momentum, suivi de tendance : chaque stratégie est recalculée chaque mois à partir des rendements réels des ETF, frais compris, puis comparée sur la même période. Cliquez sur une stratégie pour ouvrir sa fiche.</p>
+        <ul class="method">
+          <li>Période commune <b>${mLabel(c0)} → ${mLabel(c1)}</b></li>
+          <li>Frais <b>${nf(2).format(DATA.cost_per_trade * 100)} %</b> par transaction</li>
+          <li>Rééquilibrage <b>fin de mois</b></li>
+          <li>Devise <b>${EUR() ? "EUR" : "USD"}</b></li>
+        </ul>
+        ${famLinks()}
+      </section>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Période">
+          <button type="button" data-win="common" aria-pressed="${state.window === "common"}">Période commune<span class="sub">${c0.slice(0, 4)}–${c1.slice(0, 4)}</span></button>
+          <button type="button" data-win="full" aria-pressed="${state.window === "full"}">Historique complet</button>
+        </div>
+        ${ccySeg()}
+        <div class="chips" role="group" aria-label="Famille">
+          ${FAMILIES.map(f => `<button type="button" data-fam="${f}" aria-pressed="${state.family === f}">${f}</button>`).join("")}
+        </div>
+      </div>
+      ${ccyNote()}
+      <div class="table-scroll">
+        <table class="board">
+          <thead><tr>${COLS.map(c => {
+            if (c.nosort) return `<th scope="col"${c.key === "signal" ? ' style="text-align:left"' : ""}>${c.label}</th>`;
+            const on = key === c.key;
+            return `<th scope="col"${on ? ` aria-sort="${dir > 0 ? "ascending" : "descending"}"` : ""}><button type="button" data-sort="${c.key}">${c.label}<span class="arrow">${on ? (dir > 0 ? "▲" : "▼") : ""}</span></button></th>`;
+          }).join("")}</tr></thead>
+          <tbody>${list.map(s => { const st = statsFor(s);
+            return `<tr tabindex="0" data-id="${s.id}" class="${isRef(s) ? "is-bench" : ""}">
+              <td><div class="s-name"><a class="s-link" href="${href(s.id)}">${esc(s.name)}</a></div>
+                <div class="s-meta"><span class="fam">${esc(s.family)}</span>${state.window === "full" ? `<span class="num" style="font-size:11.5px">depuis ${mLabel(st.start)}</span>` : ""}</div></td>
+              <td>${sparkline(s)}</td>
+              <td class="num">${pct(st.cagr, 1)}</td>
+              <td class="num">${pct(st.vol, 1)}</td>
+              <td class="num">${dec(st.sharpe)}</td>
+              <td class="num neg">${pct(st.max_dd, 1)}</td>
+              <td class="num" title="${st.underwater_start ? `Sous le sommet de ${mLabel(st.underwater_start)} à ${st.underwater_end ? mLabel(st.underwater_end) : "aujourd'hui"}` : ""}">${uwText(st)}</td>
+              <td class="num ${cls(st.worst_year)}">${pct(st.worst_year, 1, true)}</td>
+              <td class="num ${cls(st.roll10_min)}">${pct(st.roll10_min, 1, true)}</td>
+              <td class="signal">${esc(signalText(s))}</td></tr>`; }).join("")}
+          </tbody>
+        </table>
+      </div>
+      <p class="note-under">CAGR : rendement annualisé. Sharpe : rendement au-delà des T-bills, divisé par la volatilité. Max DD : pire baisse depuis un sommet, en fin de mois. Récup. : plus longue période passée sous un sommet précédent, c'est-à-dire le plus long délai pour retrouver son argent (« + » : pas encore récupéré). Pire 10 ans : le plus mauvais rendement annualisé sur toutes les périodes de 10 ans glissantes.${state.window === "full" ? " En historique complet, chaque stratégie a sa propre date de départ : les chiffres ne se comparent pas directement." : ""}</p>
+      <section class="scatter-wrap" aria-labelledby="sc-title">
+        <h2 id="sc-title">Ce que chaque stratégie a rapporté, et ce qu'elle a fait traverser</h2>
+        <p class="sub">Chaque point est une stratégie, de ${mLabel(c0)} à ${mLabel(c1)} : son rendement annuel en hauteur, sa pire baisse en largeur. La ligne relie le cash à la référence choisie : elle représente, de façon approximative, tous les mélanges actions + cash. Un point au-dessus de la ligne a obtenu plus de rendement pour une même pire baisse.</p>
+        <div class="bench-pick"><span>Référence :</span>${benchSeg()}</div>
+        <div class="scatter" id="scatter"></div>
+        <p class="scatter-note" id="scatter-note"></p>
+      </section>
+      <section class="robust" aria-labelledby="rb-title">
+        <h2 id="rb-title">Rendement sur ${state.roll} ans selon la date de départ</h2>
+        <p class="sub">Chaque ligne résume toutes les périodes de ${state.roll} ans possibles${state.window === "common" ? " depuis " + mLabel(DATA.common_window[0]) : ""}. Une stratégie robuste a une barre courte et loin du zéro : peu importe le moment où l'on commence.</p>
+        <div class="seg small" role="group" aria-label="Durée des périodes">${[3, 5, 10].map(y => `<button type="button" data-roll="${y}" aria-pressed="${state.roll === y}">${y} ans</button>`).join("")}</div>
+        <div class="rb" id="rb"></div>
+        <div class="rb-key"><span><svg width="34" height="14" aria-hidden="true"><line x1="1" x2="33" y1="7" y2="7" stroke="currentColor"/><rect x="9" y="2" width="16" height="10" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><rect x="16" y="1" width="3" height="12" rx="1" fill="var(--accent)"/></svg>trait : pire et meilleure période · boîte : la moitié centrale des périodes · repère : la médiane</span></div>
+      </section>`;
+    renderRobust(list);
+    renderScatter(list);
+    bindBench(renderBoard);
+    bindCcy(renderBoard);
+
+    app.querySelectorAll("[data-win]").forEach(b => b.onclick = () => { state.window = b.dataset.win;
+      try { localStorage.setItem("esl-window", state.window); } catch (e) {} renderBoard(); });
+    app.querySelectorAll("[data-roll]").forEach(b => b.onclick = () => { state.roll = +b.dataset.roll; renderBoard();
+      app.querySelector(`[data-roll="${state.roll}"]`)?.focus(); });
+    app.querySelectorAll("[data-fam]").forEach(b => b.onclick = () => { state.family = b.dataset.fam; renderBoard(); });
+    app.querySelectorAll("[data-sort]").forEach(b => b.onclick = () => {
+      const k = b.dataset.sort;
+      state.sort = state.sort.key === k ? { key: k, dir: -state.sort.dir } : { key: k, dir: ASC_KEYS.includes(k) ? 1 : -1 };
+      renderBoard(); app.querySelector(`[data-sort="${k}"]`)?.focus();
+    });
+    app.querySelectorAll("tbody tr").forEach(tr => {
+      const open = () => go(tr.dataset.id);
+      tr.onclick = open; tr.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } };
+    });
+  }
+
+  function benchSeg() {
+    return `<div class="seg small" role="group" aria-label="Référence">${REF_IDS.filter(id => BY_ID[id]).map(id =>
+      `<button type="button" data-bench="${id}" aria-pressed="${REF().id === id}">${REF_NAMES[id]}</button>`).join("")}</div>`;
+  }
+  function bindBench(rerender) {
+    app.querySelectorAll("[data-bench]").forEach(b => b.onclick = () => {
+      state.bench = b.dataset.bench; try { localStorage.setItem("esl-bench", state.bench); } catch (e) {}
+      const y = window.scrollY; rerender(); window.scrollTo(0, y);
+      app.querySelector(`[data-bench="${state.bench}"]`)?.focus({ preventScroll: true });
+    });
+  }
+
+  function introSentence() {
+    const ref = REF(), rs = src(ref).stats_common;
+    const strats = DATA.strategies.filter(s => !isRef(s));
+    const better = strats.filter(s => src(s).stats_common.cagr > rs.cagr).length;
+    const sharper = strats.filter(s => src(s).stats_common.sharpe > rs.sharpe).length;
+    const shallower = strats.filter(s => src(s).stats_common.max_dd > rs.max_dd).length;
+    const n = strats.length, name = ref.id === "acwi" ? "les actions mondiales" : "le S&amp;P 500";
+    return `Depuis ${mLabel(DATA.common_window[0])}, <b>${better} stratégie${better > 1 ? "s" : ""} sur ${n}</b> ${better > 1 ? "ont" : "a"} rapporté plus que ${name} (${pct(rs.cagr, 1)} par an). Mais <b>${shallower === n ? `toutes les ${n}` : shallower}</b> ${shallower > 1 ? "ont" : "a"} subi une pire baisse moins profonde que ses ${pct(rs.max_dd, 0)}, et <b>${sharper === n ? `toutes` : sharper}</b> ${sharper > 1 ? "ont" : "a"} mieux rémunéré chaque unité de risque. La vraie question n'est pas seulement combien une stratégie rapporte, mais ce qu'elle fait traverser pour y arriver.`;
+  }
+
+  function renderScatter(list) {
+    const host = document.getElementById("scatter"), note = document.getElementById("scatter-note");
+    const pts = list.map(s => ({ s, st: statsFor(s) })).filter(x => x.st && x.st.cagr != null);
+    const ref = REF(), refSt = statsFor(ref), cashC = state.window === "common" ? (EUR() ? DATA.eur.cash_cagr_common : DATA.cash_cagr_common) : null;
+    const W = Math.max(300, Math.round(host.clientWidth - 24) || 760), H = Math.round(Math.min(420, Math.max(260, W * .5)));
+    const m = { t: 22, r: 16, b: 40, l: 46 };
+    const xs = pts.map(p => -p.st.max_dd), ys = pts.map(p => p.st.cagr);
+    const xmax = Math.max(.1, ...xs) * 1.08, ymin = Math.min(0, ...ys, cashC ?? 0), ymax = Math.max(...ys) * 1.1;
+    const X = v => m.l + v / xmax * (W - m.l - m.r), Y = v => m.t + (1 - (v - ymin) / (ymax - ymin)) * (H - m.t - m.b);
+    const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Rendement annuel en fonction de la pire baisse" });
+    const stepX = xmax > .4 ? .1 : .05, stepY = (ymax - ymin) > .12 ? .04 : .02;
+    for (let v = 0; v <= xmax + 1e-9; v += stepX) {
+      svg.append(svgEl("line", { x1: X(v), x2: X(v), y1: m.t, y2: H - m.b, class: "grid" }));
+      const t = svgEl("text", { x: X(v), y: H - m.b + 16, "text-anchor": "middle", class: "ax" }); t.textContent = v ? "-" + nf(0).format(v * 100) + "\u00a0%" : "0"; svg.append(t);
+    }
+    for (let v = Math.ceil(ymin / stepY) * stepY; v <= ymax + 1e-9; v += stepY) {
+      svg.append(svgEl("line", { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), class: Math.abs(v) < 1e-9 ? "zero" : "grid" }));
+      const t = svgEl("text", { x: m.l - 8, y: Y(v) + 3.5, "text-anchor": "end", class: "ax" }); t.textContent = nf(0).format(v * 100) + "\u00a0%"; svg.append(t);
+    }
+    const tx = svgEl("text", { x: W - m.r, y: H - 6, "text-anchor": "end", class: "ax" }); tx.textContent = "pire baisse →"; svg.append(tx);
+    const ty = svgEl("text", { x: m.l - 40, y: m.t - 8, class: "ax" }); ty.textContent = "rendement / an"; svg.append(ty);
+    // ligne cash → référence (mélanges actions + cash, approximation linéaire)
+    let above = [];
+    if (cashC != null && refSt) {
+      const x1 = -refSt.max_dd, y1 = refSt.cagr, slope = (y1 - cashC) / x1;
+      const xEnd = xmax, yEnd = cashC + slope * xEnd;
+      svg.append(svgEl("line", { x1: X(0), y1: Y(cashC), x2: X(xEnd), y2: Y(Math.min(yEnd, ymax)), stroke: "var(--ink-3)", "stroke-width": 1.2, "stroke-dasharray": "5 4" }));
+      const t = svgEl("text", { x: X(0) + 6, y: Y(cashC) - 6, class: "lbl" }); t.textContent = "cash"; svg.append(t);
+      above = pts.filter(p => !isRef(p.s) && p.st.cagr > cashC + slope * (-p.st.max_dd));
+    }
+    const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true;
+    const order = [...pts].sort((a, b) => isRef(a.s) - isRef(b.s));   // références dessinées en dernier
+    for (const p of order) {
+      const cx = X(-p.st.max_dd), cy = Y(p.st.cagr), ref = isRef(p.s), sel = p.s.id === REF().id;
+      const g = svgEl(ref ? "rect" : "circle", ref
+        ? { x: cx - 6, y: cy - 6, width: 12, height: 12, transform: `rotate(45 ${cx} ${cy})`, fill: sel ? "var(--ink-2)" : "var(--bench)", stroke: "var(--surface)", "stroke-width": 2 }
+        : { cx, cy, r: 6, fill: "var(--accent)", "fill-opacity": .85, stroke: "var(--surface)", "stroke-width": 2 });
+      g.setAttribute("class", "dot"); g.setAttribute("tabindex", "0");
+      g.setAttribute("aria-label", `${p.s.name} : ${pct(p.st.cagr, 1)} par an, pire baisse ${pct(p.st.max_dd, 1)}`);
+      const show = () => { const r = svg.getBoundingClientRect();
+        tip.innerHTML = `<div style="margin-bottom:3px;font-weight:600">${esc(p.s.name)}</div><div class="row"><span>Rendement</span><b>${pct(p.st.cagr, 1)} /an</b></div><div class="row"><span>Pire baisse</span><b>${pct(p.st.max_dd, 1)}</b></div><div class="row"><span>Récupération</span><b>${uwText(p.st)}</b></div>`;
+        tip.style.left = `${cx / W * r.width}px`; tip.style.top = `${cy / H * r.height}px`; tip.hidden = false; };
+      g.addEventListener("pointerenter", show); g.addEventListener("focus", show);
+      g.addEventListener("pointerleave", () => tip.hidden = true); g.addEventListener("blur", () => tip.hidden = true);
+      g.addEventListener("click", () => go(p.s.id));
+      g.addEventListener("keydown", e => { if (e.key === "Enter") go(p.s.id); });
+      svg.append(g);
+      if (ref) { const t = svgEl("text", { x: cx - 10, y: cy + 4, "text-anchor": "end", class: "lbl ref" }); t.textContent = REF_NAMES[p.s.id]; svg.append(t); }
+    }
+    host.innerHTML = ""; host.style.position = "relative"; host.append(svg, tip);
+    if (cashC == null) { note.textContent = "En historique complet, chaque stratégie a sa propre période : la ligne de comparaison n'est pas tracée."; return; }
+    const strat = pts.filter(p => !isRef(p.s)), below = strat.filter(p => !above.includes(p));
+    const names = arr => arr.sort((a, b) => b.st.cagr - a.st.cagr).map(p => `<b>${esc(p.s.name)}</b>`).join(", ");
+    const refName = REF().id === "acwi" ? "actions mondiales" : "S&amp;P 500";
+    note.innerHTML = !above.length ? `Aucune stratégie n'est au-dessus de la ligne sur cette période.`
+      : above.length <= below.length ? `<b>${above.length} sur ${strat.length}</b> au-dessus de la ligne, c'est-à-dire mieux qu'un simple mélange ${refName} + cash : ${names(above)}.`
+      : `<b>${above.length} sur ${strat.length}</b> au-dessus de la ligne : à pire baisse égale, elles ont rapporté plus qu'un simple mélange ${refName} + cash.${below.length ? ` En dessous : ${names(below)}.` : ""}`;
+  }
+
+  function renderRobust(list) {
+    const host = document.getElementById("rb");
+    const rows = list.map(s => ({ s, r: rollSummary(rolling(windowPts(s), state.roll)) })).filter(x => x.r);
+    if (!rows.length) { host.innerHTML = `<p class="sub">Pas assez d'historique pour des périodes de ${state.roll} ans.</p>`; return; }
+    rows.sort((a, b) => b.r.med - a.r.med);
+    let lo = Math.min(0, ...rows.map(x => x.r.min)), hi = Math.max(0, ...rows.map(x => x.r.max));
+    const span = hi - lo, step = span > .5 ? .2 : span > .25 ? .1 : .05;
+    lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step;
+    const X = v => ((v - lo) / (hi - lo) * 100).toFixed(2) + "%";
+    const ticks = []; for (let v = lo; v <= hi + 1e-9; v += step) ticks.push(+v.toFixed(4));
+    const narrow = window.matchMedia("(max-width: 640px)").matches;
+    const shown = narrow && ticks.length > 4 ? ticks.filter(v => Math.abs(Math.round(v / step)) % 2 === 0) : ticks;
+    host.innerHTML = `<div class="rb-axis" aria-hidden="true"><span></span><div class="ticks">${shown.map(v => `<span style="left:${X(v)}">${nf(0).format(v * 100)}&nbsp;%</span>`).join("")}</div><span class="lbl">médiane</span></div>` +
+      rows.map(({ s, r }) => `<div class="rb-row${isRef(s) ? " is-bench" : ""}" tabindex="0" data-id="${s.id}"
+          title="${esc(s.name)} : pire ${pct(r.min, 1)}, médiane ${pct(r.med, 1)}, meilleure ${pct(r.max, 1)} par an sur ${state.roll} ans · ${nf(0).format(r.pos * 100)} % des périodes positives">
+        <span class="rb-name">${esc(s.name)}</span>
+        <div class="rb-track"><span class="zero" style="left:${X(0)}"></span>
+          <span class="line" style="left:${X(r.min)};width:calc(${X(r.max)} - ${X(r.min)})"></span>
+          <span class="box" style="left:${X(r.p25)};width:calc(${X(r.p75)} - ${X(r.p25)})"></span>
+          <span class="med" style="left:${X(r.med)}"></span></div>
+        <span class="rb-med ${cls(r.med)}">${pct(r.med, 1)}</span></div>`).join("");
+    host.querySelectorAll(".rb-row").forEach(el => {
+      const open = () => go(el.dataset.id);
+      el.onclick = open; el.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } };
+    });
+  }
+
+  const MATCH = { meme: "même indice", proche: "proche", aucun: "aucun" };
+  // pages par famille (générées par build_site.py, uniquement sur le site publié)
+  const FAMILY_PAGES = { Statique: ["portefeuilles-fixes/", "Portefeuilles fixes"], Momentum: ["momentum/", "Stratégies momentum"],
+    Tendance: ["suivi-de-tendance/", "Suivi de tendance"], Keller: ["strategies-keller/", "Stratégies de Keller"],
+    Secteurs: ["rotation-sectorielle/", "Rotation sectorielle"] };
+  const famChip = f => PATH_MODE && FAMILY_PAGES[f] ? `<a class="fam" href="${BASE + FAMILY_PAGES[f][0]}">${esc(f)}</a>` : `<span class="fam">${esc(f)}</span>`;
+  const famLinks = () => PATH_MODE ? `<p class="fam-links"><span>Par famille :</span> ${Object.values(FAMILY_PAGES)
+    .map(([p, t]) => `<a href="${BASE + p}">${t}</a>`).join(" · ")}</p>` : "";
+  function sameFamily(s) {
+    const others = DATA.strategies.filter(x => x.family === s.family && x.id !== s.id);
+    if (!others.length) return "";
+    const fp = FAMILY_PAGES[s.family];
+    return `<section class="panel"><h2>Même famille</h2><p class="sub">Rendement annuel et pire baisse sur la période commune.</p>
+      <ul class="kin">${others.map(x => `<li><a href="${href(x.id)}">${esc(x.name)}</a><span class="num">${pct(x.stats_common.cagr, 1)} /an · ${pct(x.stats_common.max_dd, 1)}</span></li>`).join("")}</ul>
+      ${PATH_MODE && fp ? `<a href="${BASE + fp[0]}">Toute la famille « ${fp[1]} »</a>` : ""}</section>`;
+  }
+  function ucitsItem(t) {
+    const m = UCITS.map[t]; if (!m) return "";
+    const f = m.funds.map(k => UCITS._funds[k]);
+    return `<div class="ucits-item"><div class="top"><span class="us num">${t === "CASH" ? "Cash" : esc(t)}</span><span aria-hidden="true">→</span>
+      ${f.length ? f.map(x => `<b>${esc(x.tickers.split(" (")[0])}</b>`).join(" + ") : "<span>—</span>"}<span class="match ${m.match}">${MATCH[m.match]}</span></div>
+      ${f.map(x => `<div class="fmeta">${esc(x.name)} · <span class="isin">${x.isin}</span> · frais ${nf(2).format(x.ter)} %</div>`).join("")}
+      ${m.note ? `<div class="unote">${esc(m.note)}</div>` : ""}</div>`;
+  }
+
+  function renderUcits() {
+    const order = ["ACWI", "SPY", "IVV", "IVE", "VTI", "QQQ", "IWM", "IWN", "EFA", "VEA", "ACWX", "VGK", "EWJ", "SCZ", "EEM", "VWO", "VNQ", "RWX", "REM",
+      "GLD", "DBC", "GSG", "TLT", "IEF", "SHY", "SHV", "BIL", "TIP", "AGG", "BND", "LQD", "HYG", "BWX",
+      "XLB", "XLE", "XLF", "XLI", "XLK", "XLP", "XLU", "XLV", "XLY"];
+    const names = DATA.etf_names;
+    app.innerHTML = `
+      <section class="doc">
+        <h1>Équivalents UCITS des ETF américains</h1>
+        <p class="lede">Depuis 2018, la réglementation européenne (PRIIPs) empêche les particuliers d'acheter la plupart des ETF américains. Les stratégies de ce site restent applicables avec des ETF domiciliés en Europe, dits UCITS. Cette table donne, pour chaque ETF utilisé, l'équivalent le plus proche.</p>
+        <p><span class="match meme">même indice</span> même indice ou quasi identique · <span class="match proche">proche</span> même classe d'actifs, indice différent · <span class="match aucun">aucun</span> pas d'équivalent satisfaisant</p>
+      </section>
+      <div class="table-scroll" style="margin-top:18px"><table class="ucits">
+        <thead><tr><th scope="col">ETF US</th><th scope="col">Correspondance</th><th scope="col">Équivalent UCITS</th></tr></thead>
+        <tbody>${order.filter(t => UCITS.map[t]).map(t => { const m = UCITS.map[t];
+          return `<tr><td><span class="us">${t}</span><div class="fmeta">${esc(names[t] || "")}</div></td>
+            <td><span class="match ${m.match}">${MATCH[m.match]}</span></td>
+            <td>${m.funds.map(k => { const x = UCITS._funds[k]; return `<div class="fund"><div class="fname">${esc(x.name)}</div>
+              <div class="fmeta"><span class="part"><span class="lab">ISIN</span><span class="isin">${x.isin}</span></span><span class="sep"> · </span><span class="part"><span class="lab">Cotations</span>${esc(x.tickers)}</span><span class="sep"> · </span><span class="part"><span class="lab">Frais</span><span class="num">${nf(2).format(x.ter)}&nbsp;%</span> par an</span></div></div>`; }).join("") || "—"}
+              ${m.note ? `<div class="unote">${esc(m.note)}</div>` : ""}</td></tr>`; }).join("")}
+        </tbody></table></div>
+      <p class="note-under">ISIN, tickers et frais vérifiés sur justETF en septembre 2026. Plusieurs cotations existent pour chaque fonds (devise, bourse) : vérifiez celle proposée par votre courtier. Cette table n'est pas une recommandation d'achat.</p>`;
+  }
+
+  let METHOD_HTML = null;
+  function renderMethod() {
+    const [c0, c1] = DATA.common_window;
+    const fill = h => h.replaceAll("{{C0}}", mLabel(c0)).replaceAll("{{C1}}", mLabel(c1))
+      .replaceAll("{{COST}}", nf(2).format(DATA.cost_per_trade * 100));
+    if (METHOD_HTML) { app.innerHTML = fill(METHOD_HTML); return; }
+    fetch(asset("content/methode.html")).then(r => r.text()).then(h => { METHOD_HTML = h; app.innerHTML = fill(h); })
+      .catch(() => { app.innerHTML = `<p class="err">Impossible de charger la page Méthode.</p>`; });
+  }
+
+  // ---------- fil d'Ariane, historique, comparateur ----------
+  function crumbs(items) {
+    return `<nav class="crumbs" aria-label="Fil d'Ariane">${items.map(([u, t], k) =>
+      u ? `<a href="${u}">${esc(t)}</a>` : `<span aria-current="page">${esc(t)}</span>`).join('<span class="sep" aria-hidden="true">›</span>')}</nav>`;
+  }
+  const cmpHref = ids => PATH_MODE ? `${BASE}comparer/?s=${ids.join(",")}` : `#comparer=${ids.join(",")}`;
+  function compareDefault(s) {
+    const kin = DATA.strategies.find(x => x.family === s.family && x.id !== s.id && !isRef(x));
+    return kin ? kin.id : (s.id === REF().id ? (BY_ID.spy && s.id !== "spy" ? "spy" : "6040") : REF().id);
+  }
+  function historyPanel(s) {
+    if (s.family === "Statique" || isRef(s)) return "";
+    const h = s.signal_history || {}, ms = Object.keys(h).sort().reverse();
+    if (ms.length < 2) return "";
+    let n = 0;
+    const rows = ms.map((m, k) => {
+      const prev = h[ms[k + 1]], ch = prev && !sameW(h[m], prev);
+      if (ch) n++;
+      return `<tr class="${ch ? "chg" : ""}"><td>${mLabel(m)}</td><td class="alloc-txt">${esc(allocText(h[m]))}</td></tr>`;
+    }).join("");
+    return `<section class="panel"><h2>Historique des signaux</h2>
+      <p class="sub">${n ? `${n} changement${n > 1 ? "s" : ""}` : "Aucun changement"} sur les ${ms.length - 1} derniers mois. En gras : le mois où l'allocation a changé.</p>
+      <table class="hist"><thead><tr><th scope="col">Mois</th><th scope="col">Allocation</th></tr></thead><tbody>${rows}</tbody></table></section>`;
+  }
+
+  const CMP_COLORS = ["var(--accent)", "var(--pub)", "var(--pos)"];
+  function cmpIdsFromUrl() {
+    const raw = PATH_MODE ? new URLSearchParams(location.search).get("s") : (location.hash.split("=")[1] || "");
+    let ids = [...new Set((raw || "").split(",").filter(id => BY_ID[id]))].slice(0, 3);
+    for (const d of ["gem", "permanent", "6040", "spy"]) { if (ids.length >= 2) break; if (BY_ID[d] && !ids.includes(d)) ids.push(d); }
+    return ids;
+  }
+  function renderCompare() {
+    const host = document.getElementById("cmp-tool") || app;
+    const ids = state.cmp || (state.cmp = cmpIdsFromUrl());
+    const ss = ids.map(id => BY_ID[id]);
+    const P = ss.map(s => equityPoints(s));
+    let i0 = Math.max(...P.map(p => p[0].i)), i1 = Math.min(...P.map(p => p[p.length - 1].i));
+    if (state.window === "common") i0 = Math.max(i0, mIdx(DATA.common_window[0]) - 1);
+    const series = ss.map((s, k) => ({ name: s.name, color: CMP_COLORS[k], pts: rebase(slice(P[k], i0, i1)), width: 2 }));
+    const ms = series.map(x => miniStats(x.pts));
+    const R = series.map(x => monthlyReturns(x.pts).map(q => q.r));
+    const corr = (a, b) => { const n = a.length, ma = a.reduce((x, y) => x + y, 0) / n, mb = b.reduce((x, y) => x + y, 0) / n;
+      let c = 0, va = 0, vb = 0; for (let k = 0; k < n; k++) { c += (a[k] - ma) * (b[k] - mb); va += (a[k] - ma) ** 2; vb += (b[k] - mb) ** 2; }
+      return c / Math.sqrt(va * vb); };
+    const pairs = []; for (let a = 0; a < ss.length; a++) for (let b = a + 1; b < ss.length; b++) pairs.push(`${esc(ss[a].name)} et ${esc(ss[b].name)} : <b>${nf(2).format(corr(R[a], R[b]))}</b>`);
+    const byName = DATA.strategies.slice().sort((a, b) => a.name.localeCompare(b.name, "fr"));
+    const sel = k => `<label class="cmp-sel"><span><i style="background:${CMP_COLORS[k]}"></i>Stratégie ${"ABC"[k]}</span>
+      <select data-k="${k}">${k === 2 ? `<option value="">— aucune —</option>` : ""}${byName.map(s => `<option value="${s.id}"${s.id === ids[k] ? " selected" : ""}>${esc(s.name)}</option>`).join("")}</select></label>`;
+    const years = new Map();
+    series.forEach((x, k) => annual(x.pts).forEach(y => { if (!years.has(y.y)) years.set(y.y, []); years.get(y.y)[k] = y; }));
+    const yrows = [...years.entries()].sort((a, b) => b[0] - a[0]).map(([y, arr]) =>
+      `<tr><td>${y}${arr.some(v => v && !v.full) ? "*" : ""}</td>${series.map((_, k) => `<td class="num ${cls(arr[k]?.r)}">${arr[k] ? pct(arr[k].r, 1, true) : "—"}</td>`).join("")}</tr>`).join("");
+    const nm = DATA.strategies[0].next_signal.for_month;
+    const row = (label, f) => `<tr><th scope="row">${label}</th>${ss.map((s, k) => `<td class="num">${f(ms[k], s)}</td>`).join("")}</tr>`;
+    const [c0, c1] = DATA.common_window;
+    host.innerHTML = `
+      ${host === app ? `<section class="doc"><h1>Comparer des stratégies</h1><p class="lede">Choisissez deux ou trois stratégies : courbes, pires baisses et années côte à côte, sur la période où toutes sont disponibles.</p></section>` : ""}
+      <div class="cmp-sels">${sel(0)}${sel(1)}${sel(2)}</div>
+      <div class="controls" style="border-top:0">
+        <div class="seg" role="group" aria-label="Période">
+          <button type="button" data-win="common" aria-pressed="${state.window === "common"}">Période commune<span class="sub">${c0.slice(0, 4)}–${c1.slice(0, 4)}</span></button>
+          <button type="button" data-win="full" aria-pressed="${state.window === "full"}">Le plus long possible</button>
+        </div>
+        ${ccySeg()}
+      </div>
+      ${ccyNote()}
+      <p class="sub cmp-period">De ${mLabel(mStr(i0 + 1))} à ${mLabel(mStr(i1))}, frais inclus.</p>
+      <div class="table-scroll"><table class="cmp-table">
+        <thead><tr><th scope="col"></th>${ss.map((s, k) => `<th scope="col"><i class="sw" style="background:${CMP_COLORS[k]}"></i><a href="${href(s.id)}">${esc(s.name)}</a></th>`).join("")}</tr></thead>
+        <tbody>
+          ${row("Rendement annuel", m => pct(m.cagr, 1))}
+          ${row("Volatilité", m => pct(m.vol, 1))}
+          ${row("Pire baisse", m => `<span class="neg">${pct(m.max_dd, 1)}</span>`)}
+          ${row("Plus longue période sous l'eau", m => uwText(m))}
+          ${row("Pire année", m => pct(m.worst_year, 1, true))}
+          ${row(`Signal ${mLabel(nm)}`, (m, s) => `<span class="alloc-txt">${esc(s.family === "Statique" ? "Allocation fixe" : allocText(s.next_signal.weights))}</span>`)}
+        </tbody></table></div>
+      <p class="sub">Corrélation des rendements mensuels (1 : évoluent ensemble, 0 : sans lien) : ${pairs.join(" · ")}.</p>
+      <div class="grid-2 cmp-grid"><div class="stack">
+        <section class="panel"><h2>Croissance de 1 ${CUR()}</h2>
+          <div class="legend">${series.map(x => `<span><i style="background:${x.color}"></i>${esc(x.name)}</span>`).join("")}</div>
+          <div id="cmp-eq"></div></section>
+        <section class="panel"><h2>Baisses depuis le sommet</h2><div id="cmp-dd"></div></section>
+      </div><div class="stack">
+        <section class="panel"><h2>Rendement par année</h2>
+          <table class="metrics cmp-years"><thead><tr><th scope="col"></th>${series.map(x => `<th scope="col"><i class="sw" style="background:${x.color}"></i></th>`).join("")}</tr></thead><tbody>${yrows}</tbody></table>
+          <p class="sub" style="margin:0">* année incomplète.</p></section>
+      </div></div>`;
+    timeChart(document.getElementById("cmp-eq"), { series, log: true, height: 300,
+      yfmt: v => nf(v < 1 ? 2 : v % 1 ? 1 : 0).format(v) + " " + CUR(), tipFmt: v => nf(2).format(v) + " " + CUR() });
+    const dd = pts => { let p = -Infinity; return pts.map(q => { p = Math.max(p, q.v); return { i: q.i, v: q.v / p - 1 }; }); };
+    timeChart(document.getElementById("cmp-dd"), { series: series.map(x => ({ ...x, pts: dd(x.pts), width: 1.5 })), area: true, height: 200,
+      yfmt: v => nf(0).format(v * 100) + " %", tipFmt: v => pct(v, 1) });
+    host.querySelectorAll("select[data-k]").forEach(el => el.onchange = () => {
+      const next = [...host.querySelectorAll("select[data-k]")].map(x => x.value).filter(Boolean);
+      state.cmp = [...new Set(next)];
+      if (state.cmp.length < 2) state.cmp.push(compareDefault(BY_ID[state.cmp[0]]));
+      try { history.replaceState(null, "", cmpHref(state.cmp)); } catch (e) {}
+      renderCompare();
+    });
+    host.querySelectorAll("[data-win]").forEach(b => b.onclick = () => { state.window = b.dataset.win;
+      try { localStorage.setItem("esl-window", state.window); } catch (e) {} renderCompare(); });
+    bindCcy(renderCompare);
+  }
+
+  // ---------- vue fiche ----------
+  function renderSheet(s) {
+    const pts = equityPoints(s);
+    const [i0, i1] = windowRange(s);
+    const own = slice(pts, i0, i1);
+    const base = rebase(own);
+    const REFS = REF(), BNAME = BN();
+    let spyPts = s.id === REFS.id ? null : rebase(slice(equityPoints(REFS), Math.max(base[0].i, equityPoints(REFS)[0].i), base[base.length - 1].i));
+    const refLate = spyPts && spyPts[0].i > base[0].i;
+    if (refLate) { const at = base.find(q => q.i === spyPts[0].i); if (at) spyPts = spyPts.map(q => ({ i: q.i, v: q.v * at.v })); }
+    const refTag = refLate ? ` (depuis ${mLabel(mStr(spyPts[0].i + 1))})` : "";
+    const st = statsFor(s);
+    const b = spyPts ? miniStats(spyPts) : null;
+    const nextM = s.next_signal.for_month;
+    const weights = Object.entries(s.next_signal.weights).sort((a, b) => b[1] - a[1]);
+    const names = DATA.etf_names;
+    const published = s.published;
+    const pubI = published ? mIdx(published) : null;
+    const isStatic = s.family === "Statique";
+    const rules = s.rules || (isStatic ? [
+      `Allocation fixe : ${weights.map(([k, v]) => `${nf(v * 100 % 1 ? 1 : 0).format(v * 100)} % ${k}`).join(", ")}.`,
+      s.rebalance === "annual" ? "Rééquilibrage une fois par an, fin décembre, pour revenir aux poids cibles." : "Rééquilibrage chaque fin de mois."
+    ] : []);
+    const cmp = (label, v, fmt) => b ? `<span class="cmp">${esc(BN())}${refTag} : <span class="num">${fmt(v)}</span></span>` : `<span class="cmp">${label}</span>`;
+    const [c0, c1] = DATA.common_window;
+
+    app.innerHTML = `
+      ${crumbs([[href(""), "Stratégies"], ...(PATH_MODE && FAMILY_PAGES[s.family] ? [[BASE + FAMILY_PAGES[s.family][0], FAMILY_PAGES[s.family][1]]] : []), [null, s.name]])}
+      <section class="sheet-head">
+        <div class="byline">${famChip(s.family)}<span>${esc(s.author || "")}</span></div>
+        <h1>${esc(s.name)}</h1>
+        <p class="lede">${esc(s.note || "")}</p>
+        <p class="cmp-cta"><a href="${cmpHref([s.id, compareDefault(s)])}">Comparer avec une autre stratégie →</a></p>
+      </section>
+      <div class="controls" style="border-top:0">
+        <div class="seg" role="group" aria-label="Période">
+          <button type="button" data-win="common" aria-pressed="${state.window === "common"}">Période commune<span class="sub">${c0.slice(0, 4)}–${c1.slice(0, 4)}</span></button>
+          <button type="button" data-win="full" aria-pressed="${state.window === "full"}">Historique complet<span class="sub">depuis ${pts[1] ? mStr(pts[1].i).slice(0, 4) : ""}</span></button>
+        </div>
+        ${ccySeg()}
+        <div class="bench-pick"><span>Comparer à :</span>${benchSeg()}</div>
+      </div>
+      ${ccyNote()}
+      <div class="tiles">
+        <div class="tile"><span class="k">CAGR</span><span class="v">${pct(st.cagr, 1)}</span>${cmp("Rendement annualisé", b?.cagr, v => pct(v, 1))}</div>
+        <div class="tile"><span class="k">Temps de récupération</span><span class="v">${uwText(st)}</span>${b ? `<span class="cmp">${esc(BN())}${refTag} : <span class="num">${uwText(b)}</span></span>` : `<span class="cmp">Plus longue période sous un sommet</span>`}</div>
+        <div class="tile"><span class="k">Max drawdown</span><span class="v neg">${pct(st.max_dd, 1)}</span>${cmp("Pire baisse", b?.max_dd, v => pct(v, 1))}</div>
+        <div class="tile"><span class="k">Pire année</span><span class="v ${cls(st.worst_year)}">${pct(st.worst_year, 1, true)}</span>${cmp("Année civile complète", b?.worst_year, v => pct(v, 1, true))}</div>
+      </div>
+      <div class="grid-2">
+        <div class="stack">
+          <section class="panel">
+            <h2>Croissance de 1 ${CUR()}</h2>
+            <p class="sub">Échelle logarithmique : une même pente correspond au même rendement, quelle que soit l'année.</p>
+            <div class="legend"><span><i style="background:var(--accent)"></i>${esc(s.name)}</span>${spyPts ? `<span><i style="background:var(--bench)"></i>${esc(BN())}</span>` : ""}${pubI && pubI > base[0].i && pubI < base[base.length - 1].i ? `<span><i class="box" style="background:var(--pub-soft);outline:1px dashed var(--pub)"></i>Après publication</span>` : ""}</div>
+            <div id="c-eq"></div>
+          </section>
+          <section class="panel">
+            <h2>Baisses depuis le sommet</h2>
+            <div id="c-dd"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><h2>Rendement sur ${state.roll} ans glissants</h2>
+              <div class="seg small" role="group" aria-label="Durée des périodes">${[3, 5, 10].map(y => `<button type="button" data-roll="${y}" aria-pressed="${state.roll === y}">${y} ans</button>`).join("")}</div></div>
+            <p class="sub">Rendement annualisé de chaque période de ${state.roll} ans, placé à sa date de fin. Réponse à la question : « et si j'avais commencé ${state.roll} ans plus tôt ? »</p>
+            <div id="roll-stats"></div>
+            <div id="c-roll"></div>
+          </section>
+          <section class="panel">
+            <h2>Rendement par année</h2>
+            <div class="legend"><span><i class="box" style="background:var(--accent)"></i>${esc(s.name)}</span>${spyPts ? `<span><i class="box" style="background:var(--bench)"></i>${esc(BN())}</span>` : ""}</div>
+            <div id="c-yr"></div>
+          </section>
+          ${sameFamily(s)}
+        </div>
+        <div class="stack">
+          ${FICHES[s.id] ? `<section class="panel">
+            <h2>L'essentiel</h2>
+            <div class="essentials">
+              <p>${rich(FICHES[s.id].idee)}</p>
+              <h3>Points forts</h3><ul>${FICHES[s.id].forces.map(x => `<li>${rich(x)}</li>`).join("")}</ul>
+              <h3>Points faibles</h3><ul>${FICHES[s.id].faiblesses.map(x => `<li>${rich(x)}</li>`).join("")}</ul>
+              ${FICHES[s.id].a_savoir ? `<h3>À savoir</h3><p>${rich(FICHES[s.id].a_savoir)}</p>` : ""}
+            </div>
+          </section>` : ""}
+          <section class="panel">
+            <h2>Signal pour ${mLabelLong(nextM)}</h2>
+            <p class="sub">Calculé sur la clôture de fin ${mLabelLong(DATA.data_end)}.</p>
+            <div class="alloc">${weights.map(([k, v]) => `
+              <div class="alloc-row"><span class="tk">${k === "CASH" ? "Cash" : esc(k)}</span><span class="bar"><i style="width:${(v * 100).toFixed(1)}%"></i></span><span class="pc num">${nf(v * 100 % 1 ? 1 : 0).format(v * 100)}&nbsp;%</span>
+              <span class="nm">${k === "CASH" ? "T-bills (BIL)" : esc(names[k] || "")}</span></div>`).join("")}
+            </div>
+          </section>
+          ${historyPanel(s)}
+          <section class="panel">
+            <h2>Règles</h2>
+            <ol class="rules">${rules.map(r => `<li>${rich(r)}</li>`).join("")}</ol>
+            <span class="pill">Rééquilibrage : ${s.rebalance === "annual" ? "annuel" : s.rebalance === "quarterly" ? "trimestriel" : "mensuel"} · rotation ${nf(0).format(s.avg_turnover_year * 50)} % par an</span>
+            ${s.variant_note ? `<div class="callout">${rich(s.variant_note)}</div>` : ""}
+            ${published ? `<div class="callout"><b>Publiée en ${mLabelLong(published)}.</b> ${pubI > base[base.length - 1].i ? "" : pubI <= base[0].i ? "Tout le backtest affiché est postérieur à la publication : c'est de la performance hors échantillon." : "La zone ombrée du graphique est postérieure à la publication : l'auteur ne la connaissait pas en concevant la stratégie."}</div>` : ""}
+          </section>
+          ${UCITS ? `<section class="panel">
+            <h2>Avec des ETF européens</h2>
+            <p class="sub">Les ETF américains ne sont pas accessibles aux particuliers européens. Voici leurs équivalents UCITS.</p>
+            <div class="ucits-list">${[...s.assets, ...(s.uses_cash || Object.keys(s.next_signal.weights).includes("CASH") ? ["CASH"] : [])]
+              .filter((a, k, arr) => arr.indexOf(a) === k).map(a => ucitsItem(a)).join("")}</div>
+            <p class="sub" style="margin:0">Les résultats du site sont calculés avec les ETF américains. Un portefeuille UCITS donnera des résultats proches mais pas identiques. <a href="${href("ucits")}">Table complète</a></p>
+          </section>` : ""}
+          <section class="panel">
+            <h2>Toutes les mesures</h2>
+            <table class="metrics">
+              <thead><tr><th scope="col"></th><th scope="col">Commune</th><th scope="col">Complet</th></tr></thead>
+              <tbody>${[
+                ["Début", x => mLabel(x.start)],
+                ["CAGR", x => pct(x.cagr, 1)],
+                ["Volatilité", x => pct(x.vol, 1)],
+                ["Sharpe", x => dec(x.sharpe)],
+                ["Sortino", x => dec(x.sortino)],
+                ["Max drawdown", x => pct(x.max_dd, 1)],
+                ["Plus longue période sous l'eau", x => uwText(x)],
+                ["Creux du drawdown", x => mLabel(x.max_dd_trough)],
+                ["Récupéré en", x => x.max_dd_recovery ? mLabel(x.max_dd_recovery) : "pas encore"],
+                ["Ulcer index", x => pct(x.ulcer, 1)],
+                ["Meilleure année", x => pct(x.best_year, 1, true)],
+                ["Pire année", x => pct(x.worst_year, 1, true)],
+                ["Mois positifs", x => pct(x.pct_pos_months, 0)],
+                ["Pire 5 ans (annualisé)", x => pct(x.roll5_min, 1, true)],
+                ["Pire 10 ans (annualisé)", x => pct(x.roll10_min, 1, true)],
+              ].map(([l, f]) => `<tr><td>${l}</td><td class="num">${f(src(s).stats_common)}</td><td class="num">${f(src(s).stats_full)}</td></tr>`).join("")}</tbody>
+            </table>
+          </section>
+        </div>
+      </div>`;
+
+    const series = [{ name: s.name, color: "var(--accent)", pts: base, width: 2.2 }];
+    if (spyPts) series.push({ name: BN(), color: "var(--bench)", pts: spyPts, width: 1.6 });
+    timeChart(document.getElementById("c-eq"), {
+      series, log: true, height: 300,
+      yfmt: v => nf(v < 1 ? 2 : v % 1 ? 1 : 0).format(v) + " " + CUR(),
+      tipFmt: v => nf(2).format(v) + " " + CUR(),
+      marker: pubI ? { i: pubI, label: `Publication ${published.slice(0, 4)}` } : null,
+    });
+    const dd = pts => { let p = -Infinity; return pts.map(q => { p = Math.max(p, q.v); return { i: q.i, v: q.v / p - 1 }; }); };
+    const ddSeries = [{ name: s.name, color: "var(--accent)", fill: "var(--accent-soft)", pts: dd(base), width: 1.6 }];
+    if (spyPts) ddSeries.push({ name: BN(), color: "var(--bench)", pts: dd(spyPts), width: 1.2 });
+    timeChart(document.getElementById("c-dd"), {
+      series: ddSeries, area: true, height: 200,
+      yfmt: v => nf(0).format(v * 100) + "\u00a0%", tipFmt: v => pct(v, 1),
+    });
+    annualBars(document.getElementById("c-yr"), annual(base), spyPts ? annual(spyPts) : [], s.name, BN());
+    drawRolling(s, base, spyPts);
+    bindBench(() => renderSheet(s));
+    bindCcy(() => renderSheet(s));
+
+    app.querySelectorAll("[data-win]").forEach(b => b.onclick = () => { state.window = b.dataset.win;
+      try { localStorage.setItem("esl-window", state.window); } catch (e) {} renderSheet(s); });
+    app.querySelectorAll("[data-roll]").forEach(b => b.onclick = () => { state.roll = +b.dataset.roll;
+      const y = window.scrollY; renderSheet(s); window.scrollTo(0, y);
+      app.querySelector(`[data-roll="${state.roll}"]`)?.focus({ preventScroll: true }); });
+  }
+
+  function drawRolling(s, base, spyPts) {
+    const r = rolling(base, state.roll), rs = spyPts ? rolling(spyPts, state.roll) : [];
+    const box = document.getElementById("roll-stats"), host = document.getElementById("c-roll");
+    if (!r.length) { box.innerHTML = `<p class="sub">Historique trop court pour des périodes de ${state.roll} ans sur cette fenêtre.</p>`; host.innerHTML = ""; return; }
+    const a = rollSummary(r), b = rs.length ? rollSummary(rs) : null;
+    const spyMap = new Map(rs.map(x => [x.i, x.v]));
+    const beat = rs.length ? r.filter(x => spyMap.has(x.i) && x.v > spyMap.get(x.i)).length / r.length : null;
+    const cell = (k, v, c) => `<div><span class="k">${k}</span><span class="v ${cls(v)}">${pct(v, 1, true)}</span>${c ? `<span class="c">${c}</span>` : ""}</div>`;
+    box.innerHTML = `<div class="roll-stats">
+      ${cell("Pire période", a.min, b ? `${esc(BN())} : ${pct(b.min, 1, true)}` : "")}
+      ${cell("Médiane", a.med, b ? `${esc(BN())} : ${pct(b.med, 1, true)}` : "")}
+      ${cell("Meilleure période", a.max, b ? `${esc(BN())} : ${pct(b.max, 1, true)}` : "")}
+      <div><span class="k">Périodes positives</span><span class="v">${nf(0).format(a.pos * 100)}&nbsp;%</span>${beat != null ? `<span class="c">bat le ${esc(BN())} : ${nf(0).format(beat * 100)}&nbsp;%</span>` : `<span class="c">${a.n} périodes</span>`}</div>
+    </div>`;
+    const series = [{ name: s.name, color: "var(--accent)", pts: r, width: 2 }];
+    if (rs.length) series.push({ name: BN(), color: "var(--bench)", pts: rs, width: 1.4 });
+    timeChart(host, { series, height: 220, zeroLine: true,
+      yfmt: v => nf(0).format(v * 100) + "\u00a0%", tipFmt: v => pct(v, 1, true) + " /an" });
+  }
+
+  let resizeT;
+  window.addEventListener("resize", () => { clearTimeout(resizeT); resizeT = setTimeout(() => {
+    if (document.getElementById("scatter") && DATA) renderBoard(); }, 250); });
+
+  function route() {
+    const id = currentId();
+    const setTitle = t => { if (!PATH_MODE) document.title = t; };
+    const top = () => { if (!PATH_MODE) window.scrollTo(0, 0); };
+    if (id === "methode") { renderMethod(); setTitle("Méthode · ETF Strategy Lab"); top(); }
+    else if (id === "ucits" && UCITS) { renderUcits(); setTitle("Équivalents UCITS · ETF Strategy Lab"); top(); }
+    else if (id === "signaux") { app.innerHTML = `<section class="doc"><h1>Signaux du mois</h1><p class="lede">Cette page est générée avec le site publié : <a href="/signaux/">voir les signaux du mois</a>.</p></section>`; top(); }
+    else if (id.startsWith("comparer")) { if (id.includes("=")) state.cmp = null; renderCompare(); setTitle("Comparer des stratégies · ETF Strategy Lab"); top(); }
+    else if (id && BY_ID[id]) { renderSheet(BY_ID[id]); setTitle(`${BY_ID[id].name} · ETF Strategy Lab`); top(); }
+    else { renderBoard(); if (!PATH_MODE) document.title = "ETF Strategy Lab"; }
+    document.querySelectorAll("[data-nav]").forEach(a => a.toggleAttribute("aria-current", a.dataset.nav === (["methode", "ucits", "signaux"].includes(id) ? id : id.startsWith("comparer") ? "comparer" : "")));
+    document.querySelectorAll("[data-nav]").forEach(a => { if (a.hasAttribute("aria-current")) a.setAttribute("aria-current", "page"); });
+  }
+
+  // anciens liens #gem, #ucits… : redirection vers la vraie adresse
+  if (PATH_MODE && location.hash.length > 1) {
+    const legacy = location.hash.slice(1);
+    if (legacy in PAGE_PATH) { location.replace(href(legacy)); return; }
+  }
+
+  fetch(asset("strategies.json")).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
+    DATA = d; d.strategies.forEach(s => BY_ID[s.id] = s); SPY = BY_ID.spy;
+    if (!BY_ID[state.bench]) state.bench = BY_ID.acwi ? "acwi" : "spy";
+    return Promise.all([
+      fetch(asset("fiches.json")).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+      fetch(asset("ucits.json")).then(r => r.ok ? r.json() : null).catch(() => null),
+    ]).then(([f, u]) => { FICHES = f; UCITS = u; return d; });
+  }).then(d => {
+    document.getElementById("stamp").textContent = `Données à fin ${mLabelLong(d.data_end)} · ${d.strategies.length} stratégies`;
+    if (window.ESL_404 || window.ESL_STATIC) return;   // 404, mentions légales : on garde le contenu de la page
+    const legacyId = PATH_MODE ? location.hash.slice(1) : "";
+    if (legacyId && BY_ID[legacyId]) { location.replace(href(legacyId)); return; }
+    if (!PATH_MODE) window.addEventListener("hashchange", route);
+    route();
+  }).catch(e => {
+    app.innerHTML = `<p class="err">Impossible de charger strategies.json (${esc(e.message)}). Vérifiez que le fichier se trouve à côté de cette page.</p>`;
+  });
+})();
+</script>
+</body>
+</html>

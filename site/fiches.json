@@ -286,5 +286,41 @@
       "L'une des rares stratégies du site dont le pire rendement sur 5 ans glissants est négatif."
     ],
     "a_savoir": "Ses auteurs ont publié en 2011, après trente ans de baisse des taux d'intérêt, la période idéale pour les obligations longues."
+  },
+  "coffeehouse": {
+    "idee": "Le portefeuille du livre The Coffeehouse Investor de Bill Schultheis : 40 % d'obligations et 60 % d'actions découpées en six blocs égaux, dont des petites capitalisations, des actions « value » et de l'immobilier coté.",
+    "forces": [
+      "Une diversification large des actions, au-delà des grandes capitalisations américaines.",
+      "Aucun signal à suivre, un rééquilibrage par an : très simple à tenir."
+    ],
+    "faiblesses": [
+      "Les petites capitalisations et les actions « value » ont souvent fait moins bien que le S&P 500 depuis 2008.",
+      "L'immobilier coté baisse avec les actions dans les krachs."
+    ],
+    "a_savoir": "Schultheis insiste moins sur l'allocation exacte que sur trois principes : diversifier, avoir des attentes réalistes et épargner régulièrement. Comparez avec le [60/40](strategie:6040), qui garde la même part d'actions sans les répartir."
+  },
+  "larry": {
+    "idee": "Le portefeuille de Larry Swedroe : seulement 30 % d'actions, choisies parmi les plus rémunératrices sur le long terme (petites capitalisations « value », émergents), et 70 % d'obligations d'État à moyen terme.",
+    "forces": [
+      "Une faible part d'actions limite les baisses dans les krachs boursiers.",
+      "L'idée : obtenir un rendement proche d'un portefeuille plus risqué avec moins d'actions."
+    ],
+    "faiblesses": [
+      "70 % d'obligations : quand les taux montent fortement, comme en 2022, le portefeuille souffre.",
+      "Le pari sur les petites capitalisations « value » n'a pas payé depuis 2008."
+    ],
+    "a_savoir": "Swedroe recommande des fonds « value » spécialisés, qui n'existent pas tous en ETF avec un long historique ; la version testée ici utilise les équivalents les plus proches."
+  },
+  "gpm": {
+    "idee": "Une variante de [PAA](strategie:paa) par les mêmes auteurs : chaque actif est jugé sur son momentum, mais aussi sur sa corrélation avec le reste. Un actif qui monte seul, sans suivre le marché, est préféré à un actif qui monte avec tout le monde.",
+    "forces": [
+      "La protection est graduelle : la part défensive augmente à mesure que les actifs faiblissent.",
+      "La corrélation favorise les actifs qui diversifient vraiment le portefeuille."
+    ],
+    "faiblesses": [
+      "Seulement 3 actifs risqués à la fois : le portefeuille est concentré.",
+      "Beaucoup de paramètres (12 actifs, 4 horizons de momentum, 12 mois de corrélation)."
+    ],
+    "a_savoir": "Keller et Keuning ont publié ensuite [DAA](strategie:daa), où la décision défensive repose sur quelques « canaris » plutôt que sur l'ensemble des actifs."
   }
 }

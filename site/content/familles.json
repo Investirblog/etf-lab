@@ -51,8 +51,8 @@
   "strategies-keller": {
     "famille": "Keller",
     "titre": "Stratégies de Keller",
-    "h1": "Stratégies de Keller : VAA, DAA, PAA, HAA et BAA",
-    "description": "Vigilant, Defensive, Protective, Hybrid et Bold Asset Allocation : les stratégies de Wouter Keller et leurs « canaris », backtestées et comparées.",
+    "h1": "Stratégies de Keller : VAA, DAA, PAA, HAA, BAA et GPM",
+    "description": "VAA, DAA, PAA, HAA, BAA et Generalized Protective Momentum : les stratégies de Wouter Keller et leurs « canaris », backtestées et comparées.",
     "intro": [
       "Wouter Keller, chercheur néerlandais, a publié depuis 2016 une série de stratégies d'allocation, souvent avec Jan Willem Keuning. Elles combinent le momentum avec une idée propre : surveiller l'ensemble du marché pour décider quelle part du portefeuille mettre à l'abri.",
       "Dans plusieurs d'entre elles, quelques actifs servent de « canaris » : quand leur momentum devient négatif, le portefeuille passe en défensif. Dans [DAA](strategie:daa), ce sont les actions émergentes et les obligations agrégées ; dans [HAA](strategie:haa), les obligations indexées sur l'inflation."

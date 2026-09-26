@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ETF Strategy Lab : les stratégies ETF backtestées et comparées</title>
-<meta name="description" content="22 stratégies d&#x27;investissement en ETF (Permanent Portfolio, Dual Momentum, stratégies de Keller…) testées depuis juil. 2008 avec les mêmes données…">
+<meta name="description" content="25 stratégies d&#x27;investissement en ETF (Permanent Portfolio, Dual Momentum, stratégies de Keller…) testées depuis juil. 2008 avec les mêmes données…">
 <link rel="canonical" href="https://etf-strategy-lab.netlify.app/">
 <meta property="og:site_name" content="ETF Strategy Lab">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:type" content="website">
 <meta property="og:title" content="ETF Strategy Lab : les stratégies ETF backtestées et comparées">
-<meta property="og:description" content="22 stratégies d&#x27;investissement en ETF (Permanent Portfolio, Dual Momentum, stratégies de Keller…) testées depuis juil. 2008 avec les mêmes données…">
+<meta property="og:description" content="25 stratégies d&#x27;investissement en ETF (Permanent Portfolio, Dual Momentum, stratégies de Keller…) testées depuis juil. 2008 avec les mêmes données…">
 <meta property="og:url" content="https://etf-strategy-lab.netlify.app/">
 <meta property="og:image" content="https://etf-strategy-lab.netlify.app/og/home.png">
 <meta property="og:image:width" content="1200">
@@ -298,6 +298,51 @@ table.ucits { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .intro .key { font-size: 16.5px; color: var(--ink); max-width: 66ch; }
 .intro .key b { font-weight: 600; }
 
+/* Fil d'Ariane, devise, historique, comparateur */
+.crumbs { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; margin-block: 24px 8px; font-size: 13.5px; color: var(--ink-3); }
+.crumbs a { text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+.crumbs .sep { color: var(--ink-3); }
+.crumbs [aria-current] { color: var(--ink-2); }
+.cmp-cta { margin: 0; font-size: 14px; }
+.cmp-cta a { text-decoration: none; }
+.cmp-cta a:hover { text-decoration: underline; }
+.ccy-note { font-size: 13px; color: var(--ink-2); background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; margin: 0 0 12px; max-width: 90ch; }
+table.hist { width: 100%; border-collapse: collapse; font-size: 13px; }
+.hist th { font-family: var(--f-display); font-weight: 600; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); text-align: left; padding: 4px 6px 6px; border-bottom: 1px solid var(--rule); }
+.hist td { padding: 5px 6px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+.hist td:first-child { white-space: nowrap; color: var(--ink-2); width: 6.5em; }
+.hist tr:last-child td { border-bottom: 0; }
+.hist tr.chg td { font-weight: 600; }
+.hist tr.chg td:first-child { color: var(--accent); }
+.sw { width: 9px; height: 9px; border-radius: 2px; display: inline-block; margin-right: 6px; vertical-align: 1px; }
+.cmp-sels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 18px 0 6px; }
+.cmp-sel { display: grid; gap: 4px; font-size: 12.5px; color: var(--ink-3); }
+.cmp-sel span { display: inline-flex; align-items: center; gap: 6px; }
+.cmp-sel i { width: 12px; height: 3px; border-radius: 2px; display: inline-block; }
+.cmp-sel select { font: inherit; font-size: 14px; color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: 7px; padding: 7px 8px; min-width: 0; width: 100%; }
+.cmp-period { margin: 0 0 10px; color: var(--ink-3); font-size: 13px; }
+table.cmp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.cmp-table th, .cmp-table td { padding: 9px 12px; border-bottom: 1px solid var(--rule-soft); text-align: right; vertical-align: top; }
+.cmp-table thead th { font-weight: 600; font-size: 13.5px; border-bottom: 1px solid var(--rule); }
+.cmp-table thead th a { color: var(--ink); text-decoration: none; }
+.cmp-table thead th a:hover { text-decoration: underline; }
+.cmp-table th[scope="row"] { text-align: left; font-weight: 400; color: var(--ink-2); white-space: nowrap; }
+.cmp-table tr:last-child td, .cmp-table tr:last-child th { border-bottom: 0; }
+.cmp-table .alloc-txt { font-size: 12px; }
+.cmp-grid { margin-top: 18px; }
+.cmp-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.cmp-list a { display: block; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px; color: var(--ink); text-decoration: none; font-weight: 600; }
+.cmp-list a:hover { border-color: var(--accent); }
+.cmp-list span { display: block; font-weight: 400; font-size: 13px; color: var(--ink-3); margin-top: 2px; }
+.static-chart svg { display: block; width: 100%; height: auto; }
+.doc-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; }
+@media (max-width: 640px) {
+  .cmp-sels { grid-template-columns: 1fr; }
+  .cmp-table th, .cmp-table td { padding: 8px 6px; font-size: 12.5px; }
+  .cmp-table th[scope="row"] { white-space: normal; }
+}
+
 /* Liens de famille, « même famille » */
 a.fam { text-decoration: none; }
 a.fam:hover { background: var(--accent-soft); color: var(--accent); }
@@ -453,16 +498,17 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       <nav class="nav" aria-label="Pages">
         <a href="/" data-nav="" aria-current="page">Stratégies</a>
         <a href="/signaux/" data-nav="signaux">Signaux du mois</a>
+        <a href="/comparer/" data-nav="comparer">Comparer</a>
         <a href="/equivalents-ucits/" data-nav="ucits">Équivalents UCITS</a>
         <a href="/methode/" data-nav="methode">Méthode</a>
       </nav>
-      <span class="stamp" id="stamp">Données à fin août 2026 · 24 stratégies</span>
+      <span class="stamp" id="stamp">Données à fin août 2026 · 27 stratégies</span>
     </div>
   </header>
   <main id="app" aria-live="polite">
       <section class="intro">
         <h1>Les stratégies ETF connues, testées sur les mêmes données et avec les mêmes règles</h1>
-        <p class="key">Depuis juil. 2008, <b>6 stratégies sur 22</b> ont rapporté plus que les actions mondiales (8,8 % par an). Mais <b>toutes les 22</b> ont subi une pire baisse moins profonde que ses -46 %, et <b>18</b> ont mieux rémunéré chaque unité de risque. La vraie question n'est pas seulement combien une stratégie rapporte, mais ce qu'elle fait traverser pour y arriver.</p>
+        <p class="key">Depuis juil. 2008, <b>6 stratégies sur 25</b> ont rapporté plus que les actions mondiales (8,8 % par an). Mais <b>toutes les 25</b> ont subi une pire baisse moins profonde que ses -46 %, et <b>21</b> ont mieux rémunéré chaque unité de risque. La vraie question n'est pas seulement combien une stratégie rapporte, mais ce qu'elle fait traverser pour y arriver.</p>
         <p>Portefeuilles permanents, momentum, suivi de tendance : chaque stratégie est recalculée chaque mois à partir des rendements réels des ETF, frais compris, puis comparée sur la même période. Cliquez sur une stratégie pour ouvrir sa fiche.</p>
         <ul class="method">
           <li>Période commune <b>juil. 2008 → août 2026</b></li>
@@ -475,7 +521,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       <div class="table-scroll"><table class="board">
         <thead><tr><th scope="col">Stratégie</th><th scope="col">CAGR</th><th scope="col">Sharpe</th>
           <th scope="col">Max DD</th><th scope="col">Récup.</th><th scope="col">Pire année</th></tr></thead>
-        <tbody><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/haa/">Hybrid Asset Allocation (HAA)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">9,9 %</td><td class="num">0,94</td><td class="num neg">-9,2 %</td><td class="num">19 mois</td><td class="num">-4,0 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/adm_tip/">Accelerating Dual Momentum (variante TLT/TIP)</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">13,2 %</td><td class="num">0,84</td><td class="num neg">-25,8 %</td><td class="num">40 mois</td><td class="num">-24,2 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/daa/">Defensive Asset Allocation (DAA-G12)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">7,9 %</td><td class="num">0,80</td><td class="num neg">-19,5 %</td><td class="num">48 mois</td><td class="num">-12,0 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/6040/">60/40 classique</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">8,9 %</td><td class="num">0,79</td><td class="num neg">-24,4 %</td><td class="num">25 mois</td><td class="num">-16,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/adm/">Accelerating Dual Momentum</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">12,5 %</td><td class="num">0,77</td><td class="num neg">-34,9 %</td><td class="num">43 mois</td><td class="num">-31,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/golden_butterfly/">Golden Butterfly</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">7,7 %</td><td class="num">0,76</td><td class="num neg">-17,8 %</td><td class="num">28 mois</td><td class="num">-13,8 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/buffett/">90/10 de Warren Buffett</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">11,5 %</td><td class="num">0,76</td><td class="num neg">-37,5 %</td><td class="num">27 mois</td><td class="num">-16,7 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/permanent/">Permanent Portfolio</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">7,0 %</td><td class="num">0,76</td><td class="num neg">-17,0 %</td><td class="num">28 mois</td><td class="num">-13,5 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/baa/">Bold Asset Allocation (BAA-G12)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">7,2 %</td><td class="num">0,76</td><td class="num neg">-11,1 %</td><td class="num">40 mois</td><td class="num">-2,2 %</td></tr><tr class="is-bench"><td><div class="s-name"><a class="s-link" href="/strategies/spy/">S&amp;P 500 (référence)</a></div><div class="s-meta"><span class="fam">Référence</span></div></td><td class="num">12,4 %</td><td class="num">0,75</td><td class="num neg">-41,8 %</td><td class="num">27 mois</td><td class="num">-18,2 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/paa/">Protective Asset Allocation (PAA2)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">6,9 %</td><td class="num">0,73</td><td class="num neg">-20,6 %</td><td class="num">44 mois</td><td class="num">-16,5 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/spy_sma10/">S&amp;P 500 avec timing (moyenne 10 mois)</a></div><div class="s-meta"><span class="fam">Tendance</span></div></td><td class="num">8,5 %</td><td class="num">0,69</td><td class="num neg">-22,9 %</td><td class="num">32 mois</td><td class="num">-20,8 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/three_fund/">Portefeuille 3 fonds (Bogleheads)</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">7,7 %</td><td class="num">0,66</td><td class="num neg">-25,1 %</td><td class="num">25 mois</td><td class="num">-16,0 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/all_weather/">All Weather (version Robbins)</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">6,6 %</td><td class="num">0,64</td><td class="num neg">-21,1 %</td><td class="num">41 mois</td><td class="num">-18,8 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/sector_rot/">Rotation sectorielle (Faber)</a></div><div class="s-meta"><span class="fam">Secteurs</span></div></td><td class="num">10,4 %</td><td class="num">0,63</td><td class="num neg">-34,1 %</td><td class="num">25 mois</td><td class="num">-5,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/gem/">Global Equities Momentum (GEM)</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">8,3 %</td><td class="num">0,60</td><td class="num neg">-21,6 %</td><td class="num">29 mois</td><td class="num">-17,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/sector_rot_trend/">Rotation sectorielle avec filtre de tendance</a></div><div class="s-meta"><span class="fam">Secteurs</span></div></td><td class="num">7,9 %</td><td class="num">0,60</td><td class="num neg">-21,0 %</td><td class="num">35 mois</td><td class="num">-10,9 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/swensen/">Portefeuille Swensen (Yale)</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">7,6 %</td><td class="num">0,56</td><td class="num neg">-34,6 %</td><td class="num">30 mois</td><td class="num">-18,4 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/cdm/">Composite Dual Momentum</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">5,7 %</td><td class="num">0,55</td><td class="num neg">-14,3 %</td><td class="num">31 mois</td><td class="num">-10,3 %</td></tr><tr class="is-bench"><td><div class="s-name"><a class="s-link" href="/strategies/acwi/">Actions mondiales (référence)</a></div><div class="s-meta"><span class="fam">Référence</span></div></td><td class="num">8,8 %</td><td class="num">0,52</td><td class="num neg">-45,8 %</td><td class="num">28 mois</td><td class="num">-18,4 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/gtaa5/">GTAA 5 / Ivy Portfolio avec timing</a></div><div class="s-meta"><span class="fam">Tendance</span></div></td><td class="num">4,5 %</td><td class="num">0,50</td><td class="num neg">-11,1 %</td><td class="num">35 mois</td><td class="num">-4,4 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/paired_switching/">Paired Switching</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">8,1 %</td><td class="num">0,50</td><td class="num neg">-28,4 %</td><td class="num">33 mois</td><td class="num">-23,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/vaa/">Vigilant Asset Allocation (VAA-G4)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">6,0 %</td><td class="num">0,49</td><td class="num neg">-20,9 %</td><td class="num">53 mois</td><td class="num">-12,7 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/ivy/">Ivy Portfolio (buy &amp; hold)</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">5,5 %</td><td class="num">0,39</td><td class="num neg">-42,3 %</td><td class="num">36 mois</td><td class="num">-10,0 %</td></tr></tbody></table></div>
+        <tbody><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/haa/">Hybrid Asset Allocation (HAA)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">9,9 %</td><td class="num">0,94</td><td class="num neg">-9,2 %</td><td class="num">19 mois</td><td class="num">-4,0 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/adm_tip/">Accelerating Dual Momentum (variante TLT/TIP)</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">13,2 %</td><td class="num">0,84</td><td class="num neg">-25,8 %</td><td class="num">40 mois</td><td class="num">-24,2 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/daa/">Defensive Asset Allocation (DAA-G12)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">7,9 %</td><td class="num">0,80</td><td class="num neg">-19,5 %</td><td class="num">48 mois</td><td class="num">-12,0 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/6040/">60/40 classique</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">8,9 %</td><td class="num">0,79</td><td class="num neg">-24,4 %</td><td class="num">25 mois</td><td class="num">-16,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/adm/">Accelerating Dual Momentum</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">12,5 %</td><td class="num">0,77</td><td class="num neg">-34,9 %</td><td class="num">43 mois</td><td class="num">-31,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/golden_butterfly/">Golden Butterfly</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">7,7 %</td><td class="num">0,76</td><td class="num neg">-17,8 %</td><td class="num">28 mois</td><td class="num">-13,8 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/buffett/">90/10 de Warren Buffett</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">11,5 %</td><td class="num">0,76</td><td class="num neg">-37,5 %</td><td class="num">27 mois</td><td class="num">-16,7 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/permanent/">Permanent Portfolio</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">7,0 %</td><td class="num">0,76</td><td class="num neg">-17,0 %</td><td class="num">28 mois</td><td class="num">-13,5 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/baa/">Bold Asset Allocation (BAA-G12)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">7,2 %</td><td class="num">0,76</td><td class="num neg">-11,1 %</td><td class="num">40 mois</td><td class="num">-2,2 %</td></tr><tr class="is-bench"><td><div class="s-name"><a class="s-link" href="/strategies/spy/">S&amp;P 500 (référence)</a></div><div class="s-meta"><span class="fam">Référence</span></div></td><td class="num">12,4 %</td><td class="num">0,75</td><td class="num neg">-41,8 %</td><td class="num">27 mois</td><td class="num">-18,2 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/paa/">Protective Asset Allocation (PAA2)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">6,9 %</td><td class="num">0,73</td><td class="num neg">-20,6 %</td><td class="num">44 mois</td><td class="num">-16,5 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/spy_sma10/">S&amp;P 500 avec timing (moyenne 10 mois)</a></div><div class="s-meta"><span class="fam">Tendance</span></div></td><td class="num">8,5 %</td><td class="num">0,69</td><td class="num neg">-22,9 %</td><td class="num">32 mois</td><td class="num">-20,8 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/three_fund/">Portefeuille 3 fonds (Bogleheads)</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">7,7 %</td><td class="num">0,66</td><td class="num neg">-25,1 %</td><td class="num">25 mois</td><td class="num">-16,0 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/gpm/">Generalized Protective Momentum (GPM)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">6,2 %</td><td class="num">0,65</td><td class="num neg">-11,7 %</td><td class="num">47 mois</td><td class="num">-5,7 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/all_weather/">All Weather (version Robbins)</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">6,6 %</td><td class="num">0,64</td><td class="num neg">-21,1 %</td><td class="num">41 mois</td><td class="num">-18,8 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/sector_rot/">Rotation sectorielle (Faber)</a></div><div class="s-meta"><span class="fam">Secteurs</span></div></td><td class="num">10,4 %</td><td class="num">0,63</td><td class="num neg">-34,1 %</td><td class="num">25 mois</td><td class="num">-5,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/gem/">Global Equities Momentum (GEM)</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">8,3 %</td><td class="num">0,60</td><td class="num neg">-21,6 %</td><td class="num">29 mois</td><td class="num">-17,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/sector_rot_trend/">Rotation sectorielle avec filtre de tendance</a></div><div class="s-meta"><span class="fam">Secteurs</span></div></td><td class="num">7,9 %</td><td class="num">0,60</td><td class="num neg">-21,0 %</td><td class="num">35 mois</td><td class="num">-10,9 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/coffeehouse/">Coffeehouse Portfolio</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">7,1 %</td><td class="num">0,59</td><td class="num neg">-26,9 %</td><td class="num">30 mois</td><td class="num">-16,0 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/swensen/">Portefeuille Swensen (Yale)</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">7,6 %</td><td class="num">0,56</td><td class="num neg">-34,6 %</td><td class="num">30 mois</td><td class="num">-18,4 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/cdm/">Composite Dual Momentum</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">5,7 %</td><td class="num">0,55</td><td class="num neg">-14,3 %</td><td class="num">31 mois</td><td class="num">-10,3 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/larry/">Larry Portfolio</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">4,8 %</td><td class="num">0,52</td><td class="num neg">-20,8 %</td><td class="num">50 mois</td><td class="num">-16,0 %</td></tr><tr class="is-bench"><td><div class="s-name"><a class="s-link" href="/strategies/acwi/">Actions mondiales (référence)</a></div><div class="s-meta"><span class="fam">Référence</span></div></td><td class="num">8,8 %</td><td class="num">0,52</td><td class="num neg">-45,8 %</td><td class="num">28 mois</td><td class="num">-18,4 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/gtaa5/">GTAA 5 / Ivy Portfolio avec timing</a></div><div class="s-meta"><span class="fam">Tendance</span></div></td><td class="num">4,5 %</td><td class="num">0,50</td><td class="num neg">-11,1 %</td><td class="num">35 mois</td><td class="num">-4,4 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/paired_switching/">Paired Switching</a></div><div class="s-meta"><span class="fam">Momentum</span></div></td><td class="num">8,1 %</td><td class="num">0,50</td><td class="num neg">-28,4 %</td><td class="num">33 mois</td><td class="num">-23,1 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/vaa/">Vigilant Asset Allocation (VAA-G4)</a></div><div class="s-meta"><span class="fam">Keller</span></div></td><td class="num">6,0 %</td><td class="num">0,49</td><td class="num neg">-20,9 %</td><td class="num">53 mois</td><td class="num">-12,7 %</td></tr><tr class=""><td><div class="s-name"><a class="s-link" href="/strategies/ivy/">Ivy Portfolio (buy &amp; hold)</a></div><div class="s-meta"><span class="fam">Statique</span></div></td><td class="num">5,5 %</td><td class="num">0,39</td><td class="num neg">-42,3 %</td><td class="num">36 mois</td><td class="num">-10,0 %</td></tr></tbody></table></div>
       <p class="note-under">Période commune de juil. 2008 à août 2026, frais inclus. CAGR : rendement annualisé. Sharpe : rendement au-delà des T-bills, divisé par la volatilité. Max DD : pire baisse depuis un sommet. Récup. : plus longue période passée sous un sommet précédent.</p></main>
   <footer>
     <div class="support">
@@ -485,7 +531,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
         <a class="btn ghost" href="https://ko-fi.com/nathanaeldumortier" rel="noopener">Offrir un café sur Ko-fi</a>
       </div>
     </div>
-    <div>Backtests en dollars US sur des ETF américains, dividendes réinvestis, frais de transaction inclus, avant impôts. Les performances passées ne préjugent pas des performances futures. Ceci n'est pas un conseil en investissement.</div>
+    <div>Backtests sur des ETF américains, calculés en dollars US (vue en euros disponible), dividendes réinvestis, frais de transaction inclus, avant impôts. Les performances passées ne préjugent pas des performances futures. Ceci n'est pas un conseil en investissement.</div>
     <div>Données : cours ajustés yfinance, contrôlés contre les NAV officielles iShares. <a href="/methode/">Méthode et limites</a> · <a href="/equivalents-ucits/">Équivalents UCITS</a> · <a href="/mentions-legales/">Mentions légales</a></div>
   </footer>
 </div>
@@ -504,7 +550,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   const BASE = typeof window.ESL_BASE === "string" ? window.ESL_BASE : null;
   const PATH_MODE = BASE !== null;
   const asset = f => (BASE || "") + f;
-  const PAGE_PATH = { "": "", ucits: "equivalents-ucits/", methode: "methode/" };
+  const PAGE_PATH = { "": "", ucits: "equivalents-ucits/", methode: "methode/", comparer: "comparer/" };
   const href = id => PATH_MODE ? BASE + (id in PAGE_PATH ? PAGE_PATH[id] : `strategies/${id}/`) : (id ? `#${id}` : "#");
   const go = id => { if (PATH_MODE) location.href = href(id); else location.hash = id; };
   function currentId() {
@@ -515,15 +561,17 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     if (path.startsWith("strategies/")) return path.split("/")[1] || "";
     if (path.startsWith("equivalents-ucits")) return "ucits";
     if (path.startsWith("methode")) return "methode";
+    if (path.startsWith("comparer")) return "comparer";
     return "";
   }
   const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
   const MOIS_LONG = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
   const FAMILIES = ["Toutes", "Statique", "Momentum", "Tendance", "Keller", "Secteurs"];
-  const state = { window: "common", family: "Toutes", sort: { key: "sharpe", dir: -1 }, roll: 5, bench: "acwi" };
+  const state = { window: "common", family: "Toutes", sort: { key: "sharpe", dir: -1 }, roll: 5, bench: "acwi", ccy: "usd", cmp: null };
   let FICHES = {}, UCITS = null;
   try { const w = localStorage.getItem("esl-window"); if (w === "common" || w === "full") state.window = w;
-    const b = localStorage.getItem("esl-bench"); if (b === "acwi" || b === "spy") state.bench = b; } catch (e) {}
+    const b = localStorage.getItem("esl-bench"); if (b === "acwi" || b === "spy") state.bench = b;
+    if (localStorage.getItem("esl-ccy") === "eur") state.ccy = "eur"; } catch (e) {}
   let DATA = null, BY_ID = {}, SPY = null;
   const REF_IDS = ["acwi", "spy"];
   const REF_NAMES = { acwi: "Actions mondiales", spy: "S&P 500" };
@@ -553,7 +601,8 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
 
   // série d'équité -> points {i, v} avec la base 1 le mois précédant le 1er mois détenu
   function equityPoints(s) {
-    const keys = Object.keys(s.equity);
+    const eq = src(s).equity;
+    const keys = Object.keys(eq);
     const pts = [{ i: mIdx(keys[0]) - 1, v: 1 }];
     for (const k of keys) pts.push({ i: mIdx(k), v: s.equity[k] });
     return pts;
@@ -605,7 +654,32 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     if (state.window === "common") return [mIdx(DATA.common_window[0]) - 1, mIdx(DATA.common_window[1])];
     return [pts[0].i, pts[pts.length - 1].i];
   }
-  const statsFor = s => state.window === "common" ? s.stats_common : s.stats_full;
+  // Devise : en euros, on lit les séries converties (ETF achetés en dollars, change non couvert)
+  const EUR = () => state.ccy === "eur" && !!(DATA && DATA.eur);
+  const src = s => (EUR() && s.eur ? s.eur : s);
+  const CUR = () => (EUR() ? "€" : "$");
+  const statsFor = s => state.window === "common" ? src(s).stats_common : src(s).stats_full;
+  function ccySeg() {
+    if (!DATA.eur) return "";
+    return `<div class="seg" role="group" aria-label="Devise"><button type="button" data-ccy="usd" aria-pressed="${!EUR()}">En dollars</button><button type="button" data-ccy="eur" aria-pressed="${EUR()}">En euros</button></div>`;
+  }
+  function ccyNote() {
+    return EUR() ? `<p class="ccy-note">Vue d'un investisseur de la zone euro qui achète ces ETF en dollars, sans couvrir le change : chaque résultat inclut la variation de l'euro face au dollar.${DATA.eur.cash ? " Le Sharpe est calculé avec le taux à 3 mois en euros." : ""}</p>` : "";
+  }
+  function bindCcy(rerender) {
+    app.querySelectorAll("[data-ccy]").forEach(b => b.onclick = () => {
+      state.ccy = b.dataset.ccy; try { localStorage.setItem("esl-ccy", state.ccy); } catch (e) {}
+      const y = window.scrollY; rerender(); window.scrollTo(0, y);
+      app.querySelector(`[data-ccy="${state.ccy}"]`)?.focus({ preventScroll: true });
+    });
+  }
+  const wtxt = v => nf(Math.abs(v * 100 - Math.round(v * 100)) < 1e-9 ? 0 : 1).format(v * 100) + "\u00a0%";
+  function allocText(w) {
+    const g = new Map();
+    Object.entries(w).forEach(([k, v]) => { const r = Math.round(v * 1000) / 1000; if (!g.has(r)) g.set(r, []); g.get(r).push(k === "CASH" ? "Cash" : k); });
+    return [...g.entries()].sort((a, b) => b[0] - a[0]).map(([v, ks]) => `${wtxt(v)} ${ks.length > 1 ? "chacun : " + ks.join(", ") : ks[0]}`).join(" · ");
+  }
+  const sameW = (a, b) => [...new Set([...Object.keys(a), ...Object.keys(b)])].every(k => Math.abs((a[k] || 0) - (b[k] || 0)) < 0.005);
   function signalText(s) {
     if (s.family === "Statique" && s.id !== "spy") return "Allocation fixe";
     const w = Object.entries(s.next_signal.weights).sort((a, b) => b[1] - a[1]);
@@ -786,7 +860,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           <li>Période commune <b>${mLabel(c0)} → ${mLabel(c1)}</b></li>
           <li>Frais <b>${nf(2).format(DATA.cost_per_trade * 100)} %</b> par transaction</li>
           <li>Rééquilibrage <b>fin de mois</b></li>
-          <li>Devise <b>USD</b></li>
+          <li>Devise <b>${EUR() ? "EUR" : "USD"}</b></li>
         </ul>
         ${famLinks()}
       </section>
@@ -795,10 +869,12 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
           <button type="button" data-win="common" aria-pressed="${state.window === "common"}">Période commune<span class="sub">${c0.slice(0, 4)}–${c1.slice(0, 4)}</span></button>
           <button type="button" data-win="full" aria-pressed="${state.window === "full"}">Historique complet</button>
         </div>
+        ${ccySeg()}
         <div class="chips" role="group" aria-label="Famille">
           ${FAMILIES.map(f => `<button type="button" data-fam="${f}" aria-pressed="${state.family === f}">${f}</button>`).join("")}
         </div>
       </div>
+      ${ccyNote()}
       <div class="table-scroll">
         <table class="board">
           <thead><tr>${COLS.map(c => {
@@ -840,6 +916,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     renderRobust(list);
     renderScatter(list);
     bindBench(renderBoard);
+    bindCcy(renderBoard);
 
     app.querySelectorAll("[data-win]").forEach(b => b.onclick = () => { state.window = b.dataset.win;
       try { localStorage.setItem("esl-window", state.window); } catch (e) {} renderBoard(); });
@@ -870,11 +947,11 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   }
 
   function introSentence() {
-    const ref = REF(), rs = ref.stats_common;
+    const ref = REF(), rs = src(ref).stats_common;
     const strats = DATA.strategies.filter(s => !isRef(s));
-    const better = strats.filter(s => s.stats_common.cagr > rs.cagr).length;
-    const sharper = strats.filter(s => s.stats_common.sharpe > rs.sharpe).length;
-    const shallower = strats.filter(s => s.stats_common.max_dd > rs.max_dd).length;
+    const better = strats.filter(s => src(s).stats_common.cagr > rs.cagr).length;
+    const sharper = strats.filter(s => src(s).stats_common.sharpe > rs.sharpe).length;
+    const shallower = strats.filter(s => src(s).stats_common.max_dd > rs.max_dd).length;
     const n = strats.length, name = ref.id === "acwi" ? "les actions mondiales" : "le S&amp;P 500";
     return `Depuis ${mLabel(DATA.common_window[0])}, <b>${better} stratégie${better > 1 ? "s" : ""} sur ${n}</b> ${better > 1 ? "ont" : "a"} rapporté plus que ${name} (${pct(rs.cagr, 1)} par an). Mais <b>${shallower === n ? `toutes les ${n}` : shallower}</b> ${shallower > 1 ? "ont" : "a"} subi une pire baisse moins profonde que ses ${pct(rs.max_dd, 0)}, et <b>${sharper === n ? `toutes` : sharper}</b> ${sharper > 1 ? "ont" : "a"} mieux rémunéré chaque unité de risque. La vraie question n'est pas seulement combien une stratégie rapporte, mais ce qu'elle fait traverser pour y arriver.`;
   }
@@ -882,7 +959,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   function renderScatter(list) {
     const host = document.getElementById("scatter"), note = document.getElementById("scatter-note");
     const pts = list.map(s => ({ s, st: statsFor(s) })).filter(x => x.st && x.st.cagr != null);
-    const ref = REF(), refSt = statsFor(ref), cashC = state.window === "common" ? DATA.cash_cagr_common : null;
+    const ref = REF(), refSt = statsFor(ref), cashC = state.window === "common" ? (EUR() ? DATA.eur.cash_cagr_common : DATA.cash_cagr_common) : null;
     const W = Math.max(300, Math.round(host.clientWidth - 24) || 760), H = Math.round(Math.min(420, Math.max(260, W * .5)));
     const m = { t: 22, r: 16, b: 40, l: 46 };
     const xs = pts.map(p => -p.st.max_dd), ys = pts.map(p => p.st.cagr);
@@ -991,7 +1068,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
   }
 
   function renderUcits() {
-    const order = ["SPY", "IVV", "VTI", "QQQ", "IWM", "IWN", "EFA", "VEA", "ACWX", "VGK", "EWJ", "SCZ", "EEM", "VWO", "VNQ", "RWX", "REM",
+    const order = ["ACWI", "SPY", "IVV", "IVE", "VTI", "QQQ", "IWM", "IWN", "EFA", "VEA", "ACWX", "VGK", "EWJ", "SCZ", "EEM", "VWO", "VNQ", "RWX", "REM",
       "GLD", "DBC", "GSG", "TLT", "IEF", "SHY", "SHV", "BIL", "TIP", "AGG", "BND", "LQD", "HYG", "BWX",
       "XLB", "XLE", "XLF", "XLI", "XLK", "XLP", "XLU", "XLV", "XLY"];
     const names = DATA.etf_names;
@@ -1023,6 +1100,112 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       .catch(() => { app.innerHTML = `<p class="err">Impossible de charger la page Méthode.</p>`; });
   }
 
+  // ---------- fil d'Ariane, historique, comparateur ----------
+  function crumbs(items) {
+    return `<nav class="crumbs" aria-label="Fil d'Ariane">${items.map(([u, t], k) =>
+      u ? `<a href="${u}">${esc(t)}</a>` : `<span aria-current="page">${esc(t)}</span>`).join('<span class="sep" aria-hidden="true">›</span>')}</nav>`;
+  }
+  const cmpHref = ids => PATH_MODE ? `${BASE}comparer/?s=${ids.join(",")}` : `#comparer=${ids.join(",")}`;
+  function compareDefault(s) {
+    const kin = DATA.strategies.find(x => x.family === s.family && x.id !== s.id && !isRef(x));
+    return kin ? kin.id : (s.id === REF().id ? (BY_ID.spy && s.id !== "spy" ? "spy" : "6040") : REF().id);
+  }
+  function historyPanel(s) {
+    if (s.family === "Statique" || isRef(s)) return "";
+    const h = s.signal_history || {}, ms = Object.keys(h).sort().reverse();
+    if (ms.length < 2) return "";
+    let n = 0;
+    const rows = ms.map((m, k) => {
+      const prev = h[ms[k + 1]], ch = prev && !sameW(h[m], prev);
+      if (ch) n++;
+      return `<tr class="${ch ? "chg" : ""}"><td>${mLabel(m)}</td><td class="alloc-txt">${esc(allocText(h[m]))}</td></tr>`;
+    }).join("");
+    return `<section class="panel"><h2>Historique des signaux</h2>
+      <p class="sub">${n ? `${n} changement${n > 1 ? "s" : ""}` : "Aucun changement"} sur les ${ms.length - 1} derniers mois. En gras : le mois où l'allocation a changé.</p>
+      <table class="hist"><thead><tr><th scope="col">Mois</th><th scope="col">Allocation</th></tr></thead><tbody>${rows}</tbody></table></section>`;
+  }
+
+  const CMP_COLORS = ["var(--accent)", "var(--pub)", "var(--pos)"];
+  function cmpIdsFromUrl() {
+    const raw = PATH_MODE ? new URLSearchParams(location.search).get("s") : (location.hash.split("=")[1] || "");
+    let ids = [...new Set((raw || "").split(",").filter(id => BY_ID[id]))].slice(0, 3);
+    for (const d of ["gem", "permanent", "6040", "spy"]) { if (ids.length >= 2) break; if (BY_ID[d] && !ids.includes(d)) ids.push(d); }
+    return ids;
+  }
+  function renderCompare() {
+    const host = document.getElementById("cmp-tool") || app;
+    const ids = state.cmp || (state.cmp = cmpIdsFromUrl());
+    const ss = ids.map(id => BY_ID[id]);
+    const P = ss.map(s => equityPoints(s));
+    let i0 = Math.max(...P.map(p => p[0].i)), i1 = Math.min(...P.map(p => p[p.length - 1].i));
+    if (state.window === "common") i0 = Math.max(i0, mIdx(DATA.common_window[0]) - 1);
+    const series = ss.map((s, k) => ({ name: s.name, color: CMP_COLORS[k], pts: rebase(slice(P[k], i0, i1)), width: 2 }));
+    const ms = series.map(x => miniStats(x.pts));
+    const R = series.map(x => monthlyReturns(x.pts).map(q => q.r));
+    const corr = (a, b) => { const n = a.length, ma = a.reduce((x, y) => x + y, 0) / n, mb = b.reduce((x, y) => x + y, 0) / n;
+      let c = 0, va = 0, vb = 0; for (let k = 0; k < n; k++) { c += (a[k] - ma) * (b[k] - mb); va += (a[k] - ma) ** 2; vb += (b[k] - mb) ** 2; }
+      return c / Math.sqrt(va * vb); };
+    const pairs = []; for (let a = 0; a < ss.length; a++) for (let b = a + 1; b < ss.length; b++) pairs.push(`${esc(ss[a].name)} et ${esc(ss[b].name)} : <b>${nf(2).format(corr(R[a], R[b]))}</b>`);
+    const byName = DATA.strategies.slice().sort((a, b) => a.name.localeCompare(b.name, "fr"));
+    const sel = k => `<label class="cmp-sel"><span><i style="background:${CMP_COLORS[k]}"></i>Stratégie ${"ABC"[k]}</span>
+      <select data-k="${k}">${k === 2 ? `<option value="">— aucune —</option>` : ""}${byName.map(s => `<option value="${s.id}"${s.id === ids[k] ? " selected" : ""}>${esc(s.name)}</option>`).join("")}</select></label>`;
+    const years = new Map();
+    series.forEach((x, k) => annual(x.pts).forEach(y => { if (!years.has(y.y)) years.set(y.y, []); years.get(y.y)[k] = y; }));
+    const yrows = [...years.entries()].sort((a, b) => b[0] - a[0]).map(([y, arr]) =>
+      `<tr><td>${y}${arr.some(v => v && !v.full) ? "*" : ""}</td>${series.map((_, k) => `<td class="num ${cls(arr[k]?.r)}">${arr[k] ? pct(arr[k].r, 1, true) : "—"}</td>`).join("")}</tr>`).join("");
+    const nm = DATA.strategies[0].next_signal.for_month;
+    const row = (label, f) => `<tr><th scope="row">${label}</th>${ss.map((s, k) => `<td class="num">${f(ms[k], s)}</td>`).join("")}</tr>`;
+    const [c0, c1] = DATA.common_window;
+    host.innerHTML = `
+      ${host === app ? `<section class="doc"><h1>Comparer des stratégies</h1><p class="lede">Choisissez deux ou trois stratégies : courbes, pires baisses et années côte à côte, sur la période où toutes sont disponibles.</p></section>` : ""}
+      <div class="cmp-sels">${sel(0)}${sel(1)}${sel(2)}</div>
+      <div class="controls" style="border-top:0">
+        <div class="seg" role="group" aria-label="Période">
+          <button type="button" data-win="common" aria-pressed="${state.window === "common"}">Période commune<span class="sub">${c0.slice(0, 4)}–${c1.slice(0, 4)}</span></button>
+          <button type="button" data-win="full" aria-pressed="${state.window === "full"}">Le plus long possible</button>
+        </div>
+        ${ccySeg()}
+      </div>
+      ${ccyNote()}
+      <p class="sub cmp-period">De ${mLabel(mStr(i0 + 1))} à ${mLabel(mStr(i1))}, frais inclus.</p>
+      <div class="table-scroll"><table class="cmp-table">
+        <thead><tr><th scope="col"></th>${ss.map((s, k) => `<th scope="col"><i class="sw" style="background:${CMP_COLORS[k]}"></i><a href="${href(s.id)}">${esc(s.name)}</a></th>`).join("")}</tr></thead>
+        <tbody>
+          ${row("Rendement annuel", m => pct(m.cagr, 1))}
+          ${row("Volatilité", m => pct(m.vol, 1))}
+          ${row("Pire baisse", m => `<span class="neg">${pct(m.max_dd, 1)}</span>`)}
+          ${row("Plus longue période sous l'eau", m => uwText(m))}
+          ${row("Pire année", m => pct(m.worst_year, 1, true))}
+          ${row(`Signal ${mLabel(nm)}`, (m, s) => `<span class="alloc-txt">${esc(s.family === "Statique" ? "Allocation fixe" : allocText(s.next_signal.weights))}</span>`)}
+        </tbody></table></div>
+      <p class="sub">Corrélation des rendements mensuels (1 : évoluent ensemble, 0 : sans lien) : ${pairs.join(" · ")}.</p>
+      <div class="grid-2 cmp-grid"><div class="stack">
+        <section class="panel"><h2>Croissance de 1 ${CUR()}</h2>
+          <div class="legend">${series.map(x => `<span><i style="background:${x.color}"></i>${esc(x.name)}</span>`).join("")}</div>
+          <div id="cmp-eq"></div></section>
+        <section class="panel"><h2>Baisses depuis le sommet</h2><div id="cmp-dd"></div></section>
+      </div><div class="stack">
+        <section class="panel"><h2>Rendement par année</h2>
+          <table class="metrics cmp-years"><thead><tr><th scope="col"></th>${series.map(x => `<th scope="col"><i class="sw" style="background:${x.color}"></i></th>`).join("")}</tr></thead><tbody>${yrows}</tbody></table>
+          <p class="sub" style="margin:0">* année incomplète.</p></section>
+      </div></div>`;
+    timeChart(document.getElementById("cmp-eq"), { series, log: true, height: 300,
+      yfmt: v => nf(v < 1 ? 2 : v % 1 ? 1 : 0).format(v) + " " + CUR(), tipFmt: v => nf(2).format(v) + " " + CUR() });
+    const dd = pts => { let p = -Infinity; return pts.map(q => { p = Math.max(p, q.v); return { i: q.i, v: q.v / p - 1 }; }); };
+    timeChart(document.getElementById("cmp-dd"), { series: series.map(x => ({ ...x, pts: dd(x.pts), width: 1.5 })), area: true, height: 200,
+      yfmt: v => nf(0).format(v * 100) + " %", tipFmt: v => pct(v, 1) });
+    host.querySelectorAll("select[data-k]").forEach(el => el.onchange = () => {
+      const next = [...host.querySelectorAll("select[data-k]")].map(x => x.value).filter(Boolean);
+      state.cmp = [...new Set(next)];
+      if (state.cmp.length < 2) state.cmp.push(compareDefault(BY_ID[state.cmp[0]]));
+      try { history.replaceState(null, "", cmpHref(state.cmp)); } catch (e) {}
+      renderCompare();
+    });
+    host.querySelectorAll("[data-win]").forEach(b => b.onclick = () => { state.window = b.dataset.win;
+      try { localStorage.setItem("esl-window", state.window); } catch (e) {} renderCompare(); });
+    bindCcy(renderCompare);
+  }
+
   // ---------- vue fiche ----------
   function renderSheet(s) {
     const pts = equityPoints(s);
@@ -1050,19 +1233,22 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     const [c0, c1] = DATA.common_window;
 
     app.innerHTML = `
-      <a class="back" href="${href("")}">← Toutes les stratégies</a>
+      ${crumbs([[href(""), "Stratégies"], ...(PATH_MODE && FAMILY_PAGES[s.family] ? [[BASE + FAMILY_PAGES[s.family][0], FAMILY_PAGES[s.family][1]]] : []), [null, s.name]])}
       <section class="sheet-head">
         <div class="byline">${famChip(s.family)}<span>${esc(s.author || "")}</span></div>
         <h1>${esc(s.name)}</h1>
         <p class="lede">${esc(s.note || "")}</p>
+        <p class="cmp-cta"><a href="${cmpHref([s.id, compareDefault(s)])}">Comparer avec une autre stratégie →</a></p>
       </section>
       <div class="controls" style="border-top:0">
         <div class="seg" role="group" aria-label="Période">
           <button type="button" data-win="common" aria-pressed="${state.window === "common"}">Période commune<span class="sub">${c0.slice(0, 4)}–${c1.slice(0, 4)}</span></button>
           <button type="button" data-win="full" aria-pressed="${state.window === "full"}">Historique complet<span class="sub">depuis ${pts[1] ? mStr(pts[1].i).slice(0, 4) : ""}</span></button>
         </div>
+        ${ccySeg()}
         <div class="bench-pick"><span>Comparer à :</span>${benchSeg()}</div>
       </div>
+      ${ccyNote()}
       <div class="tiles">
         <div class="tile"><span class="k">CAGR</span><span class="v">${pct(st.cagr, 1)}</span>${cmp("Rendement annualisé", b?.cagr, v => pct(v, 1))}</div>
         <div class="tile"><span class="k">Temps de récupération</span><span class="v">${uwText(st)}</span>${b ? `<span class="cmp">${esc(BN())}${refTag} : <span class="num">${uwText(b)}</span></span>` : `<span class="cmp">Plus longue période sous un sommet</span>`}</div>
@@ -1072,7 +1258,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       <div class="grid-2">
         <div class="stack">
           <section class="panel">
-            <h2>Croissance de 1 $</h2>
+            <h2>Croissance de 1 ${CUR()}</h2>
             <p class="sub">Échelle logarithmique : une même pente correspond au même rendement, quelle que soit l'année.</p>
             <div class="legend"><span><i style="background:var(--accent)"></i>${esc(s.name)}</span>${spyPts ? `<span><i style="background:var(--bench)"></i>${esc(BN())}</span>` : ""}${pubI && pubI > base[0].i && pubI < base[base.length - 1].i ? `<span><i class="box" style="background:var(--pub-soft);outline:1px dashed var(--pub)"></i>Après publication</span>` : ""}</div>
             <div id="c-eq"></div>
@@ -1113,6 +1299,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
               <span class="nm">${k === "CASH" ? "T-bills (BIL)" : esc(names[k] || "")}</span></div>`).join("")}
             </div>
           </section>
+          ${historyPanel(s)}
           <section class="panel">
             <h2>Règles</h2>
             <ol class="rules">${rules.map(r => `<li>${rich(r)}</li>`).join("")}</ol>
@@ -1147,7 +1334,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
                 ["Mois positifs", x => pct(x.pct_pos_months, 0)],
                 ["Pire 5 ans (annualisé)", x => pct(x.roll5_min, 1, true)],
                 ["Pire 10 ans (annualisé)", x => pct(x.roll10_min, 1, true)],
-              ].map(([l, f]) => `<tr><td>${l}</td><td class="num">${f(s.stats_common)}</td><td class="num">${f(s.stats_full)}</td></tr>`).join("")}</tbody>
+              ].map(([l, f]) => `<tr><td>${l}</td><td class="num">${f(src(s).stats_common)}</td><td class="num">${f(src(s).stats_full)}</td></tr>`).join("")}</tbody>
             </table>
           </section>
         </div>
@@ -1157,8 +1344,8 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     if (spyPts) series.push({ name: BN(), color: "var(--bench)", pts: spyPts, width: 1.6 });
     timeChart(document.getElementById("c-eq"), {
       series, log: true, height: 300,
-      yfmt: v => nf(v < 1 ? 2 : v % 1 ? 1 : 0).format(v) + " $",
-      tipFmt: v => nf(2).format(v) + " $",
+      yfmt: v => nf(v < 1 ? 2 : v % 1 ? 1 : 0).format(v) + " " + CUR(),
+      tipFmt: v => nf(2).format(v) + " " + CUR(),
       marker: pubI ? { i: pubI, label: `Publication ${published.slice(0, 4)}` } : null,
     });
     const dd = pts => { let p = -Infinity; return pts.map(q => { p = Math.max(p, q.v); return { i: q.i, v: q.v / p - 1 }; }); };
@@ -1171,6 +1358,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     annualBars(document.getElementById("c-yr"), annual(base), spyPts ? annual(spyPts) : [], s.name, BN());
     drawRolling(s, base, spyPts);
     bindBench(() => renderSheet(s));
+    bindCcy(() => renderSheet(s));
 
     app.querySelectorAll("[data-win]").forEach(b => b.onclick = () => { state.window = b.dataset.win;
       try { localStorage.setItem("esl-window", state.window); } catch (e) {} renderSheet(s); });
@@ -1210,9 +1398,10 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
     if (id === "methode") { renderMethod(); setTitle("Méthode · ETF Strategy Lab"); top(); }
     else if (id === "ucits" && UCITS) { renderUcits(); setTitle("Équivalents UCITS · ETF Strategy Lab"); top(); }
     else if (id === "signaux") { app.innerHTML = `<section class="doc"><h1>Signaux du mois</h1><p class="lede">Cette page est générée avec le site publié : <a href="/signaux/">voir les signaux du mois</a>.</p></section>`; top(); }
+    else if (id.startsWith("comparer")) { if (id.includes("=")) state.cmp = null; renderCompare(); setTitle("Comparer des stratégies · ETF Strategy Lab"); top(); }
     else if (id && BY_ID[id]) { renderSheet(BY_ID[id]); setTitle(`${BY_ID[id].name} · ETF Strategy Lab`); top(); }
     else { renderBoard(); if (!PATH_MODE) document.title = "ETF Strategy Lab"; }
-    document.querySelectorAll("[data-nav]").forEach(a => a.toggleAttribute("aria-current", a.dataset.nav === (["methode", "ucits", "signaux"].includes(id) ? id : "")));
+    document.querySelectorAll("[data-nav]").forEach(a => a.toggleAttribute("aria-current", a.dataset.nav === (["methode", "ucits", "signaux"].includes(id) ? id : id.startsWith("comparer") ? "comparer" : "")));
     document.querySelectorAll("[data-nav]").forEach(a => { if (a.hasAttribute("aria-current")) a.setAttribute("aria-current", "page"); });
   }
 

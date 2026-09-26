@@ -1,24 +1,32 @@
 {
-  "generated_at": "2026-09-26T10:39:36+00:00",
+  "generated_at": "2026-09-26T16:44:38+00:00",
   "source": "yfinance, cours ajustés (dividendes réinvestis, splits corrigés)",
   "common_window_start": "2008-05",
   "etfs": {
-    "ACWI": {
-      "name": "iShares MSCI ACWI",
-      "class": "Actions mondiales",
-      "first_month": "2008-04",
+    "IVE": {
+      "name": "iShares S&P 500 Value",
+      "class": "Actions US",
+      "first_month": "2000-06",
       "last_month": "2026-08",
-      "months": 221,
+      "months": 315,
       "last_price_date": "2026-09-25",
       "source": "yfinance"
     },
-    "TBILL": {
-      "name": "T-bills 3 mois (FRED TB3MS)",
-      "class": "Cash",
-      "first_month": "1990-01",
+    "EURUSD": {
+      "name": "Euro en dollars (FRED DEXUSEU) : variation mensuelle de l'euro face au dollar",
+      "class": "Euro",
+      "first_month": "1999-02",
       "last_month": "2026-08",
-      "months": 440,
-      "source": "FRED TB3MS"
+      "months": 331,
+      "source": "FRED DEXUSEU"
+    },
+    "EUR3M": {
+      "name": "Taux interbancaire 3 mois zone euro (FRED) : cash en euros",
+      "class": "Euro",
+      "first_month": "1994-02",
+      "last_month": "2026-08",
+      "months": 391,
+      "source": "FRED IR3TIB01EZM156N"
     }
   }
 }
