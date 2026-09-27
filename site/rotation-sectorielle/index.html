@@ -429,6 +429,7 @@ table.sig-table, table.fam-table { width: 100%; border-collapse: collapse; font-
 .support p { margin: 0; }
 .support b { color: var(--ink); }
 .support-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.support .tools { font-size: 12.5px; color: var(--ink-3); border-top: 1px dashed var(--rule-soft); padding-top: 8px; }
 .btn { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 8px; background: var(--accent); color: #fff; font-weight: 500; font-size: 13.5px; text-decoration: none; }
 .btn:hover { filter: brightness(1.08); }
 .btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
@@ -555,7 +556,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
       <p class="note-under">Période commune de juil. 2008 à août 2026, frais inclus, du meilleur au moins bon Sharpe. Dernière ligne, pour comparaison : les actions mondiales (8,8 % par an, pire baisse -45,8 %).</p>
       <section class="doc">
         <h2>Ce qu'il faut savoir</h2>
-        <ul><li>Le portefeuille reste 100 % actions américaines : ce n&#x27;est pas une stratégie de diversification entre classes d&#x27;actifs.</li><li>Les secteurs d&#x27;un même marché sont très corrélés : dans un krach, ils baissent presque tous ensemble.</li><li>Les ETF sectoriels existent en version UCITS, mais leurs indices ne sont pas toujours identiques aux secteurs SPDR américains.</li><li>La comparaison des deux versions est un cas d&#x27;école du prix d&#x27;une assurance contre les krachs.</li></ul>
+        <ul><li>Le portefeuille reste 100 % actions américaines : ce n&#x27;est pas une stratégie de diversification entre classes d&#x27;actifs.</li><li>Les secteurs d&#x27;un même marché sont très corrélés : dans un krach, ils baissent presque tous ensemble.</li><li>Les ETF sectoriels existent en version UCITS, mais leurs indices ne sont pas toujours identiques aux secteurs SPDR américains.</li><li>La comparaison des deux versions est un cas d&#x27;école du prix d&#x27;une assurance contre les krachs.</li><li>Ici, les secteurs sont choisis sur leurs performances récentes. Une autre approche consiste à les choisir selon le contexte économique (croissance, inflation, récession) : c&#x27;est ce que fait <a href="https://macroetf.com" target="_blank" rel="noopener">MacroETF</a>, qui propose une allocation sectorielle adaptée au régime macroéconomique du moment.</li></ul>
         <h2>Les autres familles</h2>
         <p><a href="/portefeuilles-fixes/">Portefeuilles fixes</a> · <a href="/momentum/">Stratégies momentum</a> · <a href="/suivi-de-tendance/">Suivi de tendance</a> · <a href="/strategies-keller/">Stratégies de Keller</a></p>
       </section></main>
@@ -566,6 +567,7 @@ footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--rule);
         <a class="btn" href="https://investir.blog/subscribe">Recevoir la newsletter</a>
         <a class="btn ghost" href="https://ko-fi.com/nathanaeldumortier" rel="noopener">Offrir un café sur Ko-fi</a>
       </div>
+      <p class="tools">Autres outils gratuits : <a href="https://macroetf.com">MacroETF</a> (secteurs selon le régime économique) · <a href="https://rotationshield.be">RotationShield</a> (signal actions ou cash) · <a href="https://momentumstatic.netlify.app">MomentumStatic</a> (rotation momentum entre ETF) · <a href="https://hodlometre.com">HODLomètre</a> (cycle du Bitcoin)</p>
     </div>
     <div>Backtests sur des ETF américains, calculés en dollars US (vue en euros disponible), dividendes réinvestis, frais de transaction inclus, avant impôts. Les performances passées ne préjugent pas des performances futures. Ceci n'est pas un conseil en investissement.</div>
     <div>Données : cours ajustés yfinance, contrôlés contre les NAV officielles iShares. <a href="/methode/">Méthode et limites</a> · <a href="/equivalents-ucits/">Équivalents UCITS</a> · <a href="/mentions-legales/">Mentions légales</a></div>

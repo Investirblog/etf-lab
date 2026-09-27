@@ -249,7 +249,7 @@
       "Toujours 100 % en actions : les krachs passent quasiment intégralement (-34 % en 2008-2009).",
       "Concentration sur 3 secteurs et rotation mensuelle élevée."
     ],
-    "a_savoir": "Faber a testé plusieurs durées de momentum (de 1 à 12 mois) ; cette version sur 3 mois est celle que décrit StockCharts."
+    "a_savoir": "Faber a testé plusieurs durées de momentum (de 1 à 12 mois) ; cette version sur 3 mois est celle que décrit StockCharts. Pour choisir les secteurs selon le régime économique plutôt que selon le momentum, voir [MacroETF](https://macroetf.com)."
   },
   "sector_rot_trend": {
     "idee": "La même [rotation sectorielle](strategie:sector_rot), mais tout passe en cash quand le S&P 500 est sous sa moyenne des 10 derniers mois.",

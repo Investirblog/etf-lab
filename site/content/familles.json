@@ -77,7 +77,8 @@
       "Le portefeuille reste 100 % actions américaines : ce n'est pas une stratégie de diversification entre classes d'actifs.",
       "Les secteurs d'un même marché sont très corrélés : dans un krach, ils baissent presque tous ensemble.",
       "Les ETF sectoriels existent en version UCITS, mais leurs indices ne sont pas toujours identiques aux secteurs SPDR américains.",
-      "La comparaison des deux versions est un cas d'école du prix d'une assurance contre les krachs."
+      "La comparaison des deux versions est un cas d'école du prix d'une assurance contre les krachs.",
+      "Ici, les secteurs sont choisis sur leurs performances récentes. Une autre approche consiste à les choisir selon le contexte économique (croissance, inflation, récession) : c'est ce que fait [MacroETF](https://macroetf.com), qui propose une allocation sectorielle adaptée au régime macroéconomique du moment."
     ]
   }
 }
