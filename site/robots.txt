@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://laboetf.netlify.app/sitemap.xml
+Sitemap: https://laboetf.eu/sitemap.xml
