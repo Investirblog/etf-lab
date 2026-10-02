@@ -1,482 +1,482 @@
 {
-  "_source": "ISIN, tickers et frais vérifiés sur justETF le 26/09/2026. Match : 'meme' = même indice ou quasi identique, 'proche' = exposition comparable avec un indice différent, 'aucun' = pas d'équivalent UCITS satisfaisant.",
-  "_funds": {
-    "SSAC": {
-      "name": "iShares MSCI All Country World UCITS ETF USD (Acc)",
-      "isin": "IE00B6R52259",
-      "tickers": "SSAC (Amsterdam) · ISAC (Londres) · IUSQ (Xetra)",
-      "ter": 0.2
-    },
-    "CSPX": {
-      "name": "iShares Core S&P 500 UCITS ETF USD (Acc)",
-      "isin": "IE00B5BMR087",
-      "tickers": "CSPX (Amsterdam, Londres) · SXR8 (Xetra)",
-      "ter": 0.07
-    },
-    "CNDX": {
-      "name": "iShares Nasdaq 100 UCITS ETF (Acc)",
-      "isin": "IE00B53SZB19",
-      "tickers": "CNDX (Amsterdam, Londres) · SXRV (Xetra)",
-      "ter": 0.3
-    },
-    "R2US": {
-      "name": "SPDR Russell 2000 U.S. Small Cap UCITS ETF",
-      "isin": "IE00BJ38QD84",
-      "tickers": "R2US (Paris, Londres) · ZPRR (Xetra)",
-      "ter": 0.3
-    },
-    "ZPRV": {
-      "name": "SPDR MSCI USA Small Cap Value Weighted UCITS ETF",
-      "isin": "IE00BSPLC413",
-      "tickers": "ZPRV (Xetra) · USSC (Londres)",
-      "ter": 0.3
-    },
-    "IXUA": {
-      "name": "iShares MSCI World ex-USA UCITS ETF USD (Acc)",
-      "isin": "IE000R4ZNTN3",
-      "tickers": "XUSE (Amsterdam, Londres) · IXUA (Xetra)",
-      "ter": 0.15
-    },
-    "IMAE": {
-      "name": "iShares Core MSCI Europe UCITS ETF EUR (Acc)",
-      "isin": "IE00B4K48X80",
-      "tickers": "IMAE (Amsterdam) · EUNK (Xetra)",
-      "ter": 0.12
-    },
-    "IJPA": {
-      "name": "iShares Core MSCI Japan IMI UCITS ETF",
-      "isin": "IE00B4L5YX21",
-      "tickers": "IJPA (Amsterdam, Londres) · EUNN (Xetra)",
-      "ter": 0.12
-    },
-    "IUSN": {
-      "name": "iShares MSCI World Small Cap UCITS ETF",
-      "isin": "IE00BF4RFH31",
-      "tickers": "WSML (Londres) · IUSN (Xetra)",
-      "ter": 0.35
-    },
-    "EIMI": {
-      "name": "iShares Core MSCI Emerging Markets IMI UCITS ETF (Acc)",
-      "isin": "IE00BKM4GZ66",
-      "tickers": "EMIM (Amsterdam) · EIMI (Londres) · IS3N (Xetra)",
-      "ter": 0.18
-    },
-    "IUSP": {
-      "name": "iShares US Property Yield UCITS ETF",
-      "isin": "IE00B1FZSF77",
-      "tickers": "IUSP (Amsterdam) · IQQ7 (Xetra)",
-      "ter": 0.4
-    },
-    "IWDP": {
-      "name": "iShares Developed Markets Property Yield UCITS ETF",
-      "isin": "IE00B1FZS350",
-      "tickers": "IWDP (Amsterdam, Londres) · IQQ6 (Xetra)",
-      "ter": 0.59
-    },
-    "SGLN": {
-      "name": "iShares Physical Gold ETC",
-      "isin": "IE00B4ND3602",
-      "tickers": "SGLN (Milan, Londres) · PPFB (Xetra)",
-      "ter": 0.12
-    },
-    "ICOM": {
-      "name": "iShares Diversified Commodity Swap UCITS ETF",
-      "isin": "IE00BDFL4P12",
-      "tickers": "ICOM (Londres) · SXRS (Xetra)",
-      "ter": 0.19
-    },
-    "DTLA": {
-      "name": "iShares USD Treasury Bond 20+yr UCITS ETF USD (Acc)",
-      "isin": "IE00BFM6TC58",
-      "tickers": "DTLA (Amsterdam, Londres) · SXRC (gettex)",
-      "ter": 0.07
-    },
-    "CBU0": {
-      "name": "iShares USD Treasury Bond 7-10yr UCITS ETF (Acc)",
-      "isin": "IE00B3VWN518",
-      "tickers": "CBU0 (Londres) · SXRM (Xetra)",
-      "ter": 0.07
-    },
-    "IBTS": {
-      "name": "iShares USD Treasury Bond 1-3yr UCITS ETF (Dist)",
-      "isin": "IE00B14X4S71",
-      "tickers": "IBTS (Amsterdam) · IUSU (Xetra)",
-      "ter": 0.07
-    },
-    "IB01": {
-      "name": "iShares USD Treasury Bond 0-1yr UCITS ETF (Acc)",
-      "isin": "IE00BGSF1X88",
-      "tickers": "IB01 (Amsterdam, Londres) · IBC1 (gettex)",
-      "ter": 0.07
-    },
-    "ITPS": {
-      "name": "iShares USD TIPS UCITS ETF USD (Acc)",
-      "isin": "IE00B1FZSC47",
-      "tickers": "TPSA (Amsterdam) · IDTP (Londres) · IUST (Xetra)",
-      "ter": 0.1
-    },
-    "IUAA": {
-      "name": "iShares US Aggregate Bond UCITS ETF (Acc)",
-      "isin": "IE00BYXYYM63",
-      "tickers": "IUAA (Londres) · IS03 (gettex)",
-      "ter": 0.25
-    },
-    "LQDE": {
-      "name": "iShares USD Corporate Bond UCITS ETF (Dist)",
-      "isin": "IE0032895942",
-      "tickers": "LQDA (Amsterdam) · LQDE (Londres) · IBCD (Xetra)",
-      "ter": 0.2
-    },
-    "IHYU": {
-      "name": "iShares USD High Yield Corporate Bond UCITS ETF (Dist)",
-      "isin": "IE00B4PY7Y77",
-      "tickers": "IHYU (Amsterdam, Londres) · IS0R (Xetra)",
-      "ter": 0.5
-    },
-    "IGLO": {
-      "name": "iShares Global Government Bond UCITS ETF USD (Dist)",
-      "isin": "IE00B3F81K65",
-      "tickers": "IGLO (Londres) · EUN3 (Xetra)",
-      "ter": 0.2
-    },
-    "ZPDM": {
-      "name": "SPDR S&P U.S. Materials Select Sector UCITS ETF",
-      "isin": "IE00BWBXM831",
-      "tickers": "ZPDM (Xetra)",
-      "ter": 0.15
-    },
-    "ZPDE": {
-      "name": "SPDR S&P U.S. Energy Select Sector UCITS ETF",
-      "isin": "IE00BWBXM492",
-      "tickers": "ZPDE (Xetra)",
-      "ter": 0.15
-    },
-    "ZPDF": {
-      "name": "SPDR S&P U.S. Financials Select Sector UCITS ETF",
-      "isin": "IE00BWBXM500",
-      "tickers": "ZPDF (Xetra)",
-      "ter": 0.15
-    },
-    "ZPDI": {
-      "name": "SPDR S&P U.S. Industrials Select Sector UCITS ETF",
-      "isin": "IE00BWBXM724",
-      "tickers": "ZPDI (Xetra)",
-      "ter": 0.15
-    },
-    "ZPDT": {
-      "name": "SPDR S&P U.S. Technology Select Sector UCITS ETF",
-      "isin": "IE00BWBXM948",
-      "tickers": "ZPDT (Xetra) · SXLK (Londres)",
-      "ter": 0.15
-    },
-    "ZPDS": {
-      "name": "SPDR S&P U.S. Consumer Staples Select Sector UCITS ETF",
-      "isin": "IE00BWBXM385",
-      "tickers": "ZPDS (Xetra)",
-      "ter": 0.15
-    },
-    "ZPDU": {
-      "name": "SPDR S&P U.S. Utilities Select Sector UCITS ETF",
-      "isin": "IE00BWBXMB69",
-      "tickers": "ZPDU (Xetra) · SXLU (Londres)",
-      "ter": 0.15
-    },
-    "ZPDH": {
-      "name": "SPDR S&P U.S. Health Care Select Sector UCITS ETF",
-      "isin": "IE00BWBXM617",
-      "tickers": "ZPDH (Xetra)",
-      "ter": 0.15
-    },
-    "ZPDD": {
-      "name": "SPDR S&P U.S. Consumer Discretionary Select Sector UCITS ETF",
-      "isin": "IE00BWBXM278",
-      "tickers": "ZPDD (Xetra)",
-      "ter": 0.15
-    },
-    "IUVL": {
-      "name": "iShares Edge MSCI USA Value Factor UCITS ETF (Acc)",
-      "isin": "IE00BD1F4M44",
-      "tickers": "IUVL (Londres) · QDVI (Xetra)",
-      "ter": 0.2
-    }
+ "_source": "ISIN, tickers et frais vérifiés sur justETF le 02/10/2026. Match : 'meme' = même indice ou quasi identique, 'proche' = exposition comparable avec un indice différent, 'aucun' = pas d'équivalent UCITS satisfaisant.",
+ "_funds": {
+  "SSAC": {
+   "name": "iShares MSCI All Country World UCITS ETF USD (Acc)",
+   "isin": "IE00B6R52259",
+   "tickers": "SSAC (Amsterdam) · ISAC (Londres) · IUSQ (Xetra)",
+   "ter": 0.2
   },
-  "map": {
-    "ACWI": {
-      "funds": [
-        "SSAC"
-      ],
-      "match": "meme"
-    },
-    "SPY": {
-      "funds": [
-        "CSPX"
-      ],
-      "match": "meme"
-    },
-    "IVV": {
-      "funds": [
-        "CSPX"
-      ],
-      "match": "meme"
-    },
-    "VTI": {
-      "funds": [
-        "CSPX"
-      ],
-      "match": "proche",
-      "note": "S&P 500 au lieu du marché américain total : environ 80 % de la même capitalisation, sans les petites et moyennes valeurs."
-    },
-    "QQQ": {
-      "funds": [
-        "CNDX"
-      ],
-      "match": "meme"
-    },
-    "IWM": {
-      "funds": [
-        "R2US"
-      ],
-      "match": "meme"
-    },
-    "IWN": {
-      "funds": [
-        "ZPRV"
-      ],
-      "match": "proche",
-      "note": "Indice MSCI USA Small Cap Value Weighted au lieu du Russell 2000 Value."
-    },
-    "EFA": {
-      "funds": [
-        "IXUA"
-      ],
-      "match": "proche",
-      "note": "MSCI World ex USA inclut le Canada, absent de l'EAFE. Fonds lancé en janvier 2025."
-    },
-    "VEA": {
-      "funds": [
-        "IXUA"
-      ],
-      "match": "proche",
-      "note": "MSCI World ex USA au lieu du FTSE Developed ex US. Fonds lancé en janvier 2025."
-    },
-    "ACWX": {
-      "funds": [
-        "IXUA",
-        "EIMI"
-      ],
-      "match": "proche",
-      "note": "Combiner les pays développés hors USA (environ trois quarts) et les émergents (environ un quart)."
-    },
-    "VGK": {
-      "funds": [
-        "IMAE"
-      ],
-      "match": "proche",
-      "note": "MSCI Europe au lieu du FTSE Developed Europe : exposition quasi identique."
-    },
-    "EWJ": {
-      "funds": [
-        "IJPA"
-      ],
-      "match": "proche",
-      "note": "MSCI Japan IMI : inclut aussi les petites capitalisations japonaises."
-    },
-    "SCZ": {
-      "funds": [
-        "IUSN"
-      ],
-      "match": "proche",
-      "note": "Pas d'équivalent UCITS pour les petites capitalisations hors USA : cet indice inclut aussi les américaines, majoritaires."
-    },
-    "EEM": {
-      "funds": [
-        "EIMI"
-      ],
-      "match": "proche",
-      "note": "Version IMI : inclut aussi les petites capitalisations émergentes."
-    },
-    "VWO": {
-      "funds": [
-        "EIMI"
-      ],
-      "match": "proche",
-      "note": "MSCI Emerging Markets IMI au lieu du FTSE Emerging : MSCI classe la Corée du Sud parmi les émergents, FTSE non. Le fonds UCITS en contient donc, VWO pas."
-    },
-    "VNQ": {
-      "funds": [
-        "IUSP"
-      ],
-      "match": "proche",
-      "note": "Sélection de REIT américains à rendement élevé, pas l'ensemble du secteur."
-    },
-    "RWX": {
-      "funds": [
-        "IWDP"
-      ],
-      "match": "proche",
-      "note": "Immobilier coté des pays développés, États-Unis compris (RWX les exclut)."
-    },
-    "REM": {
-      "funds": [],
-      "match": "aucun",
-      "note": "Aucun ETF UCITS ne réplique les REIT hypothécaires américains."
-    },
-    "GLD": {
-      "funds": [
-        "SGLN"
-      ],
-      "match": "meme",
-      "note": "ETC adossé à de l'or physique (pas un fonds UCITS au sens strict)."
-    },
-    "DBC": {
-      "funds": [
-        "ICOM"
-      ],
-      "match": "proche",
-      "note": "Indice Bloomberg Commodity : moins concentré sur l'énergie que DBC."
-    },
-    "GSG": {
-      "funds": [
-        "ICOM"
-      ],
-      "match": "proche",
-      "note": "Indice Bloomberg Commodity : nettement moins d'énergie que le S&P GSCI."
-    },
-    "TLT": {
-      "funds": [
-        "DTLA"
-      ],
-      "match": "meme"
-    },
-    "IEF": {
-      "funds": [
-        "CBU0"
-      ],
-      "match": "meme"
-    },
-    "SHY": {
-      "funds": [
-        "IBTS"
-      ],
-      "match": "meme"
-    },
-    "SHV": {
-      "funds": [
-        "IB01"
-      ],
-      "match": "meme"
-    },
-    "BIL": {
-      "funds": [
-        "IB01"
-      ],
-      "match": "meme"
-    },
-    "CASH": {
-      "funds": [
-        "IB01"
-      ],
-      "match": "meme",
-      "note": "Le cash des stratégies correspond aux T-bills américains."
-    },
-    "TIP": {
-      "funds": [
-        "ITPS"
-      ],
-      "match": "meme"
-    },
-    "AGG": {
-      "funds": [
-        "IUAA"
-      ],
-      "match": "meme"
-    },
-    "BND": {
-      "funds": [
-        "IUAA"
-      ],
-      "match": "meme",
-      "note": "Bloomberg US Aggregate au lieu du US Aggregate Float Adjusted : quasi identique."
-    },
-    "LQD": {
-      "funds": [
-        "LQDE"
-      ],
-      "match": "meme"
-    },
-    "HYG": {
-      "funds": [
-        "IHYU"
-      ],
-      "match": "meme"
-    },
-    "BWX": {
-      "funds": [
-        "IGLO"
-      ],
-      "match": "proche",
-      "note": "Obligations d'État du G7, États-Unis compris (BWX les exclut)."
-    },
-    "XLB": {
-      "funds": [
-        "ZPDM"
-      ],
-      "match": "meme"
-    },
-    "XLE": {
-      "funds": [
-        "ZPDE"
-      ],
-      "match": "meme"
-    },
-    "XLF": {
-      "funds": [
-        "ZPDF"
-      ],
-      "match": "meme"
-    },
-    "XLI": {
-      "funds": [
-        "ZPDI"
-      ],
-      "match": "meme"
-    },
-    "XLK": {
-      "funds": [
-        "ZPDT"
-      ],
-      "match": "meme"
-    },
-    "XLP": {
-      "funds": [
-        "ZPDS"
-      ],
-      "match": "meme"
-    },
-    "XLU": {
-      "funds": [
-        "ZPDU"
-      ],
-      "match": "meme"
-    },
-    "XLV": {
-      "funds": [
-        "ZPDH"
-      ],
-      "match": "meme"
-    },
-    "XLY": {
-      "funds": [
-        "ZPDD"
-      ],
-      "match": "meme"
-    },
-    "IVE": {
-      "funds": [
-        "IUVL"
-      ],
-      "match": "proche",
-      "note": "Indice MSCI USA Enhanced Value (environ 150 actions, sélection plus concentrée) au lieu du S&P 500 Value."
-    }
+  "CSPX": {
+   "name": "iShares Core S&P 500 UCITS ETF USD (Acc)",
+   "isin": "IE00B5BMR087",
+   "tickers": "CSPX (Amsterdam, Londres) · SXR8 (Xetra)",
+   "ter": 0.07
+  },
+  "CNDX": {
+   "name": "iShares Nasdaq 100 UCITS ETF (Acc)",
+   "isin": "IE00B53SZB19",
+   "tickers": "CNDX (Amsterdam, Londres) · SXRV (Xetra)",
+   "ter": 0.3
+  },
+  "R2US": {
+   "name": "State Street SPDR Russell 2000 U.S. Small Cap UCITS ETF",
+   "isin": "IE00BJ38QD84",
+   "tickers": "R2US (Paris, Londres) · ZPRR (Xetra)",
+   "ter": 0.3
+  },
+  "ZPRV": {
+   "name": "State Street SPDR MSCI USA Small Cap Value Weighted UCITS ETF",
+   "isin": "IE00BSPLC413",
+   "tickers": "ZPRV (Xetra) · USSC (Londres)",
+   "ter": 0.3
+  },
+  "IXUA": {
+   "name": "iShares MSCI World ex-USA UCITS ETF USD (Acc)",
+   "isin": "IE000R4ZNTN3",
+   "tickers": "XUSE (Amsterdam, en USD ; Londres) · IXUA (Xetra)",
+   "ter": 0.15
+  },
+  "IMAE": {
+   "name": "iShares Core MSCI Europe UCITS ETF EUR (Acc)",
+   "isin": "IE00B4K48X80",
+   "tickers": "IMAE (Amsterdam) · EUNK (Xetra)",
+   "ter": 0.12
+  },
+  "IJPA": {
+   "name": "iShares Core MSCI Japan IMI UCITS ETF",
+   "isin": "IE00B4L5YX21",
+   "tickers": "IJPA (Amsterdam, Londres) · EUNN (Xetra)",
+   "ter": 0.12
+  },
+  "IUSN": {
+   "name": "iShares MSCI World Small Cap UCITS ETF",
+   "isin": "IE00BF4RFH31",
+   "tickers": "WSML (Londres) · IUSN (Xetra)",
+   "ter": 0.35
+  },
+  "EIMI": {
+   "name": "iShares Core MSCI Emerging Markets IMI UCITS ETF (Acc)",
+   "isin": "IE00BKM4GZ66",
+   "tickers": "EMIM (Amsterdam) · EIMI (Londres) · IS3N (Xetra)",
+   "ter": 0.18
+  },
+  "IUSP": {
+   "name": "iShares US Property Yield UCITS ETF (Dist)",
+   "isin": "IE00B1FZSF77",
+   "tickers": "IUSP (Amsterdam) · IQQ7 (Xetra)",
+   "ter": 0.4
+  },
+  "IWDP": {
+   "name": "iShares Developed Markets Property Yield UCITS ETF (Dist)",
+   "isin": "IE00B1FZS350",
+   "tickers": "IWDP (Amsterdam, Londres) · IQQ6 (Xetra)",
+   "ter": 0.59
+  },
+  "SGLN": {
+   "name": "iShares Physical Gold ETC",
+   "isin": "IE00B4ND3602",
+   "tickers": "SGLN (Milan, Londres) · PPFB (Xetra)",
+   "ter": 0.12
+  },
+  "ICOM": {
+   "name": "iShares Diversified Commodity Swap UCITS ETF",
+   "isin": "IE00BDFL4P12",
+   "tickers": "ICOM (Londres) · SXRS (Xetra)",
+   "ter": 0.19
+  },
+  "DTLA": {
+   "name": "iShares USD Treasury Bond 20+yr UCITS ETF USD (Acc)",
+   "isin": "IE00BFM6TC58",
+   "tickers": "DTLA (Londres) · SXRC (gettex)",
+   "ter": 0.07
+  },
+  "CBU0": {
+   "name": "iShares USD Treasury Bond 7-10yr UCITS ETF (Acc)",
+   "isin": "IE00B3VWN518",
+   "tickers": "CBU0 (Londres) · SXRM (Xetra)",
+   "ter": 0.07
+  },
+  "IBTS": {
+   "name": "iShares USD Treasury Bond 1-3yr UCITS ETF (Dist)",
+   "isin": "IE00B14X4S71",
+   "tickers": "IBTS (Amsterdam) · IUSU (Xetra)",
+   "ter": 0.07
+  },
+  "IB01": {
+   "name": "iShares USD Treasury Bond 0-1yr UCITS ETF (Acc)",
+   "isin": "IE00BGSF1X88",
+   "tickers": "IB01 (Londres) · IBC1 (gettex)",
+   "ter": 0.07
+  },
+  "ITPS": {
+   "name": "iShares USD TIPS UCITS ETF USD (Acc)",
+   "isin": "IE00B1FZSC47",
+   "tickers": "TPSA (Amsterdam) · IDTP (Londres) · IUST (Xetra)",
+   "ter": 0.1
+  },
+  "IUAA": {
+   "name": "iShares US Aggregate Bond UCITS ETF (Acc)",
+   "isin": "IE00BYXYYM63",
+   "tickers": "IUAA (Londres) · IS03 (gettex)",
+   "ter": 0.25
+  },
+  "LQDE": {
+   "name": "iShares USD Corporate Bond UCITS ETF (Dist)",
+   "isin": "IE0032895942",
+   "tickers": "LQDA (Amsterdam) · LQDE (Londres) · IBCD (Xetra)",
+   "ter": 0.2
+  },
+  "IHYU": {
+   "name": "iShares USD High Yield Corporate Bond UCITS ETF (Dist)",
+   "isin": "IE00B4PY7Y77",
+   "tickers": "IHYU (Londres, Milan) · IS0R (Xetra)",
+   "ter": 0.5
+  },
+  "IGLO": {
+   "name": "iShares Global Government Bond UCITS ETF USD (Dist)",
+   "isin": "IE00B3F81K65",
+   "tickers": "IGLO (Londres) · EUN3 (Xetra)",
+   "ter": 0.2
+  },
+  "ZPDM": {
+   "name": "State Street SPDR S&P U.S. Materials Select Sector UCITS ETF",
+   "isin": "IE00BWBXM831",
+   "tickers": "ZPDM (Xetra)",
+   "ter": 0.15
+  },
+  "ZPDE": {
+   "name": "State Street SPDR S&P U.S. Energy Select Sector UCITS ETF",
+   "isin": "IE00BWBXM492",
+   "tickers": "ZPDE (Xetra)",
+   "ter": 0.15
+  },
+  "ZPDF": {
+   "name": "State Street SPDR S&P U.S. Financials Select Sector UCITS ETF",
+   "isin": "IE00BWBXM500",
+   "tickers": "ZPDF (Xetra)",
+   "ter": 0.15
+  },
+  "ZPDI": {
+   "name": "State Street SPDR S&P U.S. Industrials Select Sector UCITS ETF",
+   "isin": "IE00BWBXM724",
+   "tickers": "ZPDI (Xetra)",
+   "ter": 0.15
+  },
+  "ZPDT": {
+   "name": "State Street SPDR S&P U.S. Technology Select Sector UCITS ETF",
+   "isin": "IE00BWBXM948",
+   "tickers": "ZPDT (Xetra) · SXLK (Londres)",
+   "ter": 0.15
+  },
+  "ZPDS": {
+   "name": "State Street SPDR S&P U.S. Consumer Staples Select Sector UCITS ETF",
+   "isin": "IE00BWBXM385",
+   "tickers": "ZPDS (Xetra)",
+   "ter": 0.15
+  },
+  "ZPDU": {
+   "name": "State Street SPDR S&P U.S. Utilities Select Sector UCITS ETF",
+   "isin": "IE00BWBXMB69",
+   "tickers": "ZPDU (Xetra) · SXLU (Londres)",
+   "ter": 0.15
+  },
+  "ZPDH": {
+   "name": "State Street SPDR S&P U.S. Health Care Select Sector UCITS ETF",
+   "isin": "IE00BWBXM617",
+   "tickers": "ZPDH (Xetra)",
+   "ter": 0.15
+  },
+  "ZPDD": {
+   "name": "State Street SPDR S&P U.S. Consumer Discretionary Select Sector UCITS ETF",
+   "isin": "IE00BWBXM278",
+   "tickers": "ZPDD (Xetra)",
+   "ter": 0.15
+  },
+  "IUVL": {
+   "name": "iShares Edge MSCI USA Value Factor UCITS ETF (Acc)",
+   "isin": "IE00BD1F4M44",
+   "tickers": "IUVL (Londres) · QDVI (Xetra)",
+   "ter": 0.2
   }
+ },
+ "map": {
+  "ACWI": {
+   "funds": [
+    "SSAC"
+   ],
+   "match": "meme"
+  },
+  "SPY": {
+   "funds": [
+    "CSPX"
+   ],
+   "match": "meme"
+  },
+  "IVV": {
+   "funds": [
+    "CSPX"
+   ],
+   "match": "meme"
+  },
+  "VTI": {
+   "funds": [
+    "CSPX"
+   ],
+   "match": "proche",
+   "note": "S&P 500 au lieu du marché américain total : environ 80 % de la même capitalisation, sans les petites et moyennes valeurs."
+  },
+  "QQQ": {
+   "funds": [
+    "CNDX"
+   ],
+   "match": "meme"
+  },
+  "IWM": {
+   "funds": [
+    "R2US"
+   ],
+   "match": "meme"
+  },
+  "IWN": {
+   "funds": [
+    "ZPRV"
+   ],
+   "match": "proche",
+   "note": "Indice MSCI USA Small Cap Value Weighted au lieu du Russell 2000 Value."
+  },
+  "EFA": {
+   "funds": [
+    "IXUA"
+   ],
+   "match": "proche",
+   "note": "MSCI World ex USA inclut le Canada, absent de l'EAFE. Fonds lancé en janvier 2025."
+  },
+  "VEA": {
+   "funds": [
+    "IXUA"
+   ],
+   "match": "proche",
+   "note": "MSCI World ex USA au lieu du FTSE Developed ex US. Fonds lancé en janvier 2025."
+  },
+  "ACWX": {
+   "funds": [
+    "IXUA",
+    "EIMI"
+   ],
+   "match": "proche",
+   "note": "Combiner les pays développés hors USA (environ trois quarts) et les émergents (environ un quart)."
+  },
+  "VGK": {
+   "funds": [
+    "IMAE"
+   ],
+   "match": "proche",
+   "note": "MSCI Europe au lieu du FTSE Developed Europe : exposition quasi identique."
+  },
+  "EWJ": {
+   "funds": [
+    "IJPA"
+   ],
+   "match": "proche",
+   "note": "MSCI Japan IMI : inclut aussi les petites capitalisations japonaises."
+  },
+  "SCZ": {
+   "funds": [
+    "IUSN"
+   ],
+   "match": "proche",
+   "note": "Pas d'équivalent UCITS pour les petites capitalisations hors USA : cet indice inclut aussi les américaines, majoritaires."
+  },
+  "EEM": {
+   "funds": [
+    "EIMI"
+   ],
+   "match": "proche",
+   "note": "Version IMI : inclut aussi les petites capitalisations émergentes."
+  },
+  "VWO": {
+   "funds": [
+    "EIMI"
+   ],
+   "match": "proche",
+   "note": "MSCI Emerging Markets IMI au lieu du FTSE Emerging : MSCI classe la Corée du Sud parmi les émergents, FTSE non. Le fonds UCITS en contient donc, VWO pas."
+  },
+  "VNQ": {
+   "funds": [
+    "IUSP"
+   ],
+   "match": "proche",
+   "note": "Sélection de REIT américains à rendement élevé, pas l'ensemble du secteur."
+  },
+  "RWX": {
+   "funds": [
+    "IWDP"
+   ],
+   "match": "proche",
+   "note": "Immobilier coté des pays développés, États-Unis compris (RWX les exclut)."
+  },
+  "REM": {
+   "funds": [],
+   "match": "aucun",
+   "note": "Aucun ETF UCITS ne réplique les REIT hypothécaires américains."
+  },
+  "GLD": {
+   "funds": [
+    "SGLN"
+   ],
+   "match": "meme",
+   "note": "ETC adossé à de l'or physique (pas un fonds UCITS au sens strict)."
+  },
+  "DBC": {
+   "funds": [
+    "ICOM"
+   ],
+   "match": "proche",
+   "note": "Indice Bloomberg Commodity : moins concentré sur l'énergie que DBC."
+  },
+  "GSG": {
+   "funds": [
+    "ICOM"
+   ],
+   "match": "proche",
+   "note": "Indice Bloomberg Commodity : nettement moins d'énergie que le S&P GSCI."
+  },
+  "TLT": {
+   "funds": [
+    "DTLA"
+   ],
+   "match": "meme"
+  },
+  "IEF": {
+   "funds": [
+    "CBU0"
+   ],
+   "match": "meme"
+  },
+  "SHY": {
+   "funds": [
+    "IBTS"
+   ],
+   "match": "meme"
+  },
+  "SHV": {
+   "funds": [
+    "IB01"
+   ],
+   "match": "meme"
+  },
+  "BIL": {
+   "funds": [
+    "IB01"
+   ],
+   "match": "meme"
+  },
+  "CASH": {
+   "funds": [
+    "IB01"
+   ],
+   "match": "meme",
+   "note": "Le cash des stratégies correspond aux T-bills américains."
+  },
+  "TIP": {
+   "funds": [
+    "ITPS"
+   ],
+   "match": "meme"
+  },
+  "AGG": {
+   "funds": [
+    "IUAA"
+   ],
+   "match": "meme"
+  },
+  "BND": {
+   "funds": [
+    "IUAA"
+   ],
+   "match": "meme",
+   "note": "Bloomberg US Aggregate au lieu du US Aggregate Float Adjusted : quasi identique."
+  },
+  "LQD": {
+   "funds": [
+    "LQDE"
+   ],
+   "match": "meme"
+  },
+  "HYG": {
+   "funds": [
+    "IHYU"
+   ],
+   "match": "meme"
+  },
+  "BWX": {
+   "funds": [
+    "IGLO"
+   ],
+   "match": "proche",
+   "note": "Obligations d'État du G7, États-Unis compris (environ la moitié de l'indice), alors que BWX les exclut."
+  },
+  "XLB": {
+   "funds": [
+    "ZPDM"
+   ],
+   "match": "meme"
+  },
+  "XLE": {
+   "funds": [
+    "ZPDE"
+   ],
+   "match": "meme"
+  },
+  "XLF": {
+   "funds": [
+    "ZPDF"
+   ],
+   "match": "meme"
+  },
+  "XLI": {
+   "funds": [
+    "ZPDI"
+   ],
+   "match": "meme"
+  },
+  "XLK": {
+   "funds": [
+    "ZPDT"
+   ],
+   "match": "meme"
+  },
+  "XLP": {
+   "funds": [
+    "ZPDS"
+   ],
+   "match": "meme"
+  },
+  "XLU": {
+   "funds": [
+    "ZPDU"
+   ],
+   "match": "meme"
+  },
+  "XLV": {
+   "funds": [
+    "ZPDH"
+   ],
+   "match": "meme"
+  },
+  "XLY": {
+   "funds": [
+    "ZPDD"
+   ],
+   "match": "meme"
+  },
+  "IVE": {
+   "funds": [
+    "IUVL"
+   ],
+   "match": "proche",
+   "note": "Indice MSCI USA Enhanced Value (environ 150 actions, sélection plus concentrée) au lieu du S&P 500 Value."
+  }
+ }
 }
